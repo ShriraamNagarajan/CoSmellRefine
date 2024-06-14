@@ -1,0 +1,469 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+:root {
+    --body-bg-color: #F0F6FD;
+    --button-primary-bg: #2489D3;
+    --csr-accent-one: #FFFE86;
+    --csr-accent-two: #FCFCAE;
+    --white: #fff;
+}
+
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Outfit", sans-serif;
+}
+
+html {
+    font-size: 12px;
+    max-width: 100vw !important;
+    scroll-behavior: smooth !important;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 12px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+body {
+    min-width:100vw;
+    background: #E5F0FF;
+    padding-right:0 !important;
+}
+
+.mockup-row{
+    height:100vh;
+}
+
+
+
+nav{
+    background: #fff !important;
+}
+
+
+.light-btn, .dark-btn {
+    border-radius: 3.125rem; 
+    border: 0.125rem solid #2489D3; 
+    background-color: #fff;
+    color: #2489D3;
+    font-weight: 700;
+    line-height: 1.4; 
+    word-wrap: break-word;
+    transition: all 0.3s ease;
+}
+
+.dark-btn {
+    background-color: #2489D3;
+    color: #fff;
+    /* Other properties are inherited from .light-btn */
+}
+
+.light-btn:hover {
+    background-color: #2489D3;
+    color: #fff;
+}
+
+.dark-btn:hover {
+    background-color: #fff;
+    color: #2489D3;
+    border: 0.125rem solid #2489D3;
+}
+
+.landing-page-heading {
+    color: #000;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.landing-page-description {
+    color: #000;
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 400;
+}
+
+
+.content-header {
+    color: #000;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.section-content {
+    color: #828282;
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.collaboration-step {
+    color: #333333;
+    font-size: 3.12rem;
+    font-family: "Outfit";
+    font-weight: 700;
+    word-wrap: break-word
+}
+
+.collaboration-header {
+    color: #333333;
+    font-size: 1.7rem;
+    font-weight: 700;
+    word-wrap: break-word
+}
+
+.collaboration-content {
+    color: #828282;
+    font-size: 1.38rem;
+    font-weight: 400;
+    word-wrap: break-word
+}
+
+.step-decorate {
+    color: #34AEFF;
+}
+
+.contact-subheader {
+    color: black;
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.5rem;
+    letter-spacing: 0.00875rem;
+    word-wrap: break-word
+}
+
+
+
+.my-container {
+    height: 100vh;
+}
+
+
+
+.navbar-nav li a {
+    cursor: pointer;
+}
+
+::selection {
+    background-color: #FFFE86;
+}
+
+.avatar-circle {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background-color: #007bff; 
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+
+
+
+/* Laptop animation css */
+.mockup {
+    display: inline-block;
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    font-size: 0;
+    perspective: 2400px;
+    perspective-origin: 50% 100%;
+    opacity: 0;
+    transition: 5000ms opacity;
+}
+
+    .mockup.loaded {
+        opacity: 1;
+    }
+
+    .mockup .part .top,
+    .mockup .part .bottom {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .mockup .part.top {
+        transform: translate3d(0, 0, 0) rotateX(-90deg);
+    }
+
+
+
+    .mockup .part {
+        display: inline-block;
+        position: relative;
+        transform-style: preserve-3d;
+        transform-origin: 50% 100%;
+        transition: 5000ms;
+    }
+
+    .mockup.opened .part .top {
+        transform: translate3d(0, 0, -11px) rotateX(90deg) scale(1, 1);
+    }
+
+    .mockup .part .top {
+        transform-origin: 50% 0;
+        transform: translate3d(0, 0, -11px) rotateX(90deg);
+        transition: 5000ms;
+    }
+
+    .mockup img {
+        display: block;
+        max-width: 100%;
+        backface-visibility: hidden;
+    }
+
+    .mockup .part .cover {
+        position: relative;
+    }
+
+    .mockup video {
+        display: block;
+        position: absolute;
+        top: 8%;
+        left: 4%;
+        width: 92%;
+        border-radius: 6px;
+        backface-visibility: hidden;
+        transform: translate3d(0, 0, 1px);
+    }
+
+    .mockup .part.bottom {
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform: translate3d(0, 0, 0) rotateX(-90deg);
+    }
+
+    .mockup .part .bottom {
+        transform-origin: 50% 0;
+        transform: translate3d(0,0,0) rotateX(90deg);
+    }
+
+
+
+
+/* Sidebar Styling */
+
+
+.sidebar-container {
+    display: flex;
+    justify-content: right;
+    height: 100vh;
+    width: auto;
+    gap: 1.25rem; /* 20px */
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 4.875rem; /* 78px */
+    height: 100vh;
+    background-color: var(--white);
+    padding-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.2s;
+}
+
+.user-main {
+    width: calc(100% - 4.875rem); /* 78px */
+    padding: 1.25rem; /* 20px */
+    transition: all 0.2s;
+}
+
+.icon {
+    width: 3.125rem; /* 50px */
+    height: 3.125rem; /* 50px */
+    background-color: var(--csr-accent-one);
+    border-radius: 0.75rem; /* 12px */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    font-size: 1rem;
+    padding: 0.938rem; /* 15px */
+    gap: 0.938rem; /* 15px */
+    transition: all 0.2s;
+}
+
+.menu-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.625rem; /* 10px */
+    transition: all 0.2s;
+}
+
+.menu-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    padding-top: 0.938rem;
+    gap: 0.625rem;
+    transition: all 0.2s;
+    padding-left: 0;
+}
+
+.icon-logout {
+    width: 100%;
+    height: 3.75rem;
+    background-color: var(--csr-accent-two);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+}
+
+    .icon-logout:hover {
+        background-color: var(--csr-accent-two);
+        cursor: pointer;
+    }
+
+.logout-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--csr-accent-two);
+    align-items: center;
+    font-size: 0.9rem;
+    gap: 0.625rem;
+}
+
+    .logout-container #logout-photo {
+        width: 2.8125rem;
+        height: 2.8125rem;
+        border-radius: 0.625rem;
+    }
+
+#user-container {
+    display: flex;
+    flex-direction: column;
+    gap: -0.3125rem;
+}
+
+#user-name {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+#user-role {
+    font-size: 0.7rem;
+    font-weight: 400;
+}
+
+
+
+.dashboard-content-container {
+    border-radius: 1.563rem;
+    background: var(--white);
+}
+
+    .dashboard-content .h3, .dashboard-content-container .content-header, .dashboard-content-container .content-description {
+        font-size: 1.375rem;
+        font-weight: 600;
+        word-wrap: break-word;
+    }
+
+.notification-header, .notification-description {
+    font-size: 1rem;
+    word-wrap: break-word;
+}
+
+
+/* Module Add Page Styling */
+
+.form-step {
+    display: none;
+}
+
+    .form-step.active {
+        display: block;
+    }
+
+.navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.form-group{
+    margin: 2%;
+}
+
+
+
+
+/* User Profile Styling */
+
+.profile-container {
+    text-align: center;
+}
+
+.profile-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    position: relative;
+    display: inline-block;
+    background: linear-gradient(45deg, #999 25%, transparent 25%) -50px 0, linear-gradient(45deg, transparent 75%, #999 75%) -50px 0, linear-gradient(45deg, transparent 75%, #999 75%), linear-gradient(45deg, #999 25%, transparent 25%);
+    background-size: 20px 20px;
+    overflow: hidden;
+}
+
+    .profile-image img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+        display: none;
+    }
+
+.overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.profile-image:hover .overlay {
+    opacity: 1;
+}
+
+.userprofile-file-input {
+    display: none;
+}
+
+.profie-icon {
+    font-size: 2rem;
+}
+
+.profile-icon.delete {
+        display: none;
+    }

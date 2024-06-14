@@ -1,0 +1,87 @@
+﻿﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> signInManager
+@{
+    var username = User?.Identity?.Name;
+    var firstLetter = string.IsNullOrEmpty(username) ? "" : username[0].ToString().ToUpper();
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="icon" href="/images/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link href='https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css' rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shepherd.js/8.3.1/css/shepherd.css">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @RenderSection("Styles", required: false)
+
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary p-1">
+            <div class="container-fluid d-flex justify-content-between">
+                <a class="navbar-brand" href="#" style="background-color:#FFFFFF;">
+                    <img src="/images/logo.svg" alt="CoSmellRefine" width="30" height="24">
+                </a>
+            </div>
+            <div class="container-fluid d-flex flex-row justify-content-end">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item" id="notification-container">
+                        <a class="nav-link" href="@Url.Action("Index", "Notification")" id="notification-icon">
+                            <i class="bi bi-bell h4 position-relative" id="notification-bell-icon">
+                                <span class="position-absolute top-10 start-80 translate-middle p-1 bg-danger border border-light rounded-circle">
+                                    <span class="visually-hidden">New alerts</span>
+                                </span>
+                            </i>
+                        </a>
+                     
+                    </li>
+                </ul>
+                <div class="mx-3">
+                    @if (signInManager.IsSignedIn(User))
+                    {
+                        <a asp-controller="UserProfile" asp-action="Details" class="btn text-dark">
+                            <div class="avatar-circle">@firstLetter</div>
+                        </a>
+                        <a class="btn dark-btn mx-2"
+                           asp-area=""
+                           asp-controller="Account"
+                           asp-action="Logout">Logout</a>
+                    }
+                    else
+                    {
+                        <a class="btn light-btn mx-2" data-tilt data-tilt-scale="1.1"
+                           asp-area=""
+                           asp-controller="Account"
+                           asp-action="Login">Login</a>
+
+                        <a class="btn dark-btn mx-2" data-tilt data-tilt-scale="1.1"
+                           asp-area=""
+                           asp-controller="Account"
+                           asp-action="Register">Register</a>
+
+                    }
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div>
+        <partial name="_Notification" />
+        @RenderBody()
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/shepherd.js/8.3.1/js/shepherd.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

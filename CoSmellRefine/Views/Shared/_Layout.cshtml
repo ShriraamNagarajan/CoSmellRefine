@@ -1,0 +1,97 @@
+﻿﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> signInManager
+@{
+    var username = User?.Identity?.Name;
+    var firstLetter = string.IsNullOrEmpty(username) ? "" : username[0].ToString().ToUpper();
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] CoSmellRefine</title>
+    <link rel="icon" href="/images/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @RenderSection("Styles", required: false)
+
+</head>
+<body>
+    <header>
+          <nav class="navbar navbar-expand-lg bg-body-tertiary p-1">
+                    <div class="container-fluid d-flex justify-content-between">
+                        <a class="navbar-brand" href="#" style="background-color:#FFFFFF;">
+                            <img src="/images/logo.svg" alt="CoSmellRefine" width="30" height="24">
+                            <span style="color:#2489D3;">CoSmellRefine</span>
+                        </a>
+                      
+                   
+                      <div class="collapse navbar-collapse d-flex justify-content-center" id="navbarSupportedContent">
+                    <ul class="navbar-nav mb-2 mb-lg-0 d-flex justify-content-between gx-5">
+                        <li class="nav-item mx-4">
+                                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                            </li>
+                            <li class="nav-item mx-4">
+                                <a class="nav-link" onclick="scrollToSection('features')">Features</a>
+                            </li>
+                            <li class="nav-item mx-4">
+                                <a class="nav-link" onclick="scrollToSection('howitworks')">How it works</a>
+                            </li>
+                            <li class="nav-item mx-4">
+                                <a class="nav-link" onclick="scrollToSection('contactus')">Contact Us</a>
+                            </li>
+                        </ul>
+                    </div>
+
+
+                      <div class="mx-2">
+
+                    @if (signInManager.IsSignedIn(User))
+                    {
+                        <a asp-controller="UserProfile" asp-action="Details" class="btn text-dark">
+                            <div class="avatar-circle">@firstLetter</div>
+                        </a>
+                        <a class="btn dark-btn mx-2"
+                           asp-area=""
+                           asp-controller="Account"
+                           asp-action="Logout">Logout</a>
+                    }
+                    else
+                    {
+                        <a class="btn light-btn mx-2" data-tilt data-tilt-scale="1.1"
+                           asp-area=""
+                           asp-controller="Account"
+                           asp-action="Login">Login</a>
+
+                        <a class="btn dark-btn mx-2" data-tilt data-tilt-scale="1.1"
+                           asp-area=""
+                           asp-controller="Account"
+                           asp-action="Register">Register</a>
+
+                    }
+        
+                      </div>
+                    </div>
+                  </nav>
+    </header>
+    <div class="container-fluid pe-0">
+        <main role="main">
+            <partial name="_Notification" />
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/typeit@8.7.1/dist/index.umd.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tilt.js/1.2.1/tilt.jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

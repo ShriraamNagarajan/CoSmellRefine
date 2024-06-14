@@ -1,0 +1,288 @@
+﻿@model CoSmellRefine.Models.ViewModels.ModuleViewModel
+@{
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+    ViewData["Title"] = "CoSmellRefine";
+}
+<div class="sidebar-container">
+    <partial name="_AdminSidebar" />
+
+    <section class="user-main dashboard-content p-5">
+        <div class="container mt-5">
+            <div class="card bg-transparent border-0">
+                <div class="card-header bg-transparent">
+                    <h2>Add Module</h2>
+                </div>
+                <div class="card-body bg-transparent border-0">
+                    <form asp-action="Add" asp-controller="AdminContent" method="post">
+                        <!-- Step 1: Basic Details -->
+                        <div class="form-step active" id="step-1">
+                            <div class="navigation-buttons">
+                                <div></div>
+                                <button type="button" class="btn btn-primary" onclick="nextStep(2)">
+                                    Reading Material <i class="fas fa-arrow-right"></i>
+                                </button>
+                            </div>
+                            <div class="form-group">
+                                <label for="codeSmellId">Code Smell:</label>
+                                <select class="form-control" id="codeSmellId" name="CodeSmellId" required>
+                                    <option value="">Select a code smell</option>
+                                    @foreach (var codeSmell in Model.CodeSmells)
+                                    {
+                                        <option value="@codeSmell.Id">@codeSmell.Name</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="moduleTitle">Module Title:</label>
+                                <input type="text" class="form-control" id="moduleTitle" name="Title" required>
+                                <span class="text-danger" asp-validation-for="Title"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="moduleDescription">Description:</label>
+                                <textarea class="form-control" id="moduleDescription" name="Description" required></textarea>
+                                <span class="text-danger" asp-validation-for="Description"></span>
+                            </div>
+                        </div>
+                        <!-- Step 2: Reading Content -->
+                        <div class="form-step" id="step-2">
+                            <div class="navigation-buttons">
+                                <button type="button" class="btn btn-secondary" onclick="prevStep(1)">
+                                    <i class="fas fa-arrow-left"></i> Basic Details
+                                </button>
+                                <button type="button" class="btn btn-primary" onclick="nextStep(3)">
+                                    Video Upload <i class="fas fa-arrow-right"></i>
+                                </button>
+                            </div>
+                            <div class="form-group">
+                                <label for="readingContent">Reading Content:</label>
+                                <textarea class="form-control" id="readingContent" name="ReadingContent" required></textarea>
+                                <span class="text-danger" asp-validation-for="ReadingContent"></span>
+                            </div>
+                        </div>
+                        <!-- Step 3: Video Upload -->
+                        <div class="form-step" id="step-3">
+                            <div class="navigation-buttons">
+                                <button type="button" class="btn btn-secondary" onclick="prevStep(2)">
+                                    <i class="fas fa-arrow-left"></i> Reading Material
+                                </button>
+                                <button type="button" class="btn btn-primary" onclick="nextStep(4)">
+                                    Flashcards <i class="fas fa-arrow-right"></i>
+                                </button>
+                            </div>
+                            <div id="videos">
+                                <div class="form-group">
+                                    <label class="form-label">Video Upload</label>
+                                    <input type="file" id="videoUpload" class="form-control"/>
+
+                                    <video controls width="250" id="videoElement" class="mt-2" style="display:none;">
+                                        <source src="" type="video/mp4" id="videoDisplay">
+                                        Your browser does not support the video tag.
+                                    </video>
+                                </div>
+                                <div class="spinner-border ms-5 mt-2" role="status" style="display:none" id="videoSpinner">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="videoUrl" name="VideoUrls[0]" hidden/>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <!-- Step 4: Flashcards -->
+                        <div class="form-step" id="step-4">
+                            <div class="navigation-buttons">
+                                <button type="button" class="btn btn-secondary" onclick="prevStep(3)">
+                                    <i class="fas fa-arrow-left"></i> Video Upload
+                                </button>
+                                <button type="button" class="btn btn-primary" onclick="nextStep(5)">
+                                    Quiz <i class="fas fa-arrow-right"></i>
+                                </button>
+                            </div>
+                            <div id="flashcards">
+                                <div class="flashcard">
+                            
+                                        <div class="form-group">
+                                            <label for="flashcardQ0">Question</label>
+                                            <input type="text" class="form-control" id="flashcardQ0" name="Flashcards[0].Question" required>
+                                            <span class="text-danger" asp-validation-for="Flashcards"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="flashcardA0">Answer</label>
+                                            <input type="text" class="form-control" id="flashcardA0" name="Flashcards[0].Answer" required>
+                                            <span class="text-danger" asp-validation-for="Flashcards"></span>
+                                        </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-secondary mt-3" onclick="addFlashcard()">Add Flashcard</button>
+
+                        </div>
+                        <!-- Step 5: Quiz -->
+                        <div class="form-step" id="step-5">
+                            <div class="navigation-buttons">
+                                <button type="button" class="btn btn-secondary" onclick="prevStep(4)">
+                                    <i class="fas fa-arrow-left"></i> Flashcards
+                                </button>
+                                <button type="submit" class="btn btn-success">Add</button>
+                            </div>
+                            <div id="quiz">
+                                <div class="quiz-question">
+                                    <div class="form-group">
+                                        <label for="quizQ0">Question 1:</label>
+                                        <input type="text" class="form-control" id="quizQ0" name="Quizzes[0].Question" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="quizQ0Choice0">Choice 1:</label>
+                                        <input type="text" class="form-control" id="quizQ0Choice0" name="Quizzes[0].Choices[0]" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="quizQ0Choice1">Choice 2:</label>
+                                        <input type="text" class="form-control" id="quizQ0Choice1" name="Quizzes[0].Choices[1]" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="quizQ0Choice2">Choice 3:</label>
+                                        <input type="text" class="form-control" id="quizQ0Choice2" name="Quizzes[0].Choices[2]" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="quizQ0Choice3">Choice 4:</label>
+                                        <input type="text" class="form-control" id="quizQ0Choice3" name="Quizzes[0].Choices[3]" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="quizQ0Answer">Correct Answer:</label>
+                                        <input type="text" class="form-control" id="quizQ0Answer" name="Quizzes[0].Answer" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-secondary mt-3" onclick="addQuizQuestion()">Add Quiz Question</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+@section Scripts{
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="/js/admin_sidebar.js"></script>
+    <script>
+        var editor = new FroalaEditor('#readingContent', {
+            imageUploadURL: '/api/media'
+        });
+        // Get elements by their IDs
+        const videoUpload = document.getElementById('videoUpload');
+        const videoUrl = document.getElementById('videoUrl');
+        const videoDisplay = document.getElementById('videoDisplay');
+        const videoElement = document.getElementById('videoElement');
+        const videoSpinner = document.getElementById('videoSpinner');
+            
+        // Function to upload video
+        async function uploadVideo(e) {
+            videoSpinner.style.display = 'block';
+            console.log(e.target.files[0]);
+
+            let data = new FormData();
+            data.append('file', e.target.files[0]);
+
+            try {
+                let response = await fetch('/api/media', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': '*/*',
+                    },
+                    body: data
+                });
+
+                let result = await response.json();
+
+                if (response.ok) {
+                    videoUrl.value = result.link;
+                    videoDisplay.src = result.link;
+                    videoElement.style.display = 'block';
+                    videoSpinner.style.display = 'none';
+                    videoElement.load();
+                } else {
+                    console.error('Video upload failed:', result);
+                    alert('Video upload failed: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error uploading video:', error);
+                alert('Error uploading video: ' + error.message);
+            }
+        }
+
+        // Add event listener for video upload
+        videoUpload.addEventListener('change', uploadVideo);
+
+
+        let videoCount = 1;
+        let flashcardCount = @Model.Flashcards.Count;
+        let quizQuestionCount = @Model.Quizzes.Count;
+
+        function nextStep(step) {
+            const currentStep = document.querySelector('.form-step.active');
+            const nextStep = document.getElementById(`step-${step}`);
+            if (nextStep) {
+                currentStep.classList.remove('active');
+                nextStep.classList.add('active');
+            }
+        }
+
+        function prevStep(step) {
+            const currentStep = document.querySelector('.form-step.active');
+            const prevStep = document.getElementById(`step-${step}`);
+            if (prevStep) {
+                currentStep.classList.remove('active');
+                prevStep.classList.add('active');
+            }
+        }
+
+        function addFlashcard() {
+            flashcardCount++;
+            const flashcardsDiv = document.getElementById('flashcards');
+            const newFlashcard = document.createElement('div');
+            newFlashcard.classList.add('flashcard');
+            newFlashcard.innerHTML = `
+                        <div class="form-group">
+                            <label for="flashcardQ${flashcardCount}">Question ${flashcardCount+1}:</label>
+                            <input type="text" class="form-control" id="flashcardQ${flashcardCount}" name="Flashcards[${flashcardCount}].Question" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="flashcardA${flashcardCount}">Answer ${flashcardCount+1}:</label>
+                            <input type="text" class="form-control" id="flashcardA${flashcardCount}" name="Flashcards[${flashcardCount}].Answer" required>
+                        </div>
+                    `;
+            flashcardsDiv.appendChild(newFlashcard);
+        }
+
+        function addQuizQuestion() {
+            quizQuestionCount++;
+            const quizDiv = document.getElementById('quiz');
+            const newQuizQuestion = document.createElement('div');
+            newQuizQuestion.classList.add('quiz-question');
+            newQuizQuestion.innerHTML = `
+                        <div class="form-group">
+                            <label for="quizQ${quizQuestionCount}">Question ${quizQuestionCount+1}:</label>
+                            <input type="text" class="form-control" id="quizQ${quizQuestionCount}" name="Quizzes[${quizQuestionCount}].Question" required>
+                        </div>
+                        ${[...Array(4).keys()].map(j => `
+                            <div class="form-group">
+                                <label for="quizQ${quizQuestionCount}Choice${j}">Choice ${j + 1}:</label>
+                                <input type="text" class="form-control" id="quizQ${quizQuestionCount}Choice${j}" name="Quizzes[${quizQuestionCount}].Choices[${j}]" required>
+                            </div>
+                        `).join('')}
+                        <div class="form-group">
+                            <label for="quizQ${quizQuestionCount}Answer">Correct Answer:</label>
+                            <input type="text" class="form-control" id="quizQ${quizQuestionCount}Answer" name="Quizzes[${quizQuestionCount}].Answer" required>
+                        </div>
+                    `;
+            quizDiv.appendChild(newQuizQuestion);
+        }
+
+        // Initialize the first step as active
+        document.getElementById('step-1').classList.add('active');
+    </script>
+
+}

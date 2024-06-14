@@ -1,0 +1,54 @@
+﻿@{
+    Layout = "~/Views/Shared/_MinimalLayout.cshtml";
+    ViewData["Title"] = "CoSmellRefine";
+    var indexUrl = Url.Action("Index", "Home");
+}
+
+<div class="code-editor" id="code-editor"></div>
+
+@section Styles {
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #F0F6FD;
+            color: #fff;
+            font-family: 'Consolas', 'Courier New', monospace;
+        }
+
+        .code-editor {
+            width: 600px;
+            background: #333;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+    </style>
+}
+
+@section Scripts {
+
+    <script src="https://unpkg.com/typeit@8.7.1/dist/index.umd.js"></script>
+    <script>
+        new TypeIt("#code-editor", {
+            strings: [
+                "Console.WriteLine('Document is loading...');"
+            ],
+            speed: 100,
+            cursor: true,
+            breakLines: false,
+            nextStringDelay: 500,
+            waitUntilVisible: true
+        }).go().exec(() => {
+            setTimeout(() => {
+                window.location.href = "@indexUrl"; // Redirect to the Index action of the current controller
+            }, 1000); // Transition after completion
+        });
+    </script>
+}

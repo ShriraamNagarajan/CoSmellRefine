@@ -1,0 +1,37 @@
+﻿<aside class="sidebar">
+    <ul class="menu-list">
+        <li>
+            <div class="menu-container">
+                <button class="icon" id="menu">
+                    <img src="/images/menu.svg" alt="menu" />
+                </button>
+            </div>
+        </li>
+        <li>
+            <a class="icon" id="dashboard" asp-controller="AdminDashboard" asp-action="Index" style="text-decoration:none !important;">
+                <img src="/images/dashboard.svg" alt="dashboard" />
+            </a>
+        </li>
+        <li>
+            <a class="icon" id="users" asp-controller="AdminUsers" asp-action="List" style="text-decoration:none !important;">
+                <img src="/images/users.svg" alt="users" />
+            </a>
+        </li>
+        <li>
+            <a class="icon" id="content" asp-controller="AdminContent" asp-action="List" style="text-decoration:none !important;">
+                <img src="/images/Content.svg" alt="content" />
+            </a>
+        </li>
+    </ul>
+    <div class="logout-container">
+        <a class="icon-logout" asp-controller="Account" asp-action="Logout">
+            <img src="/images/log-out.svg" alt="logout" />
+        </a>
+    </div>
+</aside>
+
+
+@section Scripts{
+    <script src="/js/admin_sidebar.js"></script>
+    
+}

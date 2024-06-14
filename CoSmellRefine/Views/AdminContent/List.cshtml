@@ -1,0 +1,241 @@
+﻿@model List<CoSmellRefine.Models.Domain.Module>
+@{
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+    ViewData["Title"] = "CoSmellRefine";
+    int nextPage = Convert.ToInt32(ViewBag.PageNumber) + 1;
+    int prevPage = Convert.ToInt32(ViewBag.PageNumber) - 1;
+}
+
+<div class="sidebar-container">
+    <partial name="_AdminSidebar" />
+
+    <section class="user-main dashboard-content p-5">
+<div class="py-2">
+    <div class="container">
+        <h1>Modules</h1>
+    </div>
+</div>
+
+
+<form method="get"
+      asp-controller="AdminContent" ,
+      asp-action="List">
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col col-md-3 d-flex">
+                <input type="text" class="form-control"
+                       name="searchQuery" value="@ViewBag.SearchQuery" />
+                <button type="submit" class="btn btn-warning ms-3">Search</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="container py-5">
+    <div class="mb-3 d-flex justify-content-end">
+        <a class="btn light-btn" asp-controller="AdminContent" asp-action="Add">
+            Add Module
+        </a>
+    </div>
+    @if (Model != null && Model.Any())
+    {
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                            <th>Id</th>
+                            <th>
+                                <div class="d-flex flex-row justify-content-center align-items-center">
+                                Title
+                                
+                                    <span>
+                                        <a class="btn btn-link"
+                                           asp-controller="AdminContent"
+                                           asp-action="List"
+                                           asp-route-sortBy="Title"
+                                           asp-route-sortDirection="Asc"
+                                           asp-route-searchQuery="@ViewBag.SearchQuery">
+                                            <i class="bi bi-arrow-up"></i>
+                                        </a>
+                                    </span>
+                                    <span>
+                                        <a class="btn btn-link"
+                                           asp-controller="AdminContent"
+                                           asp-action="List"
+                                           asp-route-sortBy="Title"
+                                           asp-route-sortDirection="Desc"
+                                           asp-route-searchQuery="@ViewBag.SearchQuery">
+                                            <i class="bi bi-arrow-down"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                            </th>
+                            <th>
+                                <div class="d-flex flex-row justify-content-center align-items-center">
+                                Description
+                                
+                                    <span>
+                                        <a class="btn btn-link"
+                                           asp-controller="AdminContent"
+                                           asp-action="List"
+                                           asp-route-sortBy="Description"
+                                           asp-route-sortDirection="Asc"
+                                           asp-route-searchQuery="@ViewBag.SearchQuery">
+                                            <i class="bi bi-arrow-up"></i>
+                                        </a>
+                                    </span>
+                                    <span>
+                                        <a class="btn btn-link"
+                                           asp-controller="AdminContent"
+                                           asp-action="List"
+                                           asp-route-sortBy="Description"
+                                           asp-route-sortDirection="Desc"
+                                           asp-route-searchQuery="@ViewBag.SearchQuery">
+                                            <i class="bi bi-arrow-down"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                            </th>
+                            <th>
+                                <div class="d-flex flex-row justify-content-center align-items-center">
+                                Code Smell
+                              
+                                    <span>
+                                        <a class="btn btn-link"
+                                           asp-controller="AdminContent"
+                                           asp-action="List"
+                                           asp-route-sortBy="CodeSmell"
+                                           asp-route-sortDirection="Asc"
+                                           asp-route-searchQuery="@ViewBag.SearchQuery">
+                                            <i class="bi bi-arrow-up"></i>
+                                        </a>
+                                    </span>
+                                    <span>
+                                        <a class="btn btn-link"
+                                           asp-controller="AdminContent"
+                                           asp-action="List"
+                                           asp-route-sortBy="CodeSmell"
+                                           asp-route-sortDirection="Desc"
+                                           asp-route-searchQuery="@ViewBag.SearchQuery">
+                                            <i class="bi bi-arrow-down"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                            </th>
+                            <th>
+                                <div class="d-flex flex-row justify-content-center align-items-center">
+                                Video URL
+                  
+                                    <span>
+                                        <a class="btn btn-link"
+                                           asp-controller="AdminContent"
+                                           asp-action="List"
+                                           asp-route-sortBy="VideoUrl"
+                                           asp-route-sortDirection="Asc"
+                                           asp-route-searchQuery="@ViewBag.SearchQuery">
+                                            <i class="bi bi-arrow-up"></i>
+                                        </a>
+                                    </span>
+                                    <span>
+                                        <a class="btn btn-link"
+                                           asp-controller="AdminContent"
+                                           asp-action="List"
+                                           asp-route-sortBy="VideoUrl"
+                                           asp-route-sortDirection="Desc"
+                                           asp-route-searchQuery="@ViewBag.SearchQuery">
+                                            <i class="bi bi-arrow-down"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                            </th>
+                            <th> </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var module in Model)
+                {
+                    <tr>
+                        <td>@module.Id</td>
+                        <td>@module.Title</td>
+                        <td>@module.Description</td>
+                        <td>@module.CodeSmell.Name</td>
+                        <td>@(module.Videos?.FirstOrDefault()?.VideoUrl ?? "No Video")</td>
+
+                        <td>
+                            <div class="w-75 btn-group" role="group">
+                                <a asp-controller="AdminContent" asp-action="Edit" asp-route-id="@module.Id" class="btn btn-primary mx-2">
+                                    <i class="bi bi-pencil-square"></i> Edit
+                                </a>
+                                <a onClick=Delete("delete/@module.Id") class="btn btn-danger mx-2">
+                                    <i class="bi bi-trash-fill"></i> Delete
+                                </a>
+                            </div>
+           
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+
+                <nav aria-label="Page navigation example" class="bg-transparent">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link"
+                       asp-controller="AdminContent"
+                       asp-action="List"
+                       asp-route-pageNumber="@prevPage"
+                       asp-route-pageSize="@ViewBag.PageSize"
+                       asp-route-sortBy="@ViewBag.SortBy"
+                       asp-route-sortDirection="@ViewBag.SortDirection">
+                        Previous
+                    </a>
+                </li>
+
+                @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                {
+                    <li class="page-item">
+                        <a class="page-link"
+                           asp-controller="AdminContent"
+                           asp-action="List"
+                           asp-route-pageNumber="@i"
+                           asp-route-pageSize="@ViewBag.PageSize"
+                           asp-route-sortBy="@ViewBag.SortBy"
+                           asp-route-sortDirection="@ViewBag.SortDirection">
+                            @i
+                        </a>
+                    </li>
+                }
+
+
+                <li class="page-item">
+                    <a class="page-link"
+                       asp-controller="AdminContent"
+                       asp-action="List"
+                       asp-route-pageNumber="@nextPage"
+                       asp-route-pageSize="@ViewBag.PageSize"
+                       asp-route-sortBy="@ViewBag.SortBy"
+                       asp-route-sortDirection="@ViewBag.SortDirection">
+                        Next
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    }
+    else
+    {
+        <p>No Modules Found!</p>
+    }
+
+</div>
+</section>
+</div>
+
+
+
+@section Scripts {
+    <script src="/js/admin_sidebar.js"></script>
+    @{
+        <partial name="_DeleteConfirmation" />
+    }
+}
