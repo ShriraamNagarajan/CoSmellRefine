@@ -85,7 +85,7 @@ namespace CoSmellRefine.Controllers
             {
                 // Show success notification
                 TempData["success"] = "Successful Login";
-                return RedirectToAction("Index", "AdminDashboard"); // Redirect to AdminDashboard controller
+                return RedirectToAction("Index", "ModeratorDashboard"); // Redirect to AdminDashboard controller
             }
 
             // Show errors

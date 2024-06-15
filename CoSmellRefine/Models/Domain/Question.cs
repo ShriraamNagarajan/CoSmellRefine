@@ -33,6 +33,9 @@ namespace CoSmellRefine.Models.Domain
         [Required]  
         public string Status { get; set; }
 
+        [Required]
+        public string Type { get; set; }
+
         [Required]  
         public string CodeSnippet { get; set; }
 

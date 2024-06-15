@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using CoSmellRefine.Models.Domain;
 using System.Reflection.Emit;
+using System.Runtime.Intrinsics.X86;
+using CoSmellRefine.Utility;
 
 namespace CoSmellRefine.Data
 {
@@ -142,6 +144,37 @@ namespace CoSmellRefine.Data
 
 
 
+            //Seed Developer
+
+            var developerId = "680a7849-11d6-44d1-8ec5-fdac6ca72260";
+            var developer = new IdentityUser
+            {
+                UserName = "developer@cosmellrefine.com",
+                Email = "developer@cosmellrefine.com",
+                NormalizedEmail = "developer@cosmellrefine.com".ToUpper(),
+                NormalizedUserName = "developer@cosmellrefine.com".ToUpper(),
+                Id = developerId
+            };
+
+            developer.PasswordHash = new PasswordHasher<IdentityUser>()
+                .HashPassword(developer, "developer@123");
+
+            builder.Entity<IdentityUser>().HasData(developer);
+
+
+            // Add role to Developer
+            var developerRoles = new List<IdentityUserRole<string>>
+            {
+                new IdentityUserRole<string>
+                {
+                    RoleId = developerRoleId,
+                    UserId = developerId
+                }
+            };
+
+            builder.Entity<IdentityUserRole<string>>().HasData(developerRoles);
+
+
 
             // Seeding CodeSmellCategory
             var bloaterCategoryId = Guid.NewGuid();
@@ -216,6 +249,98 @@ namespace CoSmellRefine.Data
                 IsRead = false
             }
         );
+
+            // Seed Questions
+            var question1 = new Question
+            {
+                Id = Guid.NewGuid(),
+                UserId = developer.Id,
+                Title = "Question 1",
+                Body = "Body of question 1",
+                PostedDate = DateTime.UtcNow,
+                ModifiedDate = DateTime.UtcNow,
+                Status = QuestionStatus.Closed,
+                Type = QuestionType.CodeSmellIdentification,
+                CodeSnippet = "CodeSnippet1",
+            };
+
+            var question2 = new Question
+            {
+                Id = Guid.NewGuid(),
+                UserId = developer.Id,
+                Title = "Question 2",
+                Body = "Body of question 2",
+                PostedDate = DateTime.UtcNow.AddDays(-1),
+                ModifiedDate = DateTime.UtcNow,
+                Status = QuestionStatus.Open,
+                Type = QuestionType.RefactoringTechniqueIdentification,
+                CodeSnippet = "CodeSnippet2",
+            };
+
+            builder.Entity<Question>().HasData(question1, question2);
+
+            // Seed QuestionResponses
+            var response1 = new QuestionResponse
+            {
+                Id = Guid.NewGuid(),
+                UserId = developer.Id,
+                QuestionId = question1.Id,
+                Body = "Response to question 1",
+                PostedDate = DateTime.UtcNow,
+                Status = ResponseStatus.Accepted,
+            };
+
+            var response2 = new QuestionResponse
+            {
+                Id = Guid.NewGuid(),
+                UserId = developer.Id,
+                QuestionId = question2.Id,
+                Body = "Another response to question 1",
+                PostedDate = DateTime.UtcNow.AddMinutes(-30),
+                Status = ResponseStatus.Pending,
+            };
+
+            builder.Entity<QuestionResponse>().HasData(response1, response2);
+
+
+            //seed the report issue table
+            // Seed ReportIssues
+            var report1 = new ReportIssue
+            {
+                Id = Guid.NewGuid(),
+                UserId = developer.Id,
+                DiscussionItemId = question1.Id,
+                DiscussionType = DiscussionType.Question,
+                Reason = "Inappropriate content",
+                ReportDate = DateTime.UtcNow,
+                Status = ReportIssueStatus.InReview,
+                StatusReason = "None"
+            };
+
+            var report2 = new ReportIssue
+            {
+                Id = Guid.NewGuid(),
+                UserId = developer.Id,
+                DiscussionItemId = question2.Id,
+                DiscussionType = DiscussionType.Response,
+                Reason = "Spam",
+                ReportDate = DateTime.UtcNow.AddHours(-2),
+                Status = ReportIssueStatus.NoActionNeeded,
+                StatusReason = "The content is appropriate",
+            };
+
+            var report3 = new ReportIssue
+            {
+                Id = Guid.NewGuid(),
+                UserId = developer.Id,
+                DiscussionItemId = question2.Id,
+                DiscussionType = DiscussionType.Question,
+                Reason = "Duplicate content",
+                ReportDate = DateTime.UtcNow.AddHours(-1),
+                Status = ReportIssueStatus.WarnedUser,
+                StatusReason = "User comment is inappropriate",
+            };
+            builder.Entity<ReportIssue>().HasData(report1, report2, report3);
 
         }
     }

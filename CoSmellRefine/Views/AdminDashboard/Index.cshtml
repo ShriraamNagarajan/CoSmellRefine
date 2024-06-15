@@ -23,7 +23,7 @@
                     </div>
                     <div class="row">
                         <div class="col-12 d-flex justify-content-center align-items-center">
-                            <button type="button" class="btn light-btn" data-tilt data-tilt-scale="1.1">Manage</button>
+                            <a asp-controller="AdminUsers" asp-action="List" class="btn light-btn" data-tilt data-tilt-scale="1.1">Manage</a>
                         </div>
                     </div>
                 </div>
@@ -42,7 +42,7 @@
                     </div>
                     <div class="row">
                         <div class="col-12 d-flex justify-content-center align-items-center">
-                            <button type="button" class="btn light-btn" data-tilt data-tilt-scale="1.1">Manage</button>
+                            <a asp-controller="AdminContent" asp-action="List" class="btn light-btn" data-tilt data-tilt-scale="1.1">Manage</a>
                         </div>
                     </div>
                 </div>
@@ -248,7 +248,7 @@
 
                 tour.addStep({
                     title: 'User Management',
-                text: 'This page will allow you you to manage users.',
+                text: 'This page will allow you to manage users.',
                     attachTo: {
                         element: '#users',
                         on: 'right'

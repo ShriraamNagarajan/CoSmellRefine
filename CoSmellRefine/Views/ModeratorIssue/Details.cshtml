@@ -1,0 +1,166 @@
+﻿@model CoSmellRefine.Models.ViewModels.ReportIssueDetails
+@{
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+    ViewData["Title"] = "CoSmellRefine";
+}
+
+<div class="sidebar-container">
+    <partial name="_ModeratorSidebar" />
+    <section class="user-main dashboard-content p-5">
+        <div class="py-2">
+            <div class="container">
+                <h1>Reported Issue Details</h1>
+            </div>
+        </div>
+        <div class="d-flex flex-row justify-content-end me-3">
+            <a class="btn dark-btn" asp-controller="Report" asp-action="ViewReferencedItem" asp-route-id="@Model.Id">
+                View Referenced Item <i class="fas fa-external-link-alt"></i>
+            </a>
+        </div>
+
+        <div class="container py-5">
+            @if (Model != null)
+            {
+                <form method="post">
+                    <div class="mb-3">
+                        <label class="form-label">Id</label>
+                        <input type="text" class="form-control" id="id" asp-for="Id" readonly />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">User</label>
+                        <input type="text" class="form-control" id="user" asp-for="@Model.User.UserName" readonly />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Reason</label>
+                        <input type="text" class="form-control" id="reason" asp-for="Reason" readonly />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Reported Date</label>
+                        <input type="date" class="form-control" id="reportDate" asp-for="ReportDate" readonly />
+                    </div>
+                    <div class="mb-3">
+
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Status</label>
+                        <input type="text" class="form-control" id="status" asp-for="Status" readonly />
+                    </div>
+
+                    <div class="mt-5 mb-3 d-flex">
+                        <button type="button" class="btn btn-warning me-2" data-bs-toggle="modal" data-bs-target="#warnUserModal">
+                            <i class="fas fa-exclamation-circle"></i> Warn User
+                        </button>
+
+                        <button type="button" class="btn btn-danger me-2" data-bs-toggle="modal" data-bs-target="#removeContent">
+                            <i class="fas fa-trash-alt"></i> Remove Content
+                        </button>
+
+                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#noActionNeeded">
+                            <i class="fas fa-check-circle"></i> No Action Needed
+                        </button>
+                    </div>
+
+
+                </form>
+            }
+
+            else
+            {
+                <p>No blog post found!</p>
+
+            }
+        </div>
+        <form method="post" asp-action="WarnUser">
+            <div class="modal fade" id="warnUserModal" tabindex="-1" aria-labelledby="warnUserModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="warnUserModalLabel">Please Provide Reason</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label class="form-label">Id</label>
+                                <input type="text" class="form-control" id="id" asp-for="Id" readonly />
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Reason</label>
+                                <input type="text" class="form-control" asp-for="StatusReason" required />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <form method="post" asp-action="RemoveContent">
+            <div class="modal fade" id="removeContent" tabindex="-1" aria-labelledby="removeContent" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="removeContentLabel">Please Provide Reason</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label class="form-label">Id</label>
+                                <input type="text" class="form-control" id="id" asp-for="Id" readonly />
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Reason</label>
+                                <input type="text" class="form-control" asp-for="StatusReason" required />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <form method="post" asp-action="NoActionNeeded">
+            <div class="modal fade" id="noActionNeeded" tabindex="-1" aria-labelledby="noActionNeeded" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="noActionNeededLabel">Please Provide Reason</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label class="form-label">Id</label>
+                                <input type="text" class="form-control" id="id" asp-for="Id" readonly />
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Reason</label>
+                                <input type="text" class="form-control" asp-for="StatusReason" required />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+
+
+    </section>
+</div>
+
+
+
+@section Scripts {
+    <script src="/js/moderator_sidebar.js"></script>
+}

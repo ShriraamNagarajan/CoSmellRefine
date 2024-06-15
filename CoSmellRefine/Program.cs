@@ -33,7 +33,8 @@ builder.Services.AddScoped<IModuleRepository, ModuleRepository>();
 builder.Services.AddScoped<IModuleVideoRepository, ModuleVideoRepository>();
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<IUserProfileImageRepository, UserProfileImageRepository>();
-
+builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
+builder.Services.AddScoped<IReportIssueRepository, ReportIssueRepository>();    
 
 var app = builder.Build();
 

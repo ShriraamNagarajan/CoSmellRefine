@@ -8,18 +8,18 @@
             </div>
         </li>
         <li>
-            <a class="icon" id="dashboard" asp-controller="AdminDashboard" asp-action="Index" style="text-decoration:none !important;">
+            <a class="icon" id="dashboard" asp-controller="ModeratorDashboard" asp-action="Index" style="text-decoration:none !important;">
                 <img src="/images/dashboard.svg" alt="dashboard" />
             </a>
         </li>
         <li>
-            <a class="icon" id="users" asp-controller="AdminUsers" asp-action="List" style="text-decoration:none !important;">
-                <img src="/images/users.svg" alt="users" />
+            <a class="icon" id="discussion" asp-controller="ModeratorDiscussion" asp-action="List" style="text-decoration:none !important;">
+                <img src="/images/discussion.svg" alt="discussion" />
             </a>
         </li>
         <li>
-            <a class="icon" id="content" asp-controller="AdminContent" asp-action="List" style="text-decoration:none !important;">
-                <img src="/images/Content.svg" alt="content" />
+            <a class="icon" id="issue" asp-controller="ModeratorIssue" asp-action="List" style="text-decoration:none !important;">
+                <img src="/images/reported_issue.svg" alt="content" />
             </a>
         </li>
     </ul>
@@ -31,6 +31,6 @@
 </aside>
 
 
-@section Scripts{
-    <script src="/js/admin_sidebar.js"></script>
+@section Scripts {
+    <script src="/js/moderator_sidebar.js"></script>
 }
