@@ -85,7 +85,21 @@ namespace CoSmellRefine.Controllers
             {
                 // Show success notification
                 TempData["success"] = "Successful Login";
-                return RedirectToAction("Index", "ModeratorDashboard"); // Redirect to AdminDashboard controller
+                var user = await userManager.GetUserAsync(User);
+                var roles = await userManager.GetRolesAsync(user);
+                if (roles.Contains("Admin"))
+                {
+                    return RedirectToAction("Index", "AdminDashboard");
+                }
+                else if (roles.Contains("Moderator"))
+                {
+                    return RedirectToAction("Index", "ModeratorDashboard");
+                }
+                else if (roles.Contains("Developer"))
+                {
+                    // Default to user dashboard or home
+                    return RedirectToAction("Index", "DeveloperDashboard");
+                }
             }
 
             // Show errors

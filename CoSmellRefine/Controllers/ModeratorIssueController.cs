@@ -1,4 +1,5 @@
-﻿using CoSmellRefine.Models.ViewModels;
+﻿using CoSmellRefine.Models.Domain;
+using CoSmellRefine.Models.ViewModels;
 using CoSmellRefine.Repositories;
 using CoSmellRefine.Utility;
 using Microsoft.AspNetCore.Identity;
@@ -12,13 +13,21 @@ namespace CoSmellRefine.Controllers
         private readonly IReportIssueRepository reportIssueRepository;
         private readonly UserManager<IdentityUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
+        private readonly IQuestionRepository questionRepository;
+        private readonly IQuestionResponseRepository questionResponseRepository;
+        private readonly IResponseCommentRepository responseCommentRepository;
+        private readonly INotificationRepository notificationRepository;
 
         public ModeratorIssueController(IReportIssueRepository reportIssueRepository,
-            UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+            UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IQuestionRepository questionRepository, IQuestionResponseRepository questionResponseRepository, IResponseCommentRepository responseCommentRepository, INotificationRepository notificationRepository)
         {
             this.reportIssueRepository = reportIssueRepository;
             this.userManager = userManager;
             this.roleManager = roleManager;
+            this.questionRepository = questionRepository;
+            this.questionResponseRepository = questionResponseRepository;
+            this.responseCommentRepository = responseCommentRepository;
+            this.notificationRepository = notificationRepository;
         }
 
         [HttpGet]
@@ -91,7 +100,55 @@ namespace CoSmellRefine.Controllers
             {
                 reportIssue.Status = ReportIssueStatus.WarnedUser;
                 reportIssue.StatusReason = issueDetails.StatusReason;
-                //need to send notification to the user to warn the user
+
+                string userId = null;
+
+                // Get the respective content based on the Type attribute and extract the user ID
+                switch (issueDetails.DiscussionType)
+                {
+                    case DiscussionType.Question:
+                        var question = questionRepository.Get(issueDetails.DiscussionItemId);
+                        if (question != null)
+                        {
+                            userId = question.UserId;
+                        }
+                        break;
+                    case DiscussionType.Response:
+                        var questionResponse = questionResponseRepository.Get(issueDetails.DiscussionItemId);
+                        if (questionResponse != null)
+                        {
+                            userId = questionResponse.UserId;
+                        }
+                        break;
+                    case DiscussionType.ResponseComment:
+                        var responseComment = responseCommentRepository.Get(issueDetails.DiscussionItemId);
+                        if (responseComment != null)
+                        {
+                            userId = responseComment.UserId;
+                        }
+                        break;
+                    default:
+                        throw new InvalidOperationException("Unknown issue type.");
+                }
+
+                if (userId != null)
+                {
+                    // Create and send the notification
+                    var notification = new Notification
+                    {
+                        Id = Guid.NewGuid(),
+                        UserId = userId,
+                        Message = "You have been warned due to inappropriate content.",
+                        SentTime = DateTime.UtcNow,
+                        IsRead = false
+                    };
+
+                    notificationRepository.Add(notification);
+                }
+
+
+
+                //update the issue
                 var updatedIssue = await reportIssueRepository.UpdateAsync(reportIssue);
                 if (updatedIssue != null)
                 {
@@ -114,7 +171,23 @@ namespace CoSmellRefine.Controllers
             {
                 reportIssue.Status = ReportIssueStatus.ContentRemoved;
                 reportIssue.StatusReason = issueDetails.StatusReason;
-                //need to remove the content
+                //remove the content
+                switch (issueDetails.DiscussionType)
+                {
+                    case DiscussionType.Question:
+                        await questionRepository.DeleteAsync(issueDetails.DiscussionItemId);
+                        break;
+                    case DiscussionType.Response:
+                        await questionResponseRepository.DeleteAsync(issueDetails.DiscussionItemId);
+                        break;
+                    case DiscussionType.ResponseComment:
+                        await responseCommentRepository.DeleteAsync(issueDetails.DiscussionItemId);
+                        break;
+                    default:
+                        // Handle unknown type or throw an exception
+                        throw new InvalidOperationException("Unknown issue type.");
+                }
+
                 var updatedIssue = await reportIssueRepository.UpdateAsync(reportIssue);
                 if (updatedIssue != null)
                 {
@@ -137,7 +210,6 @@ namespace CoSmellRefine.Controllers
             {
                 reportIssue.Status = ReportIssueStatus.NoActionNeeded;
                 reportIssue.StatusReason = issueDetails.StatusReason;
-                //need to remove the content
                 var updatedIssue = await reportIssueRepository.UpdateAsync(reportIssue);
                 if (updatedIssue != null)
                 {
@@ -147,9 +219,35 @@ namespace CoSmellRefine.Controllers
                 }
 
             }
-            TempData["error"] = "Failed to update teh issue";
+            TempData["error"] = "Failed to update the issue";
             return RedirectToAction("Details", new { id = issueDetails.Id });
 
+        }
+
+        [HttpGet]
+        public IActionResult ViewReferencedItem(Guid discussionItemId, string discussionType)
+        {
+            Guid questionId;
+
+            switch (discussionType)
+            {
+                case DiscussionType.Question:
+                    questionId = discussionItemId;
+                    break;
+                case DiscussionType.Response:
+                    var response = questionResponseRepository.Get(discussionItemId);
+                    if (response == null)
+                    {
+                        return NotFound();
+                    }
+                    questionId = (Guid)response.QuestionId;
+                    break;
+          
+                default:
+                    return BadRequest("Invalid discussion type.");
+            }
+
+            return RedirectToAction("Details", "DeveloperQuestion", new { id = questionId });
         }
 
     }

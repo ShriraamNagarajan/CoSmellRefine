@@ -18,14 +18,14 @@
 }
 
 html {
-    font-size: 12px;
+    font-size: 12.5px;
     max-width: 100vw !important;
     scroll-behavior: smooth !important;
 }
 
 @media (min-width: 768px) {
   html {
-    font-size: 12px;
+    font-size: 12.5px;
   }
 }
 
@@ -50,7 +50,7 @@ nav{
 }
 
 
-.light-btn, .dark-btn {
+.light-btn, .dark-btn, .shepherd-button {
     border-radius: 3.125rem; 
     border: 0.125rem solid #2489D3; 
     background-color: #fff;
@@ -68,6 +68,10 @@ nav{
 }
 
 .light-btn:hover {
+    background-color: #2489D3;
+    color: #fff;
+}
+.shepherd-button:hover {
     background-color: #2489D3;
     color: #fff;
 }
@@ -163,7 +167,7 @@ nav{
     width: 2.5rem;
     height: 2.5rem;
     border-radius: 50%;
-    background-color: #007bff; 
+    background-color: #2489D3;
     color: white;
     display: flex;
     align-items: center;
@@ -185,7 +189,7 @@ nav{
     perspective: 2400px;
     perspective-origin: 50% 100%;
     opacity: 0;
-    transition: 5000ms opacity;
+    transition: 4500ms opacity;
 }
 
     .mockup.loaded {
@@ -210,7 +214,7 @@ nav{
         position: relative;
         transform-style: preserve-3d;
         transform-origin: 50% 100%;
-        transition: 5000ms;
+        transition: 4500ms;
     }
 
     .mockup.opened .part .top {
@@ -220,7 +224,7 @@ nav{
     .mockup .part .top {
         transform-origin: 50% 0;
         transform: translate3d(0, 0, -11px) rotateX(90deg);
-        transition: 5000ms;
+        transition: 4500ms;
     }
 
     .mockup img {
@@ -469,3 +473,295 @@ nav{
     }
 
 
+
+/* Shepherd Styling Modification */
+
+.shepherd-element {
+    border-radius: 10px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Shadow effect */
+}
+
+
+
+/* Loading Styling */
+.loading {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.spinner {
+    width: 60px;
+    height: 60px;
+    background-color: #87CEEB;
+    clip-path: polygon(25% 6.7%, 75% 6.7%, 100% 50%, 75% 93.3%, 25% 93.3%, 0% 50%);
+    animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* Learn Dashboard Styling */
+
+.learn-button {
+    background-color: #ED7172;
+    border-radius: 10px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+}
+
+.learn-button:hover {
+    background-color: #e34c4d;
+    transform: translateY(-5px);
+}
+
+.learn-button.resume {
+    background-color: #FBA0A1;
+}
+
+.learn-button.resume:hover {
+    background-color: #f78485;
+    transform: translateY(-5px);
+}
+
+.learn-button p {
+    margin: 0;
+    color: black;
+    font-weight: bold;
+}
+
+.stick-out {
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.stick-out:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Modules Styling */
+.module-card {
+    position: relative;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+    .module-card:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+
+
+
+/* Submodules Styling */
+.submodule-card {
+    position: relative;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+    .submodule-card:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+
+
+.submodule-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+}
+
+
+/* Interactive Learning Styling */
+
+.interactive-section {
+    display: none;
+    background: #F5EEEE;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.interactive-section.active {
+    display: block;
+}
+
+.developer-flashcard {
+    width: 200px;
+    height: 300px;
+    margin: 20px auto;
+    perspective: 1000px;
+}
+
+.flashcard-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.developer-flashcard:hover .flashcard-inner {
+    transform: rotateY(180deg);
+}
+
+.flashcard-front, .flashcard-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    border-radius: 8px;
+}
+
+.flashcard-front {
+    background: #F0F6FD;
+}
+
+.flashcard-back {
+    background: #3B424B;
+    color: #fff;
+    transform: rotateY(180deg);
+}
+
+.progress {
+    height: 5px;
+}
+
+.correct {
+    color: green;
+}
+
+.incorrect {
+    color: red;
+}
+
+#progressCircle .progressbar-text {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    padding: 0;
+    margin: 0;
+    transform: translate(-50%, -50%);
+    font-size: 2rem; /* Adjust the font size as needed */
+    color: #3498db; /* Color of the text */
+}
+
+
+/* Posting Queston Styling */
+
+.question-form-section {
+    display: none;
+    height: 100%;
+}
+
+#question-progressBar {
+    width: 100%;
+    height: 1rem;
+}
+
+#question-progress {
+    height: 100%;
+    background-color: #0d6efd;
+}
+
+.question-dropzone {
+    border: 2px dashed #0d6efd;
+    border-radius: 10px;
+    background: #f0f6fd;
+    padding: 50px;
+    text-align: center;
+    font-size: 18px;
+    color: #6c757d;
+}
+
+.question-dropzone:hover {
+    background: #e9f1fb;
+}
+
+.dropzone .dz-message {
+    margin: 2em 0;
+}
+
+.question-type-selection {
+    background-color: #FFFE86;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds a drop shadow */
+}
+
+.question-type-selection:hover {
+        transform: scale(1.01); /* Slightly enlarges the element */
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Adds a more prominent shadow */
+}
+
+
+/*Question List Styling*/
+
+
+
+.question {
+    display:inline-block;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    background-color: #fff;
+    border-radius: 10px;
+    transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 1rem;
+}
+    .question:hover {
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+        transform: translateY(-5px);
+        cursor: pointer;
+    }
+
+    .question:last-child {
+        border-bottom: none;
+    }
+
+.filter-section {
+    border: 1px solid #2489D3;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+
+/* Question Details Styling */
+
+.question-editor {
+    height: 150px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+}
+
+.question-supporting-images img {
+    margin: 5px;
+}
+
+
+.vote-btn{
+    cursor:pointer;
+}

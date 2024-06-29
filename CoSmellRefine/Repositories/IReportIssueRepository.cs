@@ -8,5 +8,6 @@ namespace CoSmellRefine.Repositories
         Task<ReportIssue?> GetAsync(Guid id);
         Task<int> CountAsync();
         Task<ReportIssue?> UpdateAsync(ReportIssue issue);
+        ReportIssue Add(ReportIssue issue); 
     }
 }

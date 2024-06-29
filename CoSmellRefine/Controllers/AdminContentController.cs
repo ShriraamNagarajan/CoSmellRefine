@@ -39,19 +39,22 @@ namespace CoSmellRefine.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Add(ModuleViewModel model)
+        public async Task<IActionResult> Add(ModuleViewModel model)
         {
 
             if (ModelState.IsValid)
             {
+                var codesmell = await codeSmellRepository.GetAsync(model.CodeSmellId);
                 var module_id = Guid.NewGuid();
                 var module = new Module
                 {
                     Id = module_id,
                     CodeSmellId = model.CodeSmellId,
+                    CodeSmellCategoryId = codesmell.CodeSmellCategory.Id,
                     Title = model.Title,
                     Description = model.Description,
                     ReadingContent = model.ReadingContent,
+                    LastModifiedDate = DateTime.UtcNow,
                     Videos = model.VideoUrls.Select(url => new ModuleVideo
                     {
                         Id = Guid.NewGuid(),
@@ -130,7 +133,8 @@ namespace CoSmellRefine.Controllers
                     CodeSmellId = model.CodeSmellId,
                     Title = model.Title,
                     Description = model.Description,
-                    ReadingContent = model.ReadingContent
+                    ReadingContent = model.ReadingContent,
+                    LastModifiedDate = DateTime.UtcNow
                 };
 
                 moduleRepository.Update(newmodule);

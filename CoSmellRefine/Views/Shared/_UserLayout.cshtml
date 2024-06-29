@@ -17,6 +17,9 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <link href='https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css' rel='stylesheet' type='text/css' />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shepherd.js/8.3.1/css/shepherd.css">
+    <link rel="stylesheet" href="https://unpkg.com/survey-core/defaultV2.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/dropzone.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     @RenderSection("Styles", required: false)
 
@@ -31,6 +34,11 @@
             </div>
             <div class="container-fluid d-flex flex-row justify-content-end">
                 <ul class="navbar-nav ml-auto">
+                    <li class="nav-item me-2">
+                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#summaryModal" id="book-icon">
+                            <i class="bi bi-book h4"></i>
+                        </a>
+                    </li>
                     <li class="nav-item" id="notification-container">
                         <a class="nav-link" href="@Url.Action("Index", "Notification")" id="notification-icon">
                             <i class="bi bi-bell h4 position-relative" id="notification-bell-icon">
@@ -39,8 +47,8 @@
                                 </span>
                             </i>
                         </a>
-                     
                     </li>
+                
                 </ul>
                 <div class="mx-3">
                     @if (signInManager.IsSignedIn(User))
@@ -72,16 +80,166 @@
     </header>
     <div>
         <partial name="_Notification" />
-        @RenderBody()
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+        </div>
+        <div id="loading-content" style="display:none;">
+                    @RenderBody()
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="summaryModal" tabindex="-1" aria-labelledby="summaryModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content" style="background-color:#D0E2FB;">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="summaryModalLabel">Code Smells and Refactoring Techniques Mapping Summary</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-hover table-striped mt-3">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Code Smell</th>
+                                    <th scope="col">Refactoring Techniques</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="hover-highlight" id="long-method">Long Method</td>
+                                    <td class="hover-highlight">Extract Method, Replace Temp With Query, Introduce Parameter Object, Preserve Whole Object, Replace Method With Method Object, Decompose Conditional</td>
+                                </tr>
+                                <tr>
+                                    <td class="hover-highlight" id="large-class">Large Class</td>
+                                    <td class="hover-highlight">Extract Class, Extract Subclass, Extract Interface</td>
+                                </tr>
+                                <tr>
+                                    <td class="hover-highlight" id="primitive-obsession">Primitive Obsession</td>
+                                    <td class="hover-highlight">Replace Data Value with Object, Introduce Parameter Object, Replace Type Code with Subclass, Replace Array with Object</td>
+                                </tr>
+                                <tr>
+                                    <td class="hover-highlight" id="long-parameter-list">Long Parameter List</td>
+                                    <td class="hover-highlight">Replace Parameter with Method Call, Preserve Whole Object, Introduce Parameter Object</td>
+                                </tr>
+                                <tr>
+                                    <td class="hover-highlight" id="data-clumps">Data Clumps</td>
+                                    <td class="hover-highlight">Extract Class, Preserve Whole Object, Introduce Parameter Object</td>
+                                </tr>
+                                <tr>
+                                    <td class="hover-highlight" id="switch-statements">Switch Statements</td>
+                                    <td class="hover-highlight">Extract Method, Move Method, Replace Type Code with Subclass, Replace Conditional with Polymorphism, Replace Parameter with Explicit Methods, Introduce Null Object</td>
+                                </tr>
+                                <tr>
+                                    <td class="hover-highlight" id="temporary-fields">Temporary Fields</td>
+                                    <td class="hover-highlight">Extract Class, Replace Method with Method Object, Introduce Null Object</td>
+                                </tr>
+                                <tr>
+                                    <td class="hover-highlight" id="refused-bequest">Refused Bequest</td>
+                                    <td class="hover-highlight">Extract Superclass, Replace Inheritance with Delegation</td>
+                                </tr>
+                                <tr>
+                                    <td class="hover-highlight" id="alternative-class">Alternative Classes with Different Interfaces</td>
+                                    <td class="hover-highlight">Rename Method, Move Method, Add Parameter, Parameterize Method, Extract Superclass, Delete Duplicates</td>
+                                </tr>
+                                <tr>
+                                    <td class="hover-highlight" id="divergent-change">Divergent Change</td>
+                                    <td class="hover-highlight">Extract Class, Extract Superclass, Extract Subclass</td>
+                                </tr>
+                                <tr>
+                                    <td class="hover-highlight" id="shotgun-surgery">Shotgun Surgery</td>
+                                    <td class="hover-highlight">Move Method, Move Field, Inline Class</td>
+                                </tr>
+                                <tr>
+                                    <td class="hover-highlight" id="parallel-inheritance">Parallel Inheritance Hierarchy</td>
+                                    <td class="hover-highlight">Move Method, Move Field</td>
+                                </tr>
+                                <tr>
+                                    <td class="hover-highlight" id="comments">Comments</td>
+                                    <td class="hover-highlight">Extract Variable, Extract Method, Rename Method, Introduce Assertion</td>
+                                </tr>
+                                <tr>
+                                    <td class="hover-highlight" id="duplicate-code">Duplicate Code</td>
+                                    <td class="hover-highlight">Extract Method, Pull Up Field, Pull Up Constructor Body, Form Template Method, Substitute Algorithm, Extract Superclass, Extract Class, Consolidate Conditional Expression, Consolidate Duplicate Conditional Fragments</td>
+                                </tr>
+                                <tr>
+                                    <td class="hover-highlight" id="lazy-class">Lazy Class</td>
+                                    <td class="hover-highlight">Inline Class, Collapse Hierarchy</td>
+                                </tr>
+                                <tr>
+                                    <td class="hover-highlight" id="data-class">Data Class</td>
+                                    <td class="hover-highlight">Encapsulate Field, Encapsulate Collection, Move Method, Extract Method, Remove Setting Method, Hide Method</td>
+                                </tr>
+                                <tr>
+                                    <td class="hover-highlight" id="dead-code">Dead Code</td>
+                                    <td class="hover-highlight">Inline Class, Remove Parameter, Collapse Hierarchy</td>
+                                </tr>
+                                <tr>
+                                    <td class="hover-highlight" id="speculative-generality">Speculative Generality</td>
+                                    <td class="hover-highlight">Collapse Hierarchy, Inline Class, Inline Method, Remove Parameter</td>
+                                </tr>
+                                <tr>
+                                    <td class="hover-highlight" id="feature-envy">Feature Envy</td>
+                                    <td class="hover-highlight">Move Method, Extract Method</td>
+                                </tr>
+                                <tr>
+                                    <td class="hover-highlight" id="inappropriate-intimacy">Inappropriate Intimacy</td>
+                                    <td class="hover-highlight">Move Method, Move Field, Extract Class, Hide Delegate, Replace Delegation with Inheritance, Change Bidirectional Association to Unidirectional</td>
+                                </tr>
+                                <tr>
+                                    <td class="hover-highlight" id="message-chains">Message Chains</td>
+                                    <td class="hover-highlight">Hide Delegate, Move Method, Extract Method</td>
+                                </tr>
+                                <tr>
+                                    <td class="hover-highlight" id="middle-man">Middle Man</td>
+                                    <td class="hover-highlight">Remove Middle Man</td>
+                                </tr>
+                                <tr>
+                                    <td class="hover-highlight" id="incomplete-library-class">Incomplete Library Class</td>
+                                    <td class="hover-highlight">Introduce Foreign Method, Introduce Local Extension</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/progressbar.js"></script>
     <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js'></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/shepherd.js/8.3.1/js/shepherd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script src="https://unpkg.com/survey-core"></script>
+    <script src="https://unpkg.com/survey-jquery"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/dropzone.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.34.2/ace.js" integrity="sha512-WdJDvPkK4mLIW1kpkWRd7dFtAF6Z0xnfD3XbfrNsK2/f36vMNGt/44iqYQuliJZwCFw32CrxDRh2hpM2TJS1Ew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(function () {
+                const loading = document.getElementById('loading');
+                const content = document.getElementById('loading-content');
+
+                loading.style.display = 'none';
+                content.style.display = 'block';
+            }, 2000);
+        });
+
+        document.getElementById('book-icon').addEventListener('click', function () {
+            document.getElementById('book-icon').querySelector('i').classList.replace('bi-book', 'bi-book-fill');
+
+        });
+        $('#summaryModal').on('hidden.bs.modal', function () {
+            document.getElementById('book-icon').querySelector('i').classList.replace('bi-book-fill', 'bi-book');
+        });
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
+ 
 </body>
 </html>

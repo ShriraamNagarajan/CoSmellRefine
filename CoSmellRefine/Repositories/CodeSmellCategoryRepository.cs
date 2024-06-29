@@ -17,13 +17,18 @@ namespace CoSmellRefine.Repositories
 
         public async Task<IEnumerable<CodeSmellCategory>> GetAllAsync()
         {
-            return await dbContext.CodeSmellCategories.ToListAsync();
+            return await dbContext.CodeSmellCategories
+             .Include(c => c.Modules)
+             .OrderBy(c => c.Name)
+             .ToListAsync();
 
         }
 
         public Task<CodeSmellCategory?> GetAsync(Guid id)
         {
-            return dbContext.CodeSmellCategories.FirstOrDefaultAsync(x => x.Id == id);
+            return dbContext.CodeSmellCategories
+                .Include(x => x.Modules)
+            .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<int> CountAsync()

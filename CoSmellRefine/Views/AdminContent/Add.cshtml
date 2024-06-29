@@ -13,12 +13,13 @@
                     <h2>Add Module</h2>
                 </div>
                 <div class="card-body bg-transparent border-0">
-                    <form asp-action="Add" asp-controller="AdminContent" method="post">
+                    <form asp-action="Add" asp-controller="AdminContent" method="post" enctype="multipart/form-data">
                         <!-- Step 1: Basic Details -->
                         <div class="form-step active" id="step-1">
                             <div class="navigation-buttons">
                                 <div></div>
-                                <button type="button" class="btn btn-primary" onclick="nextStep(2)">
+                                <p class="h2"> Basic Details </p>
+                                <button type="button" class="btn light-btn" onclick="nextStep(2)">
                                     Reading Material <i class="fas fa-arrow-right"></i>
                                 </button>
                             </div>
@@ -46,10 +47,11 @@
                         <!-- Step 2: Reading Content -->
                         <div class="form-step" id="step-2">
                             <div class="navigation-buttons">
-                                <button type="button" class="btn btn-secondary" onclick="prevStep(1)">
+                                <button type="button" class="btn dark-btn" onclick="prevStep(1)">
                                     <i class="fas fa-arrow-left"></i> Basic Details
                                 </button>
-                                <button type="button" class="btn btn-primary" onclick="nextStep(3)">
+                                <p class="h2"> Reading Material </p>
+                                <button type="button" class="btn light-btn" onclick="nextStep(3)">
                                     Video Upload <i class="fas fa-arrow-right"></i>
                                 </button>
                             </div>
@@ -62,67 +64,57 @@
                         <!-- Step 3: Video Upload -->
                         <div class="form-step" id="step-3">
                             <div class="navigation-buttons">
-                                <button type="button" class="btn btn-secondary" onclick="prevStep(2)">
+                                <button type="button" class="btn dark-btn" onclick="prevStep(2)">
                                     <i class="fas fa-arrow-left"></i> Reading Material
                                 </button>
-                                <button type="button" class="btn btn-primary" onclick="nextStep(4)">
+                                <p class="h2"> Video Upload </p>
+                                <button type="button" class="btn light-btn" onclick="nextStep(4)">
                                     Flashcards <i class="fas fa-arrow-right"></i>
                                 </button>
                             </div>
-                            <div id="videos">
-                                <div class="form-group">
-                                    <label class="form-label">Video Upload</label>
-                                    <input type="file" id="videoUpload" class="form-control"/>
-
-                                    <video controls width="250" id="videoElement" class="mt-2" style="display:none;">
-                                        <source src="" type="video/mp4" id="videoDisplay">
-                                        Your browser does not support the video tag.
-                                    </video>
-                                </div>
-                                <div class="spinner-border ms-5 mt-2" role="status" style="display:none" id="videoSpinner">
-                                    <span class="visually-hidden">Loading...</span>
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" id="videoUrl" name="VideoUrls[0]" hidden/>
-                                </div>
+                            <div id="videos" class="dropzone" style="border: 2px dashed #007bff; padding: 20px; background-color: #f8f9fa;">
+                                <div class="dz-message" data-dz-message><span>Drop your video here or click to upload</span></div>
                             </div>
-
-
+                            <input type="hidden" id="videoUrl" name="VideoUrls[0]" />
+                            <video controls id="videoElement" class="mt-2 w-50" style="display:none;">
+                                <source src="" type="video/mp4" id="videoDisplay">
+                                Your browser does not support the video tag.
+                            </video>
                         </div>
                         <!-- Step 4: Flashcards -->
                         <div class="form-step" id="step-4">
                             <div class="navigation-buttons">
-                                <button type="button" class="btn btn-secondary" onclick="prevStep(3)">
+                                <button type="button" class="btn dark-btn" onclick="prevStep(3)">
                                     <i class="fas fa-arrow-left"></i> Video Upload
                                 </button>
-                                <button type="button" class="btn btn-primary" onclick="nextStep(5)">
+                                <p class="h2"> Flashcards </p>
+                                <button type="button" class="btn light-btn" onclick="nextStep(5)">
                                     Quiz <i class="fas fa-arrow-right"></i>
                                 </button>
                             </div>
                             <div id="flashcards">
                                 <div class="flashcard">
-                            
-                                        <div class="form-group">
-                                            <label for="flashcardQ0">Question</label>
-                                            <input type="text" class="form-control" id="flashcardQ0" name="Flashcards[0].Question" required>
-                                            <span class="text-danger" asp-validation-for="Flashcards"></span>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="flashcardA0">Answer</label>
-                                            <input type="text" class="form-control" id="flashcardA0" name="Flashcards[0].Answer" required>
-                                            <span class="text-danger" asp-validation-for="Flashcards"></span>
-                                        </div>
+                                    <div class="form-group">
+                                        <label for="flashcardQ0">Question</label>
+                                        <input type="text" class="form-control" id="flashcardQ0" name="Flashcards[0].Question" required>
+                                        <span class="text-danger" asp-validation-for="Flashcards"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="flashcardA0">Answer</label>
+                                        <input type="text" class="form-control" id="flashcardA0" name="Flashcards[0].Answer" required>
+                                        <span class="text-danger" asp-validation-for="Flashcards"></span>
+                                    </div>
                                 </div>
                             </div>
                             <button type="button" class="btn btn-secondary mt-3" onclick="addFlashcard()">Add Flashcard</button>
-
                         </div>
                         <!-- Step 5: Quiz -->
                         <div class="form-step" id="step-5">
                             <div class="navigation-buttons">
-                                <button type="button" class="btn btn-secondary" onclick="prevStep(4)">
+                                <button type="button" class="btn dark-btn" onclick="prevStep(4)">
                                     <i class="fas fa-arrow-left"></i> Flashcards
                                 </button>
+                                <p class="h2"> Quiz </p>
                                 <button type="submit" class="btn btn-success">Add</button>
                             </div>
                             <div id="quiz">
@@ -162,62 +154,35 @@
     </section>
 </div>
 
-@section Scripts{
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+@section Scripts {
     <script src="/js/admin_sidebar.js"></script>
     <script>
         var editor = new FroalaEditor('#readingContent', {
             imageUploadURL: '/api/media'
         });
-        // Get elements by their IDs
-        const videoUpload = document.getElementById('videoUpload');
-        const videoUrl = document.getElementById('videoUrl');
-        const videoDisplay = document.getElementById('videoDisplay');
-        const videoElement = document.getElementById('videoElement');
-        const videoSpinner = document.getElementById('videoSpinner');
-            
-        // Function to upload video
-        async function uploadVideo(e) {
-            videoSpinner.style.display = 'block';
-            console.log(e.target.files[0]);
 
-            let data = new FormData();
-            data.append('file', e.target.files[0]);
+        Dropzone.autoDiscover = false;
 
-            try {
-                let response = await fetch('/api/media', {
-                    method: 'POST',
-                    headers: {
-                        'Accept': '*/*',
-                    },
-                    body: data
+        const videoDropzone = new Dropzone("#videos", {
+            url: "/api/media",
+            paramName: "file",
+            maxFiles: 1,
+            acceptedFiles: "video/*",
+            addRemoveLinks: true,
+            init: function () {
+                this.on("success", function (file, response) {
+                    document.getElementById('videoUrl').value = response.link;
+                    document.getElementById('videoDisplay').src = response.link;
+                    document.getElementById('videoElement').style.display = 'block';
+                    document.getElementById('videoElement').load();
                 });
-
-                let result = await response.json();
-
-                if (response.ok) {
-                    videoUrl.value = result.link;
-                    videoDisplay.src = result.link;
-                    videoElement.style.display = 'block';
-                    videoSpinner.style.display = 'none';
-                    videoElement.load();
-                } else {
-                    console.error('Video upload failed:', result);
-                    alert('Video upload failed: ' + result.message);
-                }
-            } catch (error) {
-                console.error('Error uploading video:', error);
-                alert('Error uploading video: ' + error.message);
+                this.on("error", function (file, response) {
+                    console.error('Video upload failed:', response);
+                    alert('Video upload failed: ' + response);
+                });
             }
-        }
+        });
 
-        // Add event listener for video upload
-        videoUpload.addEventListener('change', uploadVideo);
-
-
-        let videoCount = 1;
         let flashcardCount = @Model.Flashcards.Count;
         let quizQuestionCount = @Model.Quizzes.Count;
 
@@ -246,11 +211,11 @@
             newFlashcard.classList.add('flashcard');
             newFlashcard.innerHTML = `
                         <div class="form-group">
-                            <label for="flashcardQ${flashcardCount}">Question ${flashcardCount+1}:</label>
+                            <label for="flashcardQ${flashcardCount}">Question ${flashcardCount + 1}:</label>
                             <input type="text" class="form-control" id="flashcardQ${flashcardCount}" name="Flashcards[${flashcardCount}].Question" required>
                         </div>
                         <div class="form-group">
-                            <label for="flashcardA${flashcardCount}">Answer ${flashcardCount+1}:</label>
+                            <label for="flashcardA${flashcardCount}">Answer ${flashcardCount + 1}:</label>
                             <input type="text" class="form-control" id="flashcardA${flashcardCount}" name="Flashcards[${flashcardCount}].Answer" required>
                         </div>
                     `;
@@ -264,7 +229,7 @@
             newQuizQuestion.classList.add('quiz-question');
             newQuizQuestion.innerHTML = `
                         <div class="form-group">
-                            <label for="quizQ${quizQuestionCount}">Question ${quizQuestionCount+1}:</label>
+                            <label for="quizQ${quizQuestionCount}">Question ${quizQuestionCount + 1}:</label>
                             <input type="text" class="form-control" id="quizQ${quizQuestionCount}" name="Quizzes[${quizQuestionCount}].Question" required>
                         </div>
                         ${[...Array(4).keys()].map(j => `
@@ -281,8 +246,6 @@
             quizDiv.appendChild(newQuizQuestion);
         }
 
-        // Initialize the first step as active
         document.getElementById('step-1').classList.add('active');
     </script>
-
 }

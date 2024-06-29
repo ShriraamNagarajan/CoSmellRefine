@@ -248,7 +248,7 @@
 
                 tour.addStep({
                     title: 'User Management',
-                text: 'This page will allow you to manage users.',
+                    text: 'Here you can manage users.',
                     attachTo: {
                         element: '#users',
                         on: 'right'
@@ -267,7 +267,7 @@
 
                 tour.addStep({
                     title: 'Content Management',
-                    text: 'This page will allow you to manage content.',
+                    text: 'THere you can manage content.',
                     attachTo: {
                         element: '#content',
                         on: 'right'
@@ -285,7 +285,7 @@
                 });
                 tour.addStep({
                     title: 'Notification',
-                    text: 'This page will allow you to view and read notifications sent to you.',
+                    text: 'Here you can view and read notifications.',
                     attachTo: {
                         element: '#notification-container',
                         on: 'bottom'
@@ -304,7 +304,9 @@
 
 
 
-            tour.start();
+            setTimeout(function () {
+                tour.start();
+            }, 2500);
             });
 
  

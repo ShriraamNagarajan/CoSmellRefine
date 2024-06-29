@@ -48,155 +48,155 @@ namespace CoSmellRefine.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("7e59f0d3-292a-45e6-b732-1ce29caefc33"),
-                            CodeSmellCategoryId = new Guid("5e5505c4-9bea-4796-8783-963ddb35257e"),
+                            Id = new Guid("74de66e1-96f2-46b8-9464-a404925f6c61"),
+                            CodeSmellCategoryId = new Guid("5e604a4d-0fe5-407e-9d20-7ebcaf7f72a1"),
                             Description = "A Long Method is a method that contains too many lines of code.",
                             Name = "Long Method"
                         },
                         new
                         {
-                            Id = new Guid("fe4d2ec5-8311-42a1-b47d-1324f07f92f2"),
-                            CodeSmellCategoryId = new Guid("5e5505c4-9bea-4796-8783-963ddb35257e"),
+                            Id = new Guid("38aa7822-8ed0-4309-8608-4567bd75692c"),
+                            CodeSmellCategoryId = new Guid("5e604a4d-0fe5-407e-9d20-7ebcaf7f72a1"),
                             Description = "A Large Class is a class that contains too many fields, methods, or lines of code.",
                             Name = "Large Class"
                         },
                         new
                         {
-                            Id = new Guid("15d43865-fbc3-47fc-acba-ae35d4276ec8"),
-                            CodeSmellCategoryId = new Guid("5e5505c4-9bea-4796-8783-963ddb35257e"),
+                            Id = new Guid("79dd83c3-155a-4272-a362-044d345a29c0"),
+                            CodeSmellCategoryId = new Guid("5e604a4d-0fe5-407e-9d20-7ebcaf7f72a1"),
                             Description = "Primitive Obsession occurs when you use primitive data types for tasks that could be better handled by small objects.",
                             Name = "Primitive Obsession"
                         },
                         new
                         {
-                            Id = new Guid("61dec7d6-56fa-4921-b0f7-c38baefae0d1"),
-                            CodeSmellCategoryId = new Guid("5e5505c4-9bea-4796-8783-963ddb35257e"),
+                            Id = new Guid("c6e6c383-2845-4959-a6e7-1ff513d1839e"),
+                            CodeSmellCategoryId = new Guid("5e604a4d-0fe5-407e-9d20-7ebcaf7f72a1"),
                             Description = "A Long Parameter List occurs when a method has more than three or four parameters.",
                             Name = "Long Parameter List"
                         },
                         new
                         {
-                            Id = new Guid("f8948f98-9416-4dd3-8bb1-d35220833ed0"),
-                            CodeSmellCategoryId = new Guid("5e5505c4-9bea-4796-8783-963ddb35257e"),
+                            Id = new Guid("e74745e2-775e-4c23-ac1a-3e2ad421794d"),
+                            CodeSmellCategoryId = new Guid("5e604a4d-0fe5-407e-9d20-7ebcaf7f72a1"),
                             Description = "Data Clumps occur when identical groups of variables appear in different parts of the code.",
                             Name = "Data Clumps"
                         },
                         new
                         {
-                            Id = new Guid("4a53a159-0f9c-4c8e-a232-af5bb8eb374e"),
-                            CodeSmellCategoryId = new Guid("a0623870-ea9f-48ce-bc1d-dd005634b014"),
+                            Id = new Guid("d7c82c8e-68e0-4fb3-ac27-128be413319f"),
+                            CodeSmellCategoryId = new Guid("29f27e4a-26fd-423f-a8f3-69b3d14d14d2"),
                             Description = "Switch Statements are defined by the presence of a complex switch operator or a sequence of if statements.",
                             Name = "Switch Statements"
                         },
                         new
                         {
-                            Id = new Guid("5483e065-b6d3-4510-ba96-f4cac8ff8322"),
-                            CodeSmellCategoryId = new Guid("a0623870-ea9f-48ce-bc1d-dd005634b014"),
+                            Id = new Guid("61f1a799-1acd-46c4-8e95-a3b0efa07f9e"),
+                            CodeSmellCategoryId = new Guid("29f27e4a-26fd-423f-a8f3-69b3d14d14d2"),
                             Description = "Temporary Fields are fields in a class that get their values only under certain circumstances and remain empty the rest of the time.",
                             Name = "Temporary Field"
                         },
                         new
                         {
-                            Id = new Guid("9fc16006-66b1-48f0-962e-fc4e48a13698"),
-                            CodeSmellCategoryId = new Guid("a0623870-ea9f-48ce-bc1d-dd005634b014"),
+                            Id = new Guid("654d4f72-5509-4daf-b9b2-a1dc42242fea"),
+                            CodeSmellCategoryId = new Guid("29f27e4a-26fd-423f-a8f3-69b3d14d14d2"),
                             Description = "Refused Bequest occurs when a subclass uses only some of the methods and properties inherited from its parent class.",
                             Name = "Refused Bequest"
                         },
                         new
                         {
-                            Id = new Guid("bf27b963-0e73-4685-9f39-22558308127f"),
-                            CodeSmellCategoryId = new Guid("a0623870-ea9f-48ce-bc1d-dd005634b014"),
+                            Id = new Guid("a2f0fc27-c429-43e3-9502-1ec5922f6c77"),
+                            CodeSmellCategoryId = new Guid("29f27e4a-26fd-423f-a8f3-69b3d14d14d2"),
                             Description = "Alternative Classes with Different Interfaces occur when two classes perform identical functions but have different method names.",
                             Name = "Alternative Classes with Different Interfaces"
                         },
                         new
                         {
-                            Id = new Guid("bac4967c-80b1-4a50-b583-6955c642ad1f"),
-                            CodeSmellCategoryId = new Guid("51f33145-e15b-47ab-81a6-0fb2f0f6e937"),
+                            Id = new Guid("a42ccade-71f6-4b11-9be7-c613a30a12b5"),
+                            CodeSmellCategoryId = new Guid("34618ef1-6f93-4f84-9959-99f341207f3c"),
                             Description = "Divergent Change occurs when you find yourself having to change many unrelated methods whenever you make changes to a class.",
                             Name = "Divergent Change"
                         },
                         new
                         {
-                            Id = new Guid("b88a4b74-5042-44d9-b5d6-827cfc5cc9a8"),
-                            CodeSmellCategoryId = new Guid("51f33145-e15b-47ab-81a6-0fb2f0f6e937"),
+                            Id = new Guid("4c446165-4fde-473c-b118-18a290030b0e"),
+                            CodeSmellCategoryId = new Guid("34618ef1-6f93-4f84-9959-99f341207f3c"),
                             Description = "Shotgun Surgery occurs when making any modification requires you to make many small changes to many different classes.",
                             Name = "Shotgun Surgery"
                         },
                         new
                         {
-                            Id = new Guid("b22c48dc-fc14-472a-b69b-563f8f509bf4"),
-                            CodeSmellCategoryId = new Guid("51f33145-e15b-47ab-81a6-0fb2f0f6e937"),
+                            Id = new Guid("73461dee-eab0-4d48-ac71-351a18a4bd75"),
+                            CodeSmellCategoryId = new Guid("34618ef1-6f93-4f84-9959-99f341207f3c"),
                             Description = "Parallel Inheritance Hierarchy occurs when creating a subclass for one class requires you to create a subclass for another class.",
                             Name = "Parallel Inheritance Hierarchies"
                         },
                         new
                         {
-                            Id = new Guid("90055173-571b-40d6-b953-b0b7dd461d97"),
-                            CodeSmellCategoryId = new Guid("baa121de-6993-4f01-8c8d-eabd08739e1e"),
+                            Id = new Guid("a0b1d79f-2d60-470e-98c0-d1f561bae59c"),
+                            CodeSmellCategoryId = new Guid("a2b122e6-95b5-4876-b958-982cf065c586"),
                             Description = "Comments in code are meant to explain what the code does, but they can also be a sign of underlying issues.",
                             Name = "Comments"
                         },
                         new
                         {
-                            Id = new Guid("7bd6a75f-8ceb-45d7-96dd-5c529990dc92"),
-                            CodeSmellCategoryId = new Guid("baa121de-6993-4f01-8c8d-eabd08739e1e"),
+                            Id = new Guid("58a91a2d-8928-4039-8303-ac5fd5ba1b0f"),
+                            CodeSmellCategoryId = new Guid("a2b122e6-95b5-4876-b958-982cf065c586"),
                             Description = "It's when two or more code fragments in your program are nearly or entirely the same.",
                             Name = "Duplicate Code"
                         },
                         new
                         {
-                            Id = new Guid("024bb8e3-e195-49df-9c78-894eec10664e"),
-                            CodeSmellCategoryId = new Guid("baa121de-6993-4f01-8c8d-eabd08739e1e"),
+                            Id = new Guid("ebd13c41-1f3f-4bdc-aeaf-ee5dce5ed50b"),
+                            CodeSmellCategoryId = new Guid("a2b122e6-95b5-4876-b958-982cf065c586"),
                             Description = "A Lazy Class is a class that doesn't do enough to justify its existence in your codebase.",
                             Name = "Lazy Class"
                         },
                         new
                         {
-                            Id = new Guid("c1e39af4-ac4e-4798-a3fa-c552fd577853"),
-                            CodeSmellCategoryId = new Guid("baa121de-6993-4f01-8c8d-eabd08739e1e"),
+                            Id = new Guid("2a60268b-692b-4964-96a0-d4f1045f5370"),
+                            CodeSmellCategoryId = new Guid("a2b122e6-95b5-4876-b958-982cf065c586"),
                             Description = "A Data Class is a class that contains only fields and crude methods for accessing them, such as getters and setters.",
                             Name = "Data Class"
                         },
                         new
                         {
-                            Id = new Guid("730f75f5-ad2b-4016-85c7-a7d2cd0509c9"),
-                            CodeSmellCategoryId = new Guid("baa121de-6993-4f01-8c8d-eabd08739e1e"),
+                            Id = new Guid("2aa28253-fa7f-4111-b910-7483fd582300"),
+                            CodeSmellCategoryId = new Guid("a2b122e6-95b5-4876-b958-982cf065c586"),
                             Description = "Dead Code refers to any variable, parameter, field, method, or class that is no longer used in your program.",
                             Name = "Dead Code"
                         },
                         new
                         {
-                            Id = new Guid("f98fd710-9fb5-4bd8-b7d0-6110adfe883a"),
-                            CodeSmellCategoryId = new Guid("baa121de-6993-4f01-8c8d-eabd08739e1e"),
+                            Id = new Guid("b2ce7772-adce-4e86-aaf5-35782b89db14"),
+                            CodeSmellCategoryId = new Guid("a2b122e6-95b5-4876-b958-982cf065c586"),
                             Description = "Speculative Generality occurs when there’s an unused class, method, field, or parameter in your code.",
                             Name = "Speculative Generality"
                         },
                         new
                         {
-                            Id = new Guid("aa0cd933-c128-4f09-b435-fac4ead811f9"),
-                            CodeSmellCategoryId = new Guid("f42d4831-2d44-46af-b5b4-45115958a595"),
+                            Id = new Guid("c62e90cc-3666-486e-a93e-4cafbe6035d8"),
+                            CodeSmellCategoryId = new Guid("4c54f675-91a7-4057-9fc6-b8ff2d5d5326"),
                             Description = "It's a situation where a method in one class is overly interested in the data of another class, indicating that the method might belong in the other class.",
                             Name = "Feature Envy"
                         },
                         new
                         {
-                            Id = new Guid("5c7d996e-aafc-4ef4-8220-7debfa004f90"),
-                            CodeSmellCategoryId = new Guid("f42d4831-2d44-46af-b5b4-45115958a595"),
+                            Id = new Guid("3cdff99a-7385-4ab3-84d6-11c2000d30ef"),
+                            CodeSmellCategoryId = new Guid("4c54f675-91a7-4057-9fc6-b8ff2d5d5326"),
                             Description = "Inappropriate Intimacy occurs when one class uses the internal fields and methods of another class.",
                             Name = "Inappropriate Intimacy"
                         },
                         new
                         {
-                            Id = new Guid("6ec03f14-1771-4b27-8d57-ee6a0e505b97"),
-                            CodeSmellCategoryId = new Guid("f42d4831-2d44-46af-b5b4-45115958a595"),
+                            Id = new Guid("76300348-775a-4c22-ba00-ab3d330a2854"),
+                            CodeSmellCategoryId = new Guid("4c54f675-91a7-4057-9fc6-b8ff2d5d5326"),
                             Description = "A Message Chain occurs when you see a series of calls like $a->b()->c()->d() in your code.",
                             Name = "Message Chains"
                         },
                         new
                         {
-                            Id = new Guid("52bffd2e-885c-40e6-a98f-48fa144af54b"),
-                            CodeSmellCategoryId = new Guid("f42d4831-2d44-46af-b5b4-45115958a595"),
+                            Id = new Guid("ac53afe5-22b7-4ab2-a85a-fdf1b8848bba"),
+                            CodeSmellCategoryId = new Guid("4c54f675-91a7-4057-9fc6-b8ff2d5d5326"),
                             Description = "It's a class that exists solely to pass messages to another class, without adding any real value itself.",
                             Name = "Middle Man"
                         });
@@ -212,6 +212,10 @@ namespace CoSmellRefine.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -223,59 +227,39 @@ namespace CoSmellRefine.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("5e5505c4-9bea-4796-8783-963ddb35257e"),
+                            Id = new Guid("5e604a4d-0fe5-407e-9d20-7ebcaf7f72a1"),
                             Description = "Bloaters are code, methods, and classes that become excessively large and difficult to manage. These issues typically develop gradually as the program evolves, especially if no effort is made to address them.",
+                            ImageUrl = "https://finance-blog-post.s3.amazonaws.com/bloaters.png",
                             Name = "Bloaters"
                         },
                         new
                         {
-                            Id = new Guid("a0623870-ea9f-48ce-bc1d-dd005634b014"),
+                            Id = new Guid("29f27e4a-26fd-423f-a8f3-69b3d14d14d2"),
                             Description = "All these code smells result from the incomplete or incorrect application of object-oriented programming principles.",
+                            ImageUrl = "https://finance-blog-post.s3.amazonaws.com/object_orientation_abusers.png",
                             Name = "Object Orientation Abusers"
                         },
                         new
                         {
-                            Id = new Guid("51f33145-e15b-47ab-81a6-0fb2f0f6e937"),
+                            Id = new Guid("34618ef1-6f93-4f84-9959-99f341207f3c"),
                             Description = "These code smells indicate that changing one part of the code requires multiple changes elsewhere, making program development more complex and costly.",
+                            ImageUrl = "https://finance-blog-post.s3.amazonaws.com/change_preventers.png",
                             Name = "Change Preventers"
                         },
                         new
                         {
-                            Id = new Guid("baa121de-6993-4f01-8c8d-eabd08739e1e"),
+                            Id = new Guid("a2b122e6-95b5-4876-b958-982cf065c586"),
                             Description = "A dispensable is an unnecessary element whose removal would make the code cleaner, more efficient, and easier to understand.",
+                            ImageUrl = "https://finance-blog-post.s3.amazonaws.com/dispensables.png",
                             Name = "Dispensables"
                         },
                         new
                         {
-                            Id = new Guid("f42d4831-2d44-46af-b5b4-45115958a595"),
+                            Id = new Guid("4c54f675-91a7-4057-9fc6-b8ff2d5d5326"),
                             Description = "All the smells in this group contribute to excessive coupling between classes or result from replacing coupling with excessive delegation.",
+                            ImageUrl = "https://finance-blog-post.s3.amazonaws.com/couplers.png",
                             Name = "Couplers"
                         });
-                });
-
-            modelBuilder.Entity("CoSmellRefine.Models.Domain.EducationalProgress", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CurrentModuleId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("LastAccessed")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CurrentModuleId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("EducationalProgress");
                 });
 
             modelBuilder.Entity("CoSmellRefine.Models.Domain.Flashcard", b =>
@@ -308,12 +292,18 @@ namespace CoSmellRefine.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("CodeSmellCategoryId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("CodeSmellId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("LastModifiedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ReadingContent")
                         .IsRequired()
@@ -325,9 +315,36 @@ namespace CoSmellRefine.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CodeSmellCategoryId");
+
                     b.HasIndex("CodeSmellId");
 
                     b.ToTable("Modules");
+                });
+
+            modelBuilder.Entity("CoSmellRefine.Models.Domain.ModuleCompletion", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CompletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("ModuleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ModuleId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ModuleCompletion");
                 });
 
             modelBuilder.Entity("CoSmellRefine.Models.Domain.ModuleVideo", b =>
@@ -379,26 +396,26 @@ namespace CoSmellRefine.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("9bddc3ef-9bf6-4f25-b8ec-aefd6f9df0d3"),
+                            Id = new Guid("5d767b86-8dfc-47a2-9c23-25f1b3f0eb4a"),
                             IsRead = false,
                             Message = "This is your first notification",
-                            SentTime = new DateTime(2024, 6, 13, 8, 45, 0, 884, DateTimeKind.Utc).AddTicks(3374),
+                            SentTime = new DateTime(2024, 6, 26, 9, 40, 51, 30, DateTimeKind.Utc).AddTicks(7446),
                             UserId = "0bb96526-4ffd-4846-8e00-ac29d53671d0"
                         },
                         new
                         {
-                            Id = new Guid("fe77e6dd-c839-402d-84ad-e65a79552c04"),
+                            Id = new Guid("6856e873-dc4b-4503-9bcc-7064926cceed"),
                             IsRead = true,
                             Message = "This is your second notification",
-                            SentTime = new DateTime(2024, 6, 14, 8, 45, 0, 884, DateTimeKind.Utc).AddTicks(3388),
+                            SentTime = new DateTime(2024, 6, 27, 9, 40, 51, 30, DateTimeKind.Utc).AddTicks(7456),
                             UserId = "0bb96526-4ffd-4846-8e00-ac29d53671d0"
                         },
                         new
                         {
-                            Id = new Guid("8f18dd86-7d6d-426c-92ae-4b05a5270032"),
+                            Id = new Guid("d29fc1fe-d852-4d7e-81d5-caebdc551297"),
                             IsRead = false,
                             Message = "This is your first notification",
-                            SentTime = new DateTime(2024, 6, 12, 8, 45, 0, 884, DateTimeKind.Utc).AddTicks(3391),
+                            SentTime = new DateTime(2024, 6, 25, 9, 40, 51, 30, DateTimeKind.Utc).AddTicks(7459),
                             UserId = "0bb96526-4ffd-4846-8e00-ac29d53671d0"
                         });
                 });
@@ -416,6 +433,9 @@ namespace CoSmellRefine.Migrations
                     b.Property<string>("CodeSnippet")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
@@ -448,11 +468,12 @@ namespace CoSmellRefine.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("2c763e00-cc29-45f7-bb9f-19ca22bf5457"),
+                            Id = new Guid("bbe011e4-2c28-4a96-9943-e44bf15dc181"),
                             Body = "Body of question 1",
                             CodeSnippet = "CodeSnippet1",
-                            ModifiedDate = new DateTime(2024, 6, 15, 8, 45, 0, 884, DateTimeKind.Utc).AddTicks(3417),
-                            PostedDate = new DateTime(2024, 6, 15, 8, 45, 0, 884, DateTimeKind.Utc).AddTicks(3416),
+                            IsDeleted = false,
+                            ModifiedDate = new DateTime(2024, 6, 28, 9, 40, 51, 30, DateTimeKind.Utc).AddTicks(7484),
+                            PostedDate = new DateTime(2024, 6, 28, 9, 40, 51, 30, DateTimeKind.Utc).AddTicks(7483),
                             Status = "Closed",
                             Title = "Question 1",
                             Type = "Code Smell Identification",
@@ -460,11 +481,12 @@ namespace CoSmellRefine.Migrations
                         },
                         new
                         {
-                            Id = new Guid("820d1ac5-b938-470a-bb06-5eb14d65d0dc"),
+                            Id = new Guid("d611c77c-d12d-4f03-a2d3-bf6301a833ce"),
                             Body = "Body of question 2",
                             CodeSnippet = "CodeSnippet2",
-                            ModifiedDate = new DateTime(2024, 6, 15, 8, 45, 0, 884, DateTimeKind.Utc).AddTicks(3425),
-                            PostedDate = new DateTime(2024, 6, 14, 8, 45, 0, 884, DateTimeKind.Utc).AddTicks(3424),
+                            IsDeleted = false,
+                            ModifiedDate = new DateTime(2024, 6, 28, 9, 40, 51, 30, DateTimeKind.Utc).AddTicks(7490),
+                            PostedDate = new DateTime(2024, 6, 27, 9, 40, 51, 30, DateTimeKind.Utc).AddTicks(7490),
                             Status = "Open",
                             Title = "Question 2",
                             Type = "Refactoring Technique Identification",
@@ -502,6 +524,13 @@ namespace CoSmellRefine.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CodeSnippet")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("PostedDate")
                         .HasColumnType("datetime2");
 
@@ -511,10 +540,6 @@ namespace CoSmellRefine.Migrations
 
                     b.Property<Guid?>("QuestionId1")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -533,20 +558,22 @@ namespace CoSmellRefine.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("85a535fc-fd5f-42ed-8f0b-02b1a8b3665b"),
+                            Id = new Guid("3924ce98-3d5d-4e07-aed0-86aba3c5eda8"),
                             Body = "Response to question 1",
-                            PostedDate = new DateTime(2024, 6, 15, 8, 45, 0, 884, DateTimeKind.Utc).AddTicks(3514),
-                            QuestionId = new Guid("2c763e00-cc29-45f7-bb9f-19ca22bf5457"),
-                            Status = "Accepted",
+                            CodeSnippet = "Console.WriteLine(\"Hello World\");",
+                            IsDeleted = false,
+                            PostedDate = new DateTime(2024, 6, 28, 9, 40, 51, 30, DateTimeKind.Utc).AddTicks(7535),
+                            QuestionId = new Guid("bbe011e4-2c28-4a96-9943-e44bf15dc181"),
                             UserId = "680a7849-11d6-44d1-8ec5-fdac6ca72260"
                         },
                         new
                         {
-                            Id = new Guid("b92f3ddb-aa83-4c82-b133-fbdccd11c8c6"),
+                            Id = new Guid("2400ce12-6cbc-47d4-a022-3b6448dd7691"),
                             Body = "Another response to question 1",
-                            PostedDate = new DateTime(2024, 6, 15, 8, 15, 0, 884, DateTimeKind.Utc).AddTicks(3525),
-                            QuestionId = new Guid("820d1ac5-b938-470a-bb06-5eb14d65d0dc"),
-                            Status = "Pending",
+                            CodeSnippet = "Console.WriteLine(\"Hello World\");",
+                            IsDeleted = false,
+                            PostedDate = new DateTime(2024, 6, 28, 9, 10, 51, 30, DateTimeKind.Utc).AddTicks(7539),
+                            QuestionId = new Guid("d611c77c-d12d-4f03-a2d3-bf6301a833ce"),
                             UserId = "680a7849-11d6-44d1-8ec5-fdac6ca72260"
                         });
                 });
@@ -579,6 +606,34 @@ namespace CoSmellRefine.Migrations
                     b.ToTable("Quiz");
                 });
 
+            modelBuilder.Entity("CoSmellRefine.Models.Domain.QuizResults", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CompletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("ModuleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<double>("Result")
+                        .HasColumnType("float");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ModuleId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("QuizResults");
+                });
+
             modelBuilder.Entity("CoSmellRefine.Models.Domain.RefactoringTechnique", b =>
                 {
                     b.Property<Guid>("Id")
@@ -596,6 +651,134 @@ namespace CoSmellRefine.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("RefactoringTechniques");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("c14e70cd-a1fc-48ff-8396-f785401f5aaa"),
+                            Description = "Move a method to another class if it clearly belongs there.",
+                            Name = "Move Method"
+                        },
+                        new
+                        {
+                            Id = new Guid("b60928bf-64ad-4824-a33e-9196db9c0da2"),
+                            Description = "Extract part of a method into a separate method and move it to the appropriate class.",
+                            Name = "Extract Method"
+                        },
+                        new
+                        {
+                            Id = new Guid("5a3c19b4-0354-4990-8419-93a9789d2c1c"),
+                            Description = "Hide public fields from direct access by using getters and setters.",
+                            Name = "Encapsulate Field"
+                        },
+                        new
+                        {
+                            Id = new Guid("b5218c85-2fac-4641-bb11-b69ed7050066"),
+                            Description = "Use assertions to make rules about a necessary state explicit in the code.",
+                            Name = "Introduce Assertion"
+                        },
+                        new
+                        {
+                            Id = new Guid("4d589fdc-0e18-4d09-b682-923f350d913a"),
+                            Description = "Move methods and data into a new class to isolate changes to specific parts of the system.",
+                            Name = "Extract Class"
+                        },
+                        new
+                        {
+                            Id = new Guid("241faf55-f802-4f3d-bae0-7d59acbcfc3a"),
+                            Description = "Replace type code with subclassing or state/strategy patterns.",
+                            Name = "Replace Type Code with Subclass"
+                        },
+                        new
+                        {
+                            Id = new Guid("8a31f414-dc46-4465-8392-bbc7c1677171"),
+                            Description = "Use polymorphism to replace the switch statement.",
+                            Name = "Replace Conditional with Polymorphism"
+                        },
+                        new
+                        {
+                            Id = new Guid("77532039-c92a-44c9-99b8-65a5146e1d28"),
+                            Description = "Use the Null Object pattern to handle default or missing cases in a switch statement.",
+                            Name = "Introduce Null Object"
+                        },
+                        new
+                        {
+                            Id = new Guid("f7b43b02-e92c-4a2e-99d4-d3e97830dc3a"),
+                            Description = "Move parts of one class to the class where they are used, but only if the first class truly doesn't need them.",
+                            Name = "Move Field"
+                        },
+                        new
+                        {
+                            Id = new Guid("c252c47a-2b20-4f89-9da9-376cb42e00d4"),
+                            Description = "Merge a subclass into its parent class to simplify the hierarchy.",
+                            Name = "Collapse Hierarchy"
+                        },
+                        new
+                        {
+                            Id = new Guid("af71e55d-9d07-4f53-af1b-ed9b042bd620"),
+                            Description = "Merge the components of a near-useless class into another class and remove the empty class.",
+                            Name = "Inline Class"
+                        },
+                        new
+                        {
+                            Id = new Guid("4e72fcc1-f18c-4432-b0dc-7a935d93e9af"),
+                            Description = "Simplify methods by removing unneeded parameters.",
+                            Name = "Remove Parameter"
+                        },
+                        new
+                        {
+                            Id = new Guid("23494f01-2aea-460a-a50a-97ed606124cc"),
+                            Description = "Use the Template Method pattern if the same code is found in two subclasses at the same level but isn't completely identical.",
+                            Name = "Form Template Method"
+                        },
+                        new
+                        {
+                            Id = new Guid("057a96a8-d93a-4245-a0e1-af8cc1af18e6"),
+                            Description = "Choose the best algorithm and replace others with it if two methods do the same thing but use different algorithms.",
+                            Name = "Substitute Algorithm"
+                        },
+                        new
+                        {
+                            Id = new Guid("e5f14401-b3c0-41a5-83a2-aca1da8d90a5"),
+                            Description = "Merge multiple conditional expressions performing the same code into a single condition and extract the common code into a new method.",
+                            Name = "Consolidate Conditional Expression"
+                        },
+                        new
+                        {
+                            Id = new Guid("66b68563-bcb0-452e-b7d1-1239a167dc66"),
+                            Description = "Move common code outside of the conditional expression if it is performed in all branches.",
+                            Name = "Consolidate Duplicate Conditional Fragments"
+                        },
+                        new
+                        {
+                            Id = new Guid("14566781-7093-4259-901d-39bed97f0ffd"),
+                            Description = "Simplify client code by hiding the message chain, providing a single method that handles the entire chain.",
+                            Name = "Hide Delegate"
+                        },
+                        new
+                        {
+                            Id = new Guid("e4c3c6c2-a0b1-43b9-88cb-f6fc1cb6f830"),
+                            Description = "Reduce dependency by changing mutually interdependent classes to unidirectional relationships.",
+                            Name = "Change Bidirectional Association to Unidirectional"
+                        },
+                        new
+                        {
+                            Id = new Guid("a5cf3c83-8d1a-42bd-8183-f0181c6da65e"),
+                            Description = "Use inheritance to formalize the relationship if the intimacy is between a subclass and its superclass.",
+                            Name = "Replace Delegation with Inheritance"
+                        },
+                        new
+                        {
+                            Id = new Guid("fcb646aa-08b9-45a1-9ef2-c85ce3814e0a"),
+                            Description = "Add methods externally to a library class to provide the needed functionality without modifying the original class.",
+                            Name = "Introduce Foreign Method"
+                        },
+                        new
+                        {
+                            Id = new Guid("e098d5de-a734-4f60-96ea-bc857073b447"),
+                            Description = "Create a local extension of the library class to extend and modify it to meet your needs while keeping the original library intact.",
+                            Name = "Introduce Local Extension"
+                        });
                 });
 
             modelBuilder.Entity("CoSmellRefine.Models.Domain.ReportIssue", b =>
@@ -639,33 +822,33 @@ namespace CoSmellRefine.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("cb5bd1ac-66d3-4594-aa5a-a63dc07a09aa"),
-                            DiscussionItemId = new Guid("2c763e00-cc29-45f7-bb9f-19ca22bf5457"),
+                            Id = new Guid("16cf1537-a2ea-47d4-bc10-221785de2b7b"),
+                            DiscussionItemId = new Guid("bbe011e4-2c28-4a96-9943-e44bf15dc181"),
                             DiscussionType = "Question",
                             Reason = "Inappropriate content",
-                            ReportDate = new DateTime(2024, 6, 15, 8, 45, 0, 884, DateTimeKind.Utc).AddTicks(3615),
+                            ReportDate = new DateTime(2024, 6, 28, 9, 40, 51, 30, DateTimeKind.Utc).AddTicks(7692),
                             Status = "In Review",
                             StatusReason = "None",
                             UserId = "680a7849-11d6-44d1-8ec5-fdac6ca72260"
                         },
                         new
                         {
-                            Id = new Guid("a7bc41ea-c938-44a9-ae6f-860b0bd46976"),
-                            DiscussionItemId = new Guid("820d1ac5-b938-470a-bb06-5eb14d65d0dc"),
+                            Id = new Guid("f3b8ebd8-6645-4c0c-aec4-0df12a1273d5"),
+                            DiscussionItemId = new Guid("d611c77c-d12d-4f03-a2d3-bf6301a833ce"),
                             DiscussionType = "Response",
                             Reason = "Spam",
-                            ReportDate = new DateTime(2024, 6, 15, 6, 45, 0, 884, DateTimeKind.Utc).AddTicks(3621),
+                            ReportDate = new DateTime(2024, 6, 28, 7, 40, 51, 30, DateTimeKind.Utc).AddTicks(7696),
                             Status = "No Action Needed",
                             StatusReason = "The content is appropriate",
                             UserId = "680a7849-11d6-44d1-8ec5-fdac6ca72260"
                         },
                         new
                         {
-                            Id = new Guid("ecf55672-5c78-493c-a676-c1ecf6d28906"),
-                            DiscussionItemId = new Guid("820d1ac5-b938-470a-bb06-5eb14d65d0dc"),
+                            Id = new Guid("f31dac25-6b83-45bc-97cb-ee0e4dabc125"),
+                            DiscussionItemId = new Guid("d611c77c-d12d-4f03-a2d3-bf6301a833ce"),
                             DiscussionType = "Question",
                             Reason = "Duplicate content",
-                            ReportDate = new DateTime(2024, 6, 15, 7, 45, 0, 884, DateTimeKind.Utc).AddTicks(3626),
+                            ReportDate = new DateTime(2024, 6, 28, 8, 40, 51, 30, DateTimeKind.Utc).AddTicks(7700),
                             Status = "Warned User",
                             StatusReason = "User comment is inappropriate",
                             UserId = "680a7849-11d6-44d1-8ec5-fdac6ca72260"
@@ -678,8 +861,15 @@ namespace CoSmellRefine.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CommentDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<Guid>("ResponseId")
                         .HasColumnType("uniqueidentifier");
@@ -724,6 +914,9 @@ namespace CoSmellRefine.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("IsUpvote")
+                        .HasColumnType("bit");
+
                     b.Property<Guid>("ResponseId")
                         .HasColumnType("uniqueidentifier");
 
@@ -734,10 +927,6 @@ namespace CoSmellRefine.Migrations
                     b.Property<DateTime>("VoteDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("VoteType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ResponseId");
@@ -745,6 +934,32 @@ namespace CoSmellRefine.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Votes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("a48be175-51af-44d2-87c2-b56ab18af0b7"),
+                            IsUpvote = true,
+                            ResponseId = new Guid("3924ce98-3d5d-4e07-aed0-86aba3c5eda8"),
+                            UserId = "680a7849-11d6-44d1-8ec5-fdac6ca72260",
+                            VoteDate = new DateTime(2024, 6, 28, 9, 40, 51, 30, DateTimeKind.Utc).AddTicks(7621)
+                        },
+                        new
+                        {
+                            Id = new Guid("7b9179cc-a062-4a38-bff0-c9dffe46783f"),
+                            IsUpvote = false,
+                            ResponseId = new Guid("3924ce98-3d5d-4e07-aed0-86aba3c5eda8"),
+                            UserId = "680a7849-11d6-44d1-8ec5-fdac6ca72260",
+                            VoteDate = new DateTime(2024, 6, 28, 9, 40, 51, 30, DateTimeKind.Utc).AddTicks(7666)
+                        },
+                        new
+                        {
+                            Id = new Guid("52b70545-2337-4630-8d8f-9d44602926d2"),
+                            IsUpvote = true,
+                            ResponseId = new Guid("2400ce12-6cbc-47d4-a022-3b6448dd7691"),
+                            UserId = "680a7849-11d6-44d1-8ec5-fdac6ca72260",
+                            VoteDate = new DateTime(2024, 6, 28, 9, 40, 51, 30, DateTimeKind.Utc).AddTicks(7677)
+                        });
                 });
 
             modelBuilder.Entity("CodeSmellQuestion", b =>
@@ -936,15 +1151,15 @@ namespace CoSmellRefine.Migrations
                         {
                             Id = "0bb96526-4ffd-4846-8e00-ac29d53671d0",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a0697b62-47af-4fd6-8bd4-624d0f66beef",
+                            ConcurrencyStamp = "cb93f9c3-2e48-4002-9fac-fa17ce3faf2e",
                             Email = "admin@cosmellrefine.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@COSMELLREFINE.COM",
                             NormalizedUserName = "ADMIN@COSMELLREFINE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIWPIqxrfSxa9aRK7TAQfQImznBz8btwgOUab3MofXwYlaIPHS+NPSVG2WJybUV8UA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKSC6pxpSOEvwCNK2b5FIqBAMtdS2Hv3UuU6o30qlUlQL33kC5jGukVciIT0FqXFRw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "02cc20a7-a25b-4167-bc8d-8dbedcea8422",
+                            SecurityStamp = "c72bfacd-257e-46b9-81a9-1a6ba21bd347",
                             TwoFactorEnabled = false,
                             UserName = "admin@cosmellrefine.com"
                         },
@@ -952,15 +1167,15 @@ namespace CoSmellRefine.Migrations
                         {
                             Id = "9411a478-8335-4360-9a4c-9640eb2e18cd",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "206aa5e3-355f-45dd-9587-b43dd5d4b77e",
+                            ConcurrencyStamp = "c3b294e4-b8af-4cd0-bb85-44ecd6612db6",
                             Email = "moderator@cosmellrefine.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "MODERATOR@COSMELLREFINE.COM",
                             NormalizedUserName = "MODERATOR@COSMELLREFINE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAENRS3DaX03QWxwjaG+t5+gYbP2FVRPTlvOpFF7nBa6t9ipkSfnxnNaZpATeO+Z8gHQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAxXWhiFWBUkkJtLMeVI9YaZo7TDuxLrFXQgGinpcq5vP//6z4eYsxodjH+viJEmJA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "390ac1f4-8ac2-40db-b5e3-b21f4b3542e8",
+                            SecurityStamp = "10b2a9b2-ad92-4ec1-8a9c-392c0190aec7",
                             TwoFactorEnabled = false,
                             UserName = "moderator@cosmellrefine.com"
                         },
@@ -968,15 +1183,15 @@ namespace CoSmellRefine.Migrations
                         {
                             Id = "680a7849-11d6-44d1-8ec5-fdac6ca72260",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4f769f17-9216-4cf5-9e4c-ca2e3dd519ed",
+                            ConcurrencyStamp = "d1add123-1903-47d3-ae78-cdd44bb95804",
                             Email = "developer@cosmellrefine.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "DEVELOPER@COSMELLREFINE.COM",
                             NormalizedUserName = "DEVELOPER@COSMELLREFINE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAELnsr2vnN2SQL11n62SAVrrPgFvQQiExP+zwFrszfLLwK+jPtHgWveuNBQD4FpNtlQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOOdTu67GIJMOw8RnGGixpn6xOva4jY/0BB/qcXl/20hIY2KDbM3GnYXDoXpJ7VUYg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "46089886-bda1-4e53-8ef2-ca4a153ca356",
+                            SecurityStamp = "a616aab5-5700-428c-b9f5-58d6f9ac160e",
                             TwoFactorEnabled = false,
                             UserName = "developer@cosmellrefine.com"
                         });
@@ -1121,25 +1336,6 @@ namespace CoSmellRefine.Migrations
                     b.Navigation("CodeSmellCategory");
                 });
 
-            modelBuilder.Entity("CoSmellRefine.Models.Domain.EducationalProgress", b =>
-                {
-                    b.HasOne("CoSmellRefine.Models.Domain.Module", "CurrentModule")
-                        .WithMany()
-                        .HasForeignKey("CurrentModuleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CurrentModule");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("CoSmellRefine.Models.Domain.Flashcard", b =>
                 {
                     b.HasOne("CoSmellRefine.Models.Domain.Module", "Module")
@@ -1153,6 +1349,11 @@ namespace CoSmellRefine.Migrations
 
             modelBuilder.Entity("CoSmellRefine.Models.Domain.Module", b =>
                 {
+                    b.HasOne("CoSmellRefine.Models.Domain.CodeSmellCategory", "CodeSmellCategory")
+                        .WithMany("Modules")
+                        .HasForeignKey("CodeSmellCategoryId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("CoSmellRefine.Models.Domain.CodeSmell", "CodeSmell")
                         .WithMany()
                         .HasForeignKey("CodeSmellId")
@@ -1160,6 +1361,27 @@ namespace CoSmellRefine.Migrations
                         .IsRequired();
 
                     b.Navigation("CodeSmell");
+
+                    b.Navigation("CodeSmellCategory");
+                });
+
+            modelBuilder.Entity("CoSmellRefine.Models.Domain.ModuleCompletion", b =>
+                {
+                    b.HasOne("CoSmellRefine.Models.Domain.Module", "Module")
+                        .WithMany()
+                        .HasForeignKey("ModuleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Module");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("CoSmellRefine.Models.Domain.ModuleVideo", b =>
@@ -1238,6 +1460,25 @@ namespace CoSmellRefine.Migrations
                         .IsRequired();
 
                     b.Navigation("Module");
+                });
+
+            modelBuilder.Entity("CoSmellRefine.Models.Domain.QuizResults", b =>
+                {
+                    b.HasOne("CoSmellRefine.Models.Domain.Module", "Module")
+                        .WithMany()
+                        .HasForeignKey("ModuleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Module");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("CoSmellRefine.Models.Domain.ReportIssue", b =>
@@ -1424,6 +1665,11 @@ namespace CoSmellRefine.Migrations
                         .HasForeignKey("ResponseListId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("CoSmellRefine.Models.Domain.CodeSmellCategory", b =>
+                {
+                    b.Navigation("Modules");
                 });
 
             modelBuilder.Entity("CoSmellRefine.Models.Domain.Module", b =>

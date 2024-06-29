@@ -1,0 +1,318 @@
+﻿@model CoSmellRefine.Models.ViewModels.DeveloperModuleViewModel
+
+@{
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+    ViewData["Title"] = "CoSmellRefine";
+}
+
+<div class="sidebar-container">
+    <partial name="_DeveloperSidebar" />
+    <section class="user-main dashboard-content p-5">
+        <div class="container">
+            <div class="mt-3 d-flex flex-row justify-content-between align-items-start">
+                <button class="btn dark-btn" id="backButton" onclick="navigate(-1)" style="display:none;"><i class="fas fa-arrow-left"></i> Back</button>
+                <p id="sectionTitle" class="text-start h2">@Model.Title: Video Lesson</p>
+                <button class="btn light-btn" id="nextButton" onclick="navigate(1)">Next <i class="fas fa-arrow-right"></i></button>
+            </div>
+
+            <div class="row interactive-section active mx-auto my-5 p-3" id="section1">
+                <div class="text-center h-100">
+                    <video class="embed-responsive-item h-100" controls>
+                        <source src="@Model.VideoUrls.FirstOrDefault()" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </div>
+
+            <div class="row interactive-section mx-auto my-5 p-5" id="section2">
+                <div class="d-flex flex-column justify-content-between align-items-center h-100">
+                    <div>
+                        <p>@Html.Raw(Model.ReadingContent)</p>
+                    </div>
+                    <button class="btn btn-success w-25" id="backButton" onclick="navigate(-1)">
+                        <i class="fa fa-check" aria-hidden="true"></i>
+                        Mark As Done
+                    </button>
+                </div>
+            </div>
+
+            <div class="row interactive-section mx-auto my-5 p-5" id="section3">
+                <div>
+                    @foreach (var flashcard in Model.Flashcards.Select((f, index) => new { f, index }))
+                    {
+                        <div class="developer-flashcard" style="@(flashcard.index == 0 ? "display: block;" : "display: none;")">
+                            <div class="flashcard-inner">
+                                <div class="flashcard-front d-flex flex-column justify-content-center align-items-center">
+                                    <p>@flashcard.f.Question</p>
+                                    <i class="fas fa-sync-alt flip-icon"></i>
+                                </div>
+                                <div class="flashcard-back">
+                                    @flashcard.f.Answer
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <div class="d-flex justify-content-center align-items-center text-center mt-3">
+                        <button class="btn btn-primary m-1" onclick="navigateFlashcard(-1)"><i class="fas fa-arrow-left"></i></button>
+                        <button class="btn btn-primary m-1" onclick="navigateFlashcard(1)"><i class="fas fa-arrow-right"></i></button>
+                    </div>
+                    <div class="progress mt-2 w-100">
+                        <div class="progress-bar" role="progressbar" style="width: 0%;" id="progressBar"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row interactive-section mx-auto my-5 p-2" id="section4">
+                <div class="h-100">
+                    <div id="surveyContainer" class="w-100 h-100"></div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</div>
+
+@section Scripts {
+    <script src="/js/developer_sidebar.js"></script>
+    <script>
+        let currentSection = 0;
+        const sections = document.querySelectorAll('.interactive-section');
+
+        function navigate(direction) {
+            sections[currentSection].classList.remove('active');
+            currentSection = (currentSection + direction + sections.length) % sections.length;
+            sections[currentSection].classList.add('active');
+
+            switch (currentSection) {
+                case 0:
+                    document.getElementById('sectionTitle').innerText = '@Model.Title: Video Lesson';
+                    document.getElementById('backButton').style.display = 'none';
+                    document.getElementById('nextButton').style.display = 'inline-block';
+                    break;
+                case 1:
+                    document.getElementById('sectionTitle').innerText = '@Model.Title: Reading Material';
+                    document.getElementById('backButton').style.display = 'inline-block';
+                    document.getElementById('nextButton').style.display = 'inline-block';
+                    break;
+                case 2:
+                    document.getElementById('sectionTitle').innerText = '@Model.Title: Flashcards';
+                    document.getElementById('backButton').style.display = 'inline-block';
+                    document.getElementById('nextButton').style.display = 'inline-block';
+                    break;
+                case 3:
+                    document.getElementById('sectionTitle').innerText = '@Model.Title: Quiz';
+                    document.getElementById('nextButton').style.display = 'none';
+                    // Check if the module is completed and show the notification
+                    if (@Model.IsCompleted.ToString().ToLower()) {
+                        Swal.fire({
+                            title: "Quiz Already Completed",
+                            text: "You have already completed this module with a score of @Model.QuizResults.Result%. Do you want to redo it?",
+                            icon: "info",
+                            showCancelButton: true,
+                            confirmButtonText: "Yes, redo it",
+                            cancelButtonText: "No, go back"
+                        }).then((result) => {
+                            if (!result.isConfirmed) {
+                                window.location.href = '@Url.Action("Index", "DeveloperLearn")';
+                            }
+                        });
+                    }
+                    break;
+                default:
+                    document.getElementById('sectionTitle').innerText = '@Model.Title'; // Default title
+                    document.getElementById('backButton').style.display = 'inline-block';  // Default to showing Back button
+                    document.getElementById('nextButton').style.display = 'inline-block';  // Default to show
+                    break;
+            }
+        }
+
+        let currentFlashcard = 0;
+        const flashcards = document.querySelectorAll('.developer-flashcard');
+        const progressBar = document.getElementById('progressBar');
+
+        function navigateFlashcard(direction) {
+            flashcards[currentFlashcard].style.display = 'none';
+            currentFlashcard = (currentFlashcard + direction + flashcards.length) % flashcards.length;
+            flashcards[currentFlashcard].style.display = 'block';
+            updateProgressBar();
+        }
+
+        function updateProgressBar() {
+            const progress = ((currentFlashcard + 1) / flashcards.length) * 100;
+            progressBar.style.width = progress + '%';
+        }
+
+        // Initialize the first flashcard and progress bar
+        flashcards[currentFlashcard].style.display = 'block';
+        updateProgressBar();
+
+        // SurveyJS configuration
+        const surveyJson = {
+            showProgressBar: "top",
+            showTimerPanel: "top",
+            maxTimeToFinish: 120,
+            firstPageIsStarted: true,
+            startSurveyText: "Start Quiz",
+            pages: [
+                {
+                    questions: [
+                        {
+                            type: "html",
+                            html: "<div>You are about to start a quiz on code smells. <br/>The quiz contains @Model.Quizzes.Count questions and you will have 2 minutes to complete it. <br/>Click on <b>'Start Quiz'</b> button when you are ready.</div>"
+                        }
+                    ]
+                },
+                ...@Html.Raw(Json.Serialize(Model.Quizzes.Select(q => new
+            {
+                questions = new[] {
+            new {
+            type = "radiogroup",
+            name = $"q{Model.Quizzes.IndexOf(q) + 1}",
+            title = q.Question,
+            choices = q.Choices.ToArray(),
+            correctAnswer = q.Answer
+            }
+            }
+            }).ToList()))
+            ]
+        };
+
+        const survey = new Survey.Model(surveyJson);
+
+        survey.onComplete.add(function (result) {
+            const correctAnswers = @Html.Raw(Json.Serialize(Model.Quizzes.ToDictionary(q => $"q{Model.Quizzes.IndexOf(q) + 1}", q => q.Answer)));
+
+            let correctCount = 0;
+            let correctQuestions = [];
+            let incorrectQuestions = [];
+
+            for (let key in correctAnswers) {
+                if (result.data[key] === correctAnswers[key]) {
+                    correctCount++;
+                    correctQuestions.push(survey.getQuestionByName(key).title);
+                } else {
+                    incorrectQuestions.push(survey.getQuestionByName(key).title);
+                }
+            }
+
+            const scorePercentage = (correctCount / Object.keys(correctAnswers).length) * 100;
+
+            document.querySelector('#surveyContainer').innerHTML = `
+                            <div class="mt-2 p-2" style="position: relative; width: 200px; height: 200px; margin: auto;" id="progressCircle"></div>
+                            <h4 class="text-center mt-3">Your Score: <b>${scorePercentage.toFixed(2)}%</b></h4>
+
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs mt-4">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="correct-tab" data-toggle="tab" href="#correct" role="tab" aria-controls="correct" aria-selected="true"><i class="fas fa-check-circle"></i> Correct Answers</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="incorrect-tab" data-toggle="tab" href="#incorrect" role="tab" aria-controls="incorrect" aria-selected="false"><i class="fas fa-times-circle"></i> Incorrect Answers</a>
+                                </li>
+                            </ul>
+
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div class="tab-pane fade show active" id="correct" role="tabpanel" aria-labelledby="correct-tab">
+                                    <ul class="list-group mt-2">
+                                        ${correctQuestions.map(q => `<li class="list-group-item">${q}</li>`).join('')}
+                                    </ul>
+                                </div>
+                                <div class="tab-pane fade" id="incorrect" role="tabpanel" aria-labelledby="incorrect-tab">
+                                    <ul class="list-group mt-2">
+                                        ${incorrectQuestions.map(q => `<li class="list-group-item">${q}</li>`).join('')}
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="text-center mt-3">
+                         <button class="btn btn-success" onclick="showCustomNotification(${scorePercentage.toFixed(2)}, '@Model.Id')">Next Module</button>
+                            </div>
+                        `;
+
+            // Initialize the circular progress bar
+            var bar = new ProgressBar.Circle('#progressCircle', {
+                color: '#FFFE86',
+                trailColor: '#BEE8FF',
+                trailWidth: 3,
+                duration: 1400,
+                easing: 'easeInOut',
+                strokeWidth: 5,
+                from: { color: '#FFEA82', width: 1 },
+                to: { color: '#28a745', width: 5 },
+                // Set default step function for all animate calls
+                step: function (state, circle, attachment) {
+                    circle.path.setAttribute('stroke', state.color);
+                    circle.path.setAttribute('stroke-width', state.width);
+
+                    // Update the text to display the current percentage
+                    var value = Math.round(circle.value() * 100);
+                    if (value === 0) {
+                        circle.setText('');
+                    } else {
+                        circle.setText(value + '%');
+                    }
+                },
+                text: {
+                    // Styling for the text
+                    autoStyleContainer: false
+                }
+            });
+
+            bar.text.style.fontFamily = '"Helvetica Neue", Helvetica, Arial, sans-serif';
+            bar.text.style.fontSize = '2rem';
+            bar.text.style.color = '#333';
+
+            bar.animate(scorePercentage / 100); // Number from 0.0 to 1.0
+        });
+        $("#surveyContainer").Survey({
+            model: survey
+        });
+
+        function showCustomNotification(scorePercentage, moduleId) {
+            Swal.fire({
+                title: "Congratulations!",
+                text: "You have successfully completed the module!",
+                width: 600,
+                padding: "3em",
+                color: "#716add",
+                background: "#fff",
+                didOpen: () => {
+                    // Trigger fireworks animation
+                    confetti({
+                        particleCount: 100,
+                        spread: 70,
+                        origin: { y: 0.6 }
+                    });
+                }
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    await sendQuizResults(scorePercentage, moduleId);
+                }
+            });
+        }
+
+        async function sendQuizResults(scorePercentage, moduleId) {
+            try {
+                let response = await fetch('@Url.Action("SubmitQuizResults", "DeveloperLearn")', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ moduleId: moduleId, quizResult: scorePercentage })
+                });
+
+                let data = await response.json();
+
+                if (data.success) {
+                    // Handle the redirection
+                    window.location.href = data.redirectUrl;
+                } else {
+                    console.error('Failed to submit the data');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+    </script>
+}

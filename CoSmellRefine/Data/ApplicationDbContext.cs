@@ -17,7 +17,6 @@ namespace CoSmellRefine.Data
 
         public DbSet<CodeSmell> CodeSmells { get; set; }
         public DbSet<CodeSmellCategory> CodeSmellCategories { get; set; }
-        public DbSet<EducationalProgress> EducationalProgress { get; set; }
         public DbSet<Module> Modules { get; set; }
         public DbSet<ModuleVideo> ModuleVideos { get; set; }
         public DbSet<Notification> Notifications { get; set; }
@@ -31,6 +30,10 @@ namespace CoSmellRefine.Data
         public DbSet<Flashcard> Flashcards { get; set; }
         public DbSet<Quiz> Quiz { get; set; }
         public DbSet<UserProfileImage> UserProfileImages { get; set; }
+
+        public DbSet<ModuleCompletion> ModuleCompletion { get; set; }
+
+        public DbSet<QuizResults> QuizResults { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -47,6 +50,12 @@ namespace CoSmellRefine.Data
                 .HasForeignKey(qr => qr.QuestionId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+
+            builder.Entity<Module>()
+                .HasOne(m => m.CodeSmellCategory)
+                .WithMany(csc => csc.Modules) // Assuming CodeSmellCategory has a collection of Modules
+                .HasForeignKey(m => m.CodeSmellCategoryId)
+                .OnDelete(DeleteBehavior.Restrict); // or .NoAction()
 
             // Seed Roles (User, Admin, Author)
 
@@ -184,11 +193,11 @@ namespace CoSmellRefine.Data
             var couplersCategoryId = Guid.NewGuid();
 
             builder.Entity<CodeSmellCategory>().HasData(
-                new CodeSmellCategory { Id = bloaterCategoryId, Name = "Bloaters", Description = "Bloaters are code, methods, and classes that become excessively large and difficult to manage. These issues typically develop gradually as the program evolves, especially if no effort is made to address them." },
-                new CodeSmellCategory { Id = ooAbusersCategoryId, Name = "Object Orientation Abusers", Description = "All these code smells result from the incomplete or incorrect application of object-oriented programming principles." },
-                new CodeSmellCategory { Id = changePreventersCategoryId, Name = "Change Preventers", Description = "These code smells indicate that changing one part of the code requires multiple changes elsewhere, making program development more complex and costly." },
-                new CodeSmellCategory { Id = dispensablesCategoryId, Name = "Dispensables", Description = "A dispensable is an unnecessary element whose removal would make the code cleaner, more efficient, and easier to understand." },
-                new CodeSmellCategory { Id = couplersCategoryId, Name = "Couplers", Description = "All the smells in this group contribute to excessive coupling between classes or result from replacing coupling with excessive delegation." }
+                new CodeSmellCategory { Id = bloaterCategoryId, Name = "Bloaters", Description = "Bloaters are code, methods, and classes that become excessively large and difficult to manage. These issues typically develop gradually as the program evolves, especially if no effort is made to address them.", ImageUrl= "https://finance-blog-post.s3.amazonaws.com/bloaters.png" },
+                new CodeSmellCategory { Id = ooAbusersCategoryId, Name = "Object Orientation Abusers", Description = "All these code smells result from the incomplete or incorrect application of object-oriented programming principles.", ImageUrl= "https://finance-blog-post.s3.amazonaws.com/object_orientation_abusers.png" },
+                new CodeSmellCategory { Id = changePreventersCategoryId, Name = "Change Preventers", Description = "These code smells indicate that changing one part of the code requires multiple changes elsewhere, making program development more complex and costly.", ImageUrl= "https://finance-blog-post.s3.amazonaws.com/change_preventers.png" },
+                new CodeSmellCategory { Id = dispensablesCategoryId, Name = "Dispensables", Description = "A dispensable is an unnecessary element whose removal would make the code cleaner, more efficient, and easier to understand.", ImageUrl= "https://finance-blog-post.s3.amazonaws.com/dispensables.png" },
+                new CodeSmellCategory { Id = couplersCategoryId, Name = "Couplers", Description = "All the smells in this group contribute to excessive coupling between classes or result from replacing coupling with excessive delegation.", ImageUrl= "https://finance-blog-post.s3.amazonaws.com/couplers.png" }
             );
 
             // Seeding CodeSmell
@@ -220,6 +229,35 @@ namespace CoSmellRefine.Data
                 new CodeSmell { Id = Guid.NewGuid(), Name = "Message Chains", Description = "A Message Chain occurs when you see a series of calls like $a->b()->c()->d() in your code.", CodeSmellCategoryId = couplersCategoryId },
                 new CodeSmell { Id = Guid.NewGuid(), Name = "Middle Man", Description = "It's a class that exists solely to pass messages to another class, without adding any real value itself.", CodeSmellCategoryId = couplersCategoryId }
             );
+
+
+            //seed refactoringtechniques table
+
+            // Seed RefactoringTechnique table
+            builder.Entity<RefactoringTechnique>().HasData(
+                new RefactoringTechnique { Id = Guid.NewGuid(), Name = "Move Method", Description = "Move a method to another class if it clearly belongs there." },
+                new RefactoringTechnique { Id = Guid.NewGuid(), Name = "Extract Method", Description = "Extract part of a method into a separate method and move it to the appropriate class." },
+                new RefactoringTechnique { Id = Guid.NewGuid(), Name = "Encapsulate Field", Description = "Hide public fields from direct access by using getters and setters." },
+                new RefactoringTechnique { Id = Guid.NewGuid(), Name = "Introduce Assertion", Description = "Use assertions to make rules about a necessary state explicit in the code." },
+                new RefactoringTechnique { Id = Guid.NewGuid(), Name = "Extract Class", Description = "Move methods and data into a new class to isolate changes to specific parts of the system." },
+                new RefactoringTechnique { Id = Guid.NewGuid(), Name = "Replace Type Code with Subclass", Description = "Replace type code with subclassing or state/strategy patterns." },
+                new RefactoringTechnique { Id = Guid.NewGuid(), Name = "Replace Conditional with Polymorphism", Description = "Use polymorphism to replace the switch statement." },
+                new RefactoringTechnique { Id = Guid.NewGuid(), Name = "Introduce Null Object", Description = "Use the Null Object pattern to handle default or missing cases in a switch statement." },
+                new RefactoringTechnique { Id = Guid.NewGuid(), Name = "Move Field", Description = "Move parts of one class to the class where they are used, but only if the first class truly doesn't need them." },
+                new RefactoringTechnique { Id = Guid.NewGuid(), Name = "Collapse Hierarchy", Description = "Merge a subclass into its parent class to simplify the hierarchy." },
+                new RefactoringTechnique { Id = Guid.NewGuid(), Name = "Inline Class", Description = "Merge the components of a near-useless class into another class and remove the empty class." },
+                new RefactoringTechnique { Id = Guid.NewGuid(), Name = "Remove Parameter", Description = "Simplify methods by removing unneeded parameters." },
+                new RefactoringTechnique { Id = Guid.NewGuid(), Name = "Form Template Method", Description = "Use the Template Method pattern if the same code is found in two subclasses at the same level but isn't completely identical." },
+                new RefactoringTechnique { Id = Guid.NewGuid(), Name = "Substitute Algorithm", Description = "Choose the best algorithm and replace others with it if two methods do the same thing but use different algorithms." },
+                new RefactoringTechnique { Id = Guid.NewGuid(), Name = "Consolidate Conditional Expression", Description = "Merge multiple conditional expressions performing the same code into a single condition and extract the common code into a new method." },
+                new RefactoringTechnique { Id = Guid.NewGuid(), Name = "Consolidate Duplicate Conditional Fragments", Description = "Move common code outside of the conditional expression if it is performed in all branches." },
+                new RefactoringTechnique { Id = Guid.NewGuid(), Name = "Hide Delegate", Description = "Simplify client code by hiding the message chain, providing a single method that handles the entire chain." },
+                new RefactoringTechnique { Id = Guid.NewGuid(), Name = "Change Bidirectional Association to Unidirectional", Description = "Reduce dependency by changing mutually interdependent classes to unidirectional relationships." },
+                new RefactoringTechnique { Id = Guid.NewGuid(), Name = "Replace Delegation with Inheritance", Description = "Use inheritance to formalize the relationship if the intimacy is between a subclass and its superclass." },
+                new RefactoringTechnique { Id = Guid.NewGuid(), Name = "Introduce Foreign Method", Description = "Add methods externally to a library class to provide the needed functionality without modifying the original class." },
+                new RefactoringTechnique { Id = Guid.NewGuid(), Name = "Introduce Local Extension", Description = "Create a local extension of the library class to extend and modify it to meet your needs while keeping the original library intact." }
+            );
+
 
 
             //seed notification table
@@ -262,6 +300,7 @@ namespace CoSmellRefine.Data
                 Status = QuestionStatus.Closed,
                 Type = QuestionType.CodeSmellIdentification,
                 CodeSnippet = "CodeSnippet1",
+                IsDeleted = false,  
             };
 
             var question2 = new Question
@@ -275,6 +314,7 @@ namespace CoSmellRefine.Data
                 Status = QuestionStatus.Open,
                 Type = QuestionType.RefactoringTechniqueIdentification,
                 CodeSnippet = "CodeSnippet2",
+                IsDeleted = false,
             };
 
             builder.Entity<Question>().HasData(question1, question2);
@@ -286,8 +326,9 @@ namespace CoSmellRefine.Data
                 UserId = developer.Id,
                 QuestionId = question1.Id,
                 Body = "Response to question 1",
+                CodeSnippet = "Console.WriteLine(\"Hello World\");",
                 PostedDate = DateTime.UtcNow,
-                Status = ResponseStatus.Accepted,
+                IsDeleted = false,
             };
 
             var response2 = new QuestionResponse
@@ -296,11 +337,44 @@ namespace CoSmellRefine.Data
                 UserId = developer.Id,
                 QuestionId = question2.Id,
                 Body = "Another response to question 1",
+                CodeSnippet = "Console.WriteLine(\"Hello World\");",
                 PostedDate = DateTime.UtcNow.AddMinutes(-30),
-                Status = ResponseStatus.Pending,
+                IsDeleted = false,
             };
 
             builder.Entity<QuestionResponse>().HasData(response1, response2);
+
+
+
+
+            //seed the vote table
+
+            builder.Entity<Vote>().HasData(
+           new Vote
+           {
+               Id = Guid.NewGuid(),
+               UserId = developer.Id,
+               ResponseId = response1.Id,
+               VoteDate = DateTime.UtcNow,
+               IsUpvote = true
+           },
+           new Vote
+           {
+               Id = Guid.NewGuid(),
+               UserId = developer.Id,
+               ResponseId = response1.Id,
+               VoteDate = DateTime.UtcNow,
+               IsUpvote = false
+           },
+           new Vote
+           {
+               Id = Guid.NewGuid(),
+               UserId = developer.Id,
+               ResponseId = response2.Id,
+               VoteDate = DateTime.UtcNow,
+               IsUpvote = true
+           }
+       );
 
 
             //seed the report issue table

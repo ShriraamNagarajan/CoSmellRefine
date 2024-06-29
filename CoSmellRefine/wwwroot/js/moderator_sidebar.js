@@ -66,8 +66,8 @@
         let menu_logo = document.createElement("img");
         menu_logo.id = "menu-logo";
         menu_logo.src = "../images/logo.svg";
-        menu_logo.style.width = "40px";
-        menu_container.style.paddingLeft = "15px";
+        menu_logo.style.width = "30px";
+        menu_container.style.paddingLeft = "10px";
         menu_container.insertBefore(menu_logo, menu_container.childNodes[0]);
 
 
@@ -101,19 +101,15 @@
 
         let user_name = document.createElement("p");
         user_name.id = "user-name";
-        user_name.innerHTML = "Shriraam Nagarajan";
+        user_name.innerHTML = "Logout";
 
-        let user_role = document.createElement("p");
-        user_role.id = "user-role";
-        user_role.innerHTML = "Admin";
 
         user_container.appendChild(user_name);
-        user_container.appendChild(user_role);
 
         logout_container.insertBefore(user_container, logout_container.childNodes[0]);
 
 
-        logout_container.style.paddingLeft = "15px";
+        logout_container.style.paddingLeft = "10px";
 
         main.style.width = "calc(100% - 250px)";
     };

@@ -1,0 +1,37 @@
+﻿@model IEnumerable<CoSmellRefine.Models.ViewModels.SubmoduleViewModel>
+
+@{
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+    ViewData["Title"] = "CoSmellRefine";
+}
+
+<div class="sidebar-container">
+    <partial name="_DeveloperSidebar" />
+    <section class="user-main dashboard-content p-5">
+        <div class="container mt-5">
+            <p class="mb-4 h2">Submodules</p>
+            <div class="row">
+                @foreach (var module in Model)
+                {
+                    <div class="col-md-3 mt-5">
+                        <div class="card submodule-card h-100 position-relative" onclick="location.href='@Url.Action("InteractiveLearning", "DeveloperLearn", new { id = module.Id })'">
+                            @if (module.IsCompleted)
+                            {
+                                <i class="fas fa-check-circle text-success position-absolute h2" style="top: 10px; right: 10px;"></i> 
+                            }
+                            <div class="card-body text-center d-flex flex-column justify-content-evenly align-items-center">
+                                <h5 class="card-title">@module.Title</h5>
+                                <i class="fas fa-code submodule-icon"></i>
+                                <p class="card-text">@module.Description</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+</div>
+
+@section Scripts {
+    <script src="/js/developer_sidebar.js"></script>
+}

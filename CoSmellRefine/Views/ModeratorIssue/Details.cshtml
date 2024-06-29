@@ -13,7 +13,7 @@
             </div>
         </div>
         <div class="d-flex flex-row justify-content-end me-3">
-            <a class="btn dark-btn" asp-controller="Report" asp-action="ViewReferencedItem" asp-route-id="@Model.Id">
+            <a class="btn dark-btn" asp-controller="ModeratorIssue" asp-action="ViewReferencedItem" asp-route-discussionItemId="@Model.DiscussionItemId" asp-route-discussionType="@Model.DiscussionType">
                 View Referenced Item <i class="fas fa-external-link-alt"></i>
             </a>
         </div>
@@ -42,6 +42,8 @@
                         <input type="date" class="form-control" id="reportDate" asp-for="ReportDate" readonly />
                     </div>
                     <div class="mb-3">
+                        <label class="form-label">Discussion Type</label>
+                        <input type="text" class="form-control" id="discussionType" asp-for="DiscussionType" readonly />
 
                     </div>
                     <div class="mb-3">
@@ -49,19 +51,24 @@
                         <input type="text" class="form-control" id="status" asp-for="Status" readonly />
                     </div>
 
-                    <div class="mt-5 mb-3 d-flex">
-                        <button type="button" class="btn btn-warning me-2" data-bs-toggle="modal" data-bs-target="#warnUserModal">
-                            <i class="fas fa-exclamation-circle"></i> Warn User
-                        </button>
+                    @if (Model.Status.Equals(CoSmellRefine.Utility.ReportIssueStatus.InReview))
+                    {
+                        <div class="mt-5 mb-3 d-flex">
+                            <button type="button" class="btn btn-warning me-2" data-bs-toggle="modal" data-bs-target="#warnUserModal">
+                                <i class="fas fa-exclamation-circle"></i> Warn User
+                            </button>
 
-                        <button type="button" class="btn btn-danger me-2" data-bs-toggle="modal" data-bs-target="#removeContent">
-                            <i class="fas fa-trash-alt"></i> Remove Content
-                        </button>
+                            <button type="button" class="btn btn-danger me-2" data-bs-toggle="modal" data-bs-target="#removeContent">
+                                <i class="fas fa-trash-alt"></i> Remove Content
+                            </button>
 
-                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#noActionNeeded">
-                            <i class="fas fa-check-circle"></i> No Action Needed
-                        </button>
-                    </div>
+                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#noActionNeeded">
+                                <i class="fas fa-check-circle"></i> No Action Needed
+                            </button>
+                        </div>
+                        
+                    }
+      
 
 
                 </form>
@@ -82,6 +89,8 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
+                            <input type="text" class="form-control" asp-for="DiscussionItemId" hidden />
+                            <input type="text" class="form-control" asp-for="DiscussionType" hidden />
                             <div class="mb-3">
                                 <label class="form-label">Id</label>
                                 <input type="text" class="form-control" id="id" asp-for="Id" readonly />
@@ -109,6 +118,8 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
+                            <input type="text" class="form-control" asp-for="DiscussionItemId" hidden />
+                            <input type="text" class="form-control" asp-for="DiscussionType" hidden />
                             <div class="mb-3">
                                 <label class="form-label">Id</label>
                                 <input type="text" class="form-control" id="id" asp-for="Id" readonly />
@@ -136,6 +147,8 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
+                            <input type="text" class="form-control" asp-for="DiscussionItemId" hidden />
+                            <input type="text" class="form-control" asp-for="DiscussionType" hidden />
                             <div class="mb-3">
                                 <label class="form-label">Id</label>
                                 <input type="text" class="form-control" id="id" asp-for="Id" readonly />

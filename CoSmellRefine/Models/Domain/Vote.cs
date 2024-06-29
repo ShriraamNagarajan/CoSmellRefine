@@ -29,7 +29,7 @@ namespace CoSmellRefine.Models.Domain
         public DateTime VoteDate { get; set; }
 
         [Required]  
-        public string VoteType { get; set; }
+        public bool IsUpvote { get; set; }
 
     }
 }

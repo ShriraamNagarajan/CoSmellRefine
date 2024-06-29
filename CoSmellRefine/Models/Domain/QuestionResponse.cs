@@ -29,10 +29,15 @@ namespace CoSmellRefine.Models.Domain
         public string Body { get; set; }
 
         [Required]
-        public DateTime PostedDate { get; set; }
+        public string CodeSnippet { get; set; }
+
 
         [Required]
-        public string Status { get;  set; }
+        public DateTime PostedDate { get; set; }
+
+
+        [Required]
+        public bool IsDeleted { get; set; }
 
         //NavigationProperty
         public ICollection<Vote> Votes { get; set; }

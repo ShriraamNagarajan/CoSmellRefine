@@ -27,6 +27,12 @@ namespace CoSmellRefine.Models.Domain
         [Required]
         public DateTime CommentDate { get; set; }
 
+        [Required]
+        public bool IsDeleted { get; set; }
+
+        [Required]
+        public string Body { get; set; }
+
 
     }
 }

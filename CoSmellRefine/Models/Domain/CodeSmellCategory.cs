@@ -14,5 +14,10 @@ namespace CoSmellRefine.Models.Domain
         [Required]
         public string Description { get; set; }
 
+        public string ImageUrl { get; set; }
+
+        //Navigation Property
+        public ICollection<Module> Modules { get; set; }
+
     }
 }

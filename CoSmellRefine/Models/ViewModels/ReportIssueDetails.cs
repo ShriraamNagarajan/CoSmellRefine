@@ -18,5 +18,6 @@ namespace CoSmellRefine.Models.ViewModels
         public string StatusReason { get; set; }
 
         public string DiscussionType { get; set; }
+
     }
 }

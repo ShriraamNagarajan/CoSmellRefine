@@ -177,7 +177,7 @@
 
             tour.addStep({
                 title: 'Discussion',
-                text: 'This page will allow you to view user discussion including the questions and the respective responses.',
+                text: 'Here you can view user discussion including the questions and the respective responses.',
                 attachTo: {
                     element: '#discussion',
                     on: 'right'
@@ -196,7 +196,7 @@
 
             tour.addStep({
                 title: 'Reported Issue',
-                text: 'This page will allow you to moderate the issues raised by users.',
+                text: 'Here you can manage the issues raised by users.',
                 attachTo: {
                     element: '#issue',
                     on: 'right'
@@ -214,7 +214,7 @@
             });
             tour.addStep({
                 title: 'Notification',
-                text: 'This page will allow you to view and read notifications sent to you.',
+                text: 'Here you can view and read notifications.',
                 attachTo: {
                     element: '#notification-container',
                     on: 'bottom'
@@ -230,7 +230,9 @@
                     }
                 ]
             });
-            tour.start();
+            setTimeout(function () {
+                tour.start();
+            }, 2500);
         });
 
 

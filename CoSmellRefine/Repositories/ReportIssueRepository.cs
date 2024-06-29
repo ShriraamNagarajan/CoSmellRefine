@@ -73,5 +73,12 @@ namespace CoSmellRefine.Repositories
                 await dbContext.SaveChangesAsync();
                 return issue;
         }
+
+        public ReportIssue Add(ReportIssue issue)
+        {
+            dbContext.Add(issue);
+            dbContext.SaveChanges();
+            return issue;
+        }
     }
 }

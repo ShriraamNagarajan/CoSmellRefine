@@ -1,0 +1,299 @@
+﻿@{
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+    ViewData["Title"] = "CoSmellRefine";
+}
+
+
+<div class="sidebar-container">
+    <partial name="_DeveloperSidebar" />
+
+    <section class="user-main dashboard-content p-5">
+        <p class="h1 mb-4">Welcome back, Developer!!!</p>
+        <div class="row mt-5">
+            <div class="col-6 mt-5 h-100">
+                <p class="h3">Recently Posted Questions</p>
+                <div class="row h-100 p-2 bg-transparent">
+                    <div class="col-12 mt-2 dashboard-content-container">
+                        <div class="row h-100">
+                            <div class="col-9 d-flex flex-column justify-content-center align-items-start">
+                                <p class="mb-0 mt-1">Identifying Code Smells in My Singleton Class Implementation</p>
+                                <p>2 min</p>
+                            </div>
+                            <div class="col-3 d-flex flex-column justify-content-center align-items-start">
+                                <a class="btn light-btn" asp-controller="DeveloperQuestion" asp-action="Details">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 mt-2 dashboard-content-container">
+                        <div class="row h-100">
+                            <div class="col-9 d-flex flex-column justify-content-center align-items-start">
+                                <p class="mb-0 mt-1">Identifying Code Smells in My Singleton Class Implementation</p>
+                                <p>2 min</p>
+                            </div>
+                            <div class="col-3 d-flex flex-column justify-content-center align-items-start">
+                                <a class="btn light-btn" asp-controller="DeveloperQuestion" asp-action="Details">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 mt-2 dashboard-content-container">
+                        <div class="row h-100">
+                            <div class="col-9 d-flex flex-column justify-content-center align-items-start">
+                                <p class="mb-0 mt-1">Identifying Code Smells in My Singleton Class Implementation</p>
+                                <p>2 min</p>
+                            </div>
+                            <div class="col-3 d-flex flex-column justify-content-center align-items-start">
+                                <a class="btn light-btn" asp-controller="DeveloperQuestion" asp-action="Details">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="col-3 offset-1 mt-1 h-100">
+                <p class="h3">Recent Notification</p>
+                <div class="row dashboard-content-container h-100 p-2">
+                    <div class="col-12">
+                        <div class="row h-100">
+                            <div class="col-3 d-flex justify-content-center align-items-center">
+                                <img src="/images/notification.svg" alt="Notification">
+                            </div>
+                            <div class="col-9 d-flex flex-column justify-content-center align-items-start">
+                                <p class="notification-header">User Guideline Violation</p>
+                                <p class="notification-description">2 min</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="row h-100">
+                            <div class="col-3 d-flex justify-content-center align-items-center">
+                                <img src="/images/notification.svg" alt="Notification">
+                            </div>
+                            <div class="col-9 d-flex flex-column justify-content-center align-items-start">
+                                <p class="notification-header">User Guideline Violation</p>
+                                <p class="notification-description">2 min</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="row h-100">
+                            <div class="col-3 d-flex justify-content-center align-items-center">
+                                <img src="/images/notification.svg" alt="Notification">
+                            </div>
+                            <div class="col-9 d-flex flex-column justify-content-center align-items-start">
+                                <p class="notification-header">User Guideline Violation</p>
+                                <p class="notification-description">2 min</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="row h-100">
+                            <div class="col-3 d-flex justify-content-center align-items-center">
+                                <img src="/images/notification.svg" alt="Notification">
+
+                            </div>
+                            <div class="col-9 d-flex flex-column justify-content-center align-items-start">
+                                <p class="notification-header">User Guideline Violation</p>
+                                <p class="notification-description">2 min</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="row h-100">
+                            <div class="col-3 d-flex justify-content-center align-items-center">
+                                <img src="/images/notification.svg" alt="Notification">
+
+                            </div>
+                            <div class="col-9 d-flex flex-column justify-content-center align-items-start">
+                                <p class="notification-header">User Guideline Violation</p>
+                                <p class="notification-description">2 min</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row mt-5">
+            <div class="col-5">
+                <p class="h3">QnA Summary</p>
+                <canvas id="qnaChart" class="dashboard-content-container p-2"></canvas>
+            </div>
+            <div class="col-5 offset-1">
+                <p class="h3">Learn Stats</p>
+                <canvas id="learnChart" class="dashboard-content-container p-2"></canvas>
+            </div>
+        </div>
+
+
+    </section>
+</div>
+
+@section Scripts {
+    <script src="/js/developer_sidebar.js"></script>
+    <script>
+
+        //User Guided Intro Tour
+        $(document).ready(function () {
+            const tour = new Shepherd.Tour({
+                defaultStepOptions: {
+                    cancelIcon: {
+                        enabled: true
+                    },
+                    classes: 'shepherd-theme-arrows',
+                    scrollTo: { behavior: 'smooth', block: 'center' }
+                }
+            });
+
+            tour.addStep({
+                title: 'Welcome to the Tour!',
+                text: 'This is a guided tour of the features on this page.',
+                buttons: [
+                    {
+                        text: 'Start',
+                        action: tour.next
+                    }
+                ]
+            });
+
+            tour.addStep({
+                title: 'Dashboard',
+                text: 'The dashboard provides a summary for the day.',
+                attachTo: {
+                    element: '#dashboard',
+                    on: 'right'
+                },
+                buttons: [
+                    {
+                        text: 'Back',
+                        action: tour.back
+                    },
+                    {
+                        text: 'Next',
+                        action: tour.next
+                    }
+                ]
+            });
+
+            tour.addStep({
+                title: 'QnA',
+                text: 'Here you can post and discuss questions related to code smells and refactoring techniques',
+                attachTo: {
+                    element: '#question',
+                    on: 'right'
+                },
+                buttons: [
+                    {
+                        text: 'Back',
+                        action: tour.back
+                    },
+                    {
+                        text: 'Next',
+                        action: tour.next
+                    }
+                ]
+            });
+
+            tour.addStep({
+                title: 'Learn',
+                text: 'Here you can learn about code smells and refactoring techniques in a fun and interactive way.',
+                attachTo: {
+                    element: '#learn',
+                    on: 'right'
+                },
+                buttons: [
+                    {
+                        text: 'Back',
+                        action: tour.back
+                    },
+                    {
+                        text: 'Next',
+                        action: tour.next
+                    }
+                ]
+            });
+            tour.addStep({
+                title: 'Notification',
+                text: 'Here you can view and read notifications.',
+                attachTo: {
+                    element: '#notification-container',
+                    on: 'bottom'
+                },
+                buttons: [
+                    {
+                        text: 'Back',
+                        action: tour.back
+                    },
+                    {
+                        text: 'Finish',
+                        action: tour.complete
+                    }
+                ]
+            });
+            setTimeout(function () {
+                tour.start();
+            }, 2500);
+        });
+
+
+        // Data for the charts
+        // QnA Summary (Grouped Bar Chart)
+        const qnaData = {
+            labels: ['January', 'February', 'March', 'April'],
+            datasets: [
+                {
+                    label: 'Asked',
+                    data: [30, 40, 50, 60],
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Answered',
+                    data: [20, 30, 40, 50],
+                    backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                    borderColor: 'rgba(153, 102, 255, 1)',
+                    borderWidth: 1
+                }
+            ]
+        };
+
+        // Learn Stats (Line Chart)
+        const learnData = {
+            labels: ['January', 'February', 'March', 'April'],
+            datasets: [{
+                label: 'Learning Progress',
+                data: [10, 20, 30, 40],
+                fill: false,
+                borderColor: 'rgb(54, 162, 235)',
+                tension: 0.1
+            }]
+        };
+
+        // Configurations for the charts
+        const qnaConfig = new Chart(document.getElementById('qnaChart'), {
+            type: 'bar',
+            data: qnaData,
+            options: {
+                scales: {
+                    x: {
+                        stacked: false
+                    },
+                    y: {
+                        stacked: false
+                    }
+                }
+            }
+        });
+
+        const learnConfig = new Chart(document.getElementById('learnChart'), {
+            type: 'line',
+            data: learnData,
+            options: {}
+        });
+
+
+    </script>
+
+}

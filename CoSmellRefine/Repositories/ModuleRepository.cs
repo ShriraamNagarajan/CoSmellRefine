@@ -38,6 +38,7 @@ namespace CoSmellRefine.Repositories
         {
             var query = dbContext.Modules
                                  .Include(x => x.CodeSmell)
+                                 .Include(x => x.CodeSmellCategory)
                                  .Include(x => x.Videos)
                                  .Include(x => x.Flashcards)
                                  .Include(x => x.Quizzes)
@@ -92,6 +93,8 @@ namespace CoSmellRefine.Repositories
                             .Include(x => x.Videos)
                             .Include(x => x.Flashcards)
                             .Include(x => x.Quizzes)
+                            .Include(x => x.CodeSmell)
+                            .Include(x => x.CodeSmellCategory)
                             .FirstOrDefault(x => x.Id == id);
         }
 
@@ -112,6 +115,7 @@ namespace CoSmellRefine.Repositories
                 existingModule.Title = module.Title;
                 existingModule.Description = module.Description;
                 existingModule.ReadingContent = module.ReadingContent;
+                existingModule.LastModifiedDate = module.LastModifiedDate;
                 existingModule.Videos = module.Videos;
                 existingModule.Flashcards = module.Flashcards;
                 existingModule.Quizzes = module.Quizzes;

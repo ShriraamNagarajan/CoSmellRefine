@@ -9,5 +9,7 @@ namespace CoSmellRefine.Repositories
         Task<CodeSmell?> GetAsync(Guid id);
 
         Task<int> CountAsync();
+
+        IEnumerable<CodeSmell> GetByIds(IEnumerable<Guid> ids);
     }
 }

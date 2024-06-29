@@ -34,7 +34,13 @@ builder.Services.AddScoped<IModuleVideoRepository, ModuleVideoRepository>();
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<IUserProfileImageRepository, UserProfileImageRepository>();
 builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
-builder.Services.AddScoped<IReportIssueRepository, ReportIssueRepository>();    
+builder.Services.AddScoped<IReportIssueRepository, ReportIssueRepository>();
+builder.Services.AddScoped<IQuestionResponseRepository, QuestionResponseRepository>();
+builder.Services.AddScoped<IResponseCommentRepository, ResponseCommentRepository>();
+builder.Services.AddScoped<IQuizResultsRepository, QuizResultsRepository>();    
+builder.Services.AddScoped<IModuleCompletionRepository, ModuleCompletionRepository>();
+builder.Services.AddScoped<IRefactoringTechniqueRepository, RefactoringTechniqueRepository>();
+builder.Services.AddScoped<IVoteRepository, VoteRepository>();
 
 var app = builder.Build();
 

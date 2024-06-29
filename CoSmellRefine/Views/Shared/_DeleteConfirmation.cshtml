@@ -1,7 +1,21 @@
 ﻿<script>
+    async function performDelete(url) {
+        try {
+            let response = await fetch(url, {
+                method: 'DELETE',
+            });
+
+            if (response.ok) {
+                window.location.reload();
+            } else {
+                console.error('Failed to delete resource:', response.status);
+            }
+        } catch (error) {
+            console.error('Error occurred while deleting resource:', error);
+        }
+    }
 
     function Delete(url) {
-        console.log(url);
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -12,16 +26,10 @@
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                $.ajax({
-                    url: url,
-                    type: 'DELETE',
-                    success: function (data) {
-                        window.location.reload();
-
-                    }
-                })
+                performDelete(url);
             }
         });
     }
+
 
 </script>

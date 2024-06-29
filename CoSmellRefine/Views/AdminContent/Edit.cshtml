@@ -18,7 +18,8 @@
                         <div class="form-step active" id="step-1">
                             <div class="navigation-buttons">
                                 <div></div>
-                                <button type="button" class="btn btn-primary" onclick="nextStep(2)">
+                                <p class="h2"> Basic Details </p>
+                                <button type="button" class="btn light-btn" onclick="nextStep(2)">
                                     Reading Material <i class="fas fa-arrow-right"></i>
                                 </button>
                             </div>
@@ -43,10 +44,11 @@
                         <!-- Step 2: Reading Content -->
                         <div class="form-step" id="step-2">
                             <div class="navigation-buttons">
-                                <button type="button" class="btn btn-secondary" onclick="prevStep(1)">
+                                <button type="button" class="btn dark-btn" onclick="prevStep(1)">
                                     <i class="fas fa-arrow-left"></i> Basic Details
                                 </button>
-                                <button type="button" class="btn btn-primary" onclick="nextStep(3)">
+                                <p class="h2"> Reading Material </p>
+                                <button type="button" class="btn light-btn" onclick="nextStep(3)">
                                     Video Upload <i class="fas fa-arrow-right"></i>
                                 </button>
                             </div>
@@ -59,10 +61,11 @@
                         <!-- Step 3: Video Upload -->
                         <div class="form-step" id="step-3">
                             <div class="navigation-buttons">
-                                <button type="button" class="btn btn-secondary" onclick="prevStep(2)">
+                                <button type="button" class="btn dark-btn" onclick="prevStep(2)">
                                     <i class="fas fa-arrow-left"></i> Reading Material
                                 </button>
-                                <button type="button" class="btn btn-primary" onclick="nextStep(4)">
+                                <p class="h2"> Video Upload </p>
+                                <button type="button" class="btn light-btn" onclick="nextStep(4)">
                                     Flashcards <i class="fas fa-arrow-right"></i>
                                 </button>
                             </div>
@@ -72,7 +75,7 @@
                                     <input type="file" id="videoUpload" class="form-control"/>
                                      @if (Model.VideoUrls.Count() > 0)
                                     {
-                                        <video controls width="250" id="videoElement" class="mt-2">
+                                        <video controls id="videoElement" class="mt-2 w-50">
                                             <source src="@Model.VideoUrls.FirstOrDefault()" type="video/mp4" id="videoDisplay">
                                             Your browser does not support the video tag.
                                         </video>
@@ -101,10 +104,11 @@
                         <!-- Step 4: Flashcards -->
                         <div class="form-step" id="step-4">
                             <div class="navigation-buttons">
-                                <button type="button" class="btn btn-secondary" onclick="prevStep(3)">
+                                <button type="button" class="btn dark-btn" onclick="prevStep(3)">
                                     <i class="fas fa-arrow-left"></i> Video Upload
                                 </button>
-                                <button type="button" class="btn btn-primary" onclick="nextStep(5)">
+                                <p class="h2"> Flashcards </p>
+                                <button type="button" class="btn light-btn" onclick="nextStep(5)">
                                     Quiz <i class="fas fa-arrow-right"></i>
                                 </button>
                             </div>
@@ -128,9 +132,10 @@
                         <!-- Step 5: Quiz -->
                         <div class="form-step" id="step-5">
                             <div class="navigation-buttons">
-                                <button type="button" class="btn btn-secondary" onclick="prevStep(4)">
+                                <button type="button" class="btn dark-btn" onclick="prevStep(4)">
                                     <i class="fas fa-arrow-left"></i> Flashcards
                                 </button>
+                                <p class="h2"> Quiz </p>
                                 <button type="submit" class="btn btn-success">Update</button>
                             </div>
                             <div id="quiz">

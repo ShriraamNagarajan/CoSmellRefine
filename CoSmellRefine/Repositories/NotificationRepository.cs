@@ -1,5 +1,6 @@
 ﻿using CoSmellRefine.Data;
 using CoSmellRefine.Models.Domain;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace CoSmellRefine.Repositories
@@ -47,6 +48,13 @@ namespace CoSmellRefine.Repositories
         {
             dbContext.Notifications.Update(notification);
             dbContext.SaveChanges();
+        }
+
+        public Notification Add(Notification notification)
+        {
+            dbContext.Add(notification);
+            dbContext.SaveChanges();
+            return notification;
         }
     }
 }

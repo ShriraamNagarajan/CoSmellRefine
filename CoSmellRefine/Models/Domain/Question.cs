@@ -39,6 +39,9 @@ namespace CoSmellRefine.Models.Domain
         [Required]  
         public string CodeSnippet { get; set; }
 
+        [Required]
+        public bool IsDeleted { get; set; }
+
         //Navigation Property
         public ICollection<QuestionImage> Images { get; set; }
         public ICollection<CodeSmell> CodeSmellList { get; set; }

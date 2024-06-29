@@ -18,6 +18,14 @@ namespace CoSmellRefine.Models.Domain
         [ValidateNever]
         public CodeSmell CodeSmell { get; set; }
 
+      
+        public Guid? CodeSmellCategoryId { get; set; }
+
+        [ForeignKey("CodeSmellCategoryId")]
+        [ValidateNever]
+        public CodeSmellCategory CodeSmellCategory { get; set; }
+
+
         [Required]
         public string Title { get; set; }
 
@@ -26,6 +34,9 @@ namespace CoSmellRefine.Models.Domain
 
         [Required]
         public string ReadingContent { get; set; }
+
+        [Required]
+        public DateTime LastModifiedDate { get; set; }
 
 
         //Navigation Property

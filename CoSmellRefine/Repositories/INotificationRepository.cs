@@ -15,5 +15,8 @@ namespace CoSmellRefine.Repositories
         Task<int> CountUnreadAsync(string userId);
 
         void Update(Notification notification);
+
+        Notification Add(Notification flashcard);
+
     }
 }
