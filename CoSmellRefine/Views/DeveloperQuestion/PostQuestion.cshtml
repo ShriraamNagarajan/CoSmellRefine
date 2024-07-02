@@ -7,6 +7,9 @@
     <partial name="_DeveloperSidebar" />
     <section class="user-main dashboard-content p-5">
         <div class="container mt-5 h-100">
+            <a asp-controller="DeveloperQuestion" asp-action="List" class="btn dark-btn mb-5">
+                <i class="fas fa-arrow-left"></i> Back
+            </a>
             <div class="progress question-progress mb-2" id="question-progressBar">
                 <div class="progress-bar" id="question-progress" role="progressbar" style="width: 0%">0%</div>
             </div>
@@ -22,7 +25,7 @@
                     <!-- Basic Details Section -->
                     <div id="basicDetails" class="question-form-section h-100">
                         <div class="d-flex justify-content-between mb-4">
-                            <button type="button" class="btn dark-btn" onclick="showPreviousSection('greetingSection', 0)"> <i class="fas fa-arrow-left"></i> Back</button>
+                            <button type="button" class="btn light-btn" onclick="showPreviousSection('greetingSection', 0)"> <i class="fas fa-arrow-left"></i> Back</button>
                             <button type="button" class="btn light-btn" onclick="showNextSection('codeSnippet', 40)">Continue <i class="fas fa-arrow-right"></i></button>
                         </div>
                         <p class="h2">Enter Your Question Details</p>
@@ -42,7 +45,7 @@
                     <!-- Code Snippet Section -->
                     <div id="codeSnippet" class="question-form-section">
                         <div class="d-flex justify-content-between mb-4">
-                            <button type="button" class="btn dark-btn" onclick="showPreviousSection('basicDetails', 20)"> <i class="fas fa-arrow-left"></i> Back</button>
+                            <button type="button" class="btn light-btn" onclick="showPreviousSection('basicDetails', 20)"> <i class="fas fa-arrow-left"></i> Back</button>
                             <button type="button" class="btn light-btn" onclick="showNextSection('uploadImages', 60)">Continue <i class="fas fa-arrow-right"></i></button>
                         </div>
                         <p class="h2">Paste Your Code Snippet</p>
@@ -54,7 +57,7 @@
                     <!-- Upload Images Section -->
                     <div id="uploadImages" class="question-form-section">
                         <div class="d-flex justify-content-between mb-4">
-                            <button type="button" class="btn dark-btn" onclick="showPreviousSection('codeSnippet', 40)"><i class="fas fa-arrow-left"></i> Back</button>
+                            <button type="button" class="btn light-btn" onclick="showPreviousSection('codeSnippet', 40)"><i class="fas fa-arrow-left"></i> Back</button>
                             <button type="button" class="btn light-btn" onclick="showNextSection('selection', 80)">Continue <i class="fas fa-arrow-right"></i></button>
                         </div>
                         <p class="h2">Upload Supporting Images</p>
@@ -94,7 +97,7 @@
                     <!-- Additional Details Section -->
                     <div id="additionalDetails" class="question-form-section">
                         <div class="d-flex justify-content-between mb-4">
-                            <button type="button" class="btn dark-btn" onclick="showPreviousSection('selection', 80)"> <i class="fas fa-arrow-left"></i> Back</button>
+                            <button type="button" class="btn light-btn" onclick="showPreviousSection('selection', 80)"> <i class="fas fa-arrow-left"></i> Back</button>
                             <button type="button" class="btn light-btn" onclick="showNextSection('final', 100)">Continue <i class="fas fa-arrow-right"></i></button>
                         </div>
                         <p class="h2">Provide Additional Details</p>

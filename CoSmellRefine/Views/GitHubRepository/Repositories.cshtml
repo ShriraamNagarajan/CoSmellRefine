@@ -1,0 +1,28 @@
+﻿odel List<CoSmellRefine.Models.ViewModels.Repository>
+@{
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+    ViewData["Title"] = "CoSmellRefine";
+}
+
+<div class="sidebar-container">
+    <partial name="_DeveloperSidebar" />
+    <section class="user-main dashboard-content p-5">
+        <div class="container mt-5">
+            <p class="h2">Your Repositories</p>
+            <div class="card">
+                <ul class="list-group list-group-flush">
+                        @foreach (var repo in Model)
+                        {
+                            <li class="list-group-item">
+                                <a asp-action="RepositoryContent" asp-route-owner="@repo.full_name.Split('/')[0]" asp-route-repo="@repo.name">@repo.name</a>
+                            </li>
+                        }
+                </ul>
+            </div>
+        </div>
+    </section>
+</div>
+
+@section Scripts {
+    <script src="/js/developer_sidebar.js"></script>
+}

@@ -9,6 +9,9 @@
     <partial name="_DeveloperSidebar" />
     <section class="user-main dashboard-content p-5">
         <div class="container mt-5">
+            <a asp-controller="DeveloperLearn" asp-action="Modules" class="btn dark-btn mb-5">
+                <i class="fas fa-arrow-left"></i> Back
+            </a>
             <p class="mb-4 h2">Submodules</p>
             <div class="row">
                 @foreach (var module in Model)

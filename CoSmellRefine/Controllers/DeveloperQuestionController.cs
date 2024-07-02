@@ -6,8 +6,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 
 namespace CoSmellRefine.Controllers
 {
@@ -21,18 +23,19 @@ namespace CoSmellRefine.Controllers
         private readonly IReportIssueRepository reportIssueRepository;
         private readonly IRefactoringTechniqueRepository refactoringTechniqueRepository;
         private readonly IVoteRepository voteRepository;
+        private readonly IHttpClientFactory _clientFactory;
 
-        public DeveloperQuestionController(ICodeSmellRepository codeSmellRepository, IQuestionRepository questionRepository, UserManager<IdentityUser> userManager, IQuestionResponseRepository questionResponseRepository, IResponseCommentRepository responseCommentRepository, IReportIssueRepository reportIssueRepository, IRefactoringTechniqueRepository refactoringTechniqueRepository, IVoteRepository voteRepository)
+        public DeveloperQuestionController(ICodeSmellRepository codeSmellRepository, IQuestionRepository questionRepository, UserManager<IdentityUser> userManager, IQuestionResponseRepository questionResponseRepository, IResponseCommentRepository responseCommentRepository, IReportIssueRepository reportIssueRepository, IRefactoringTechniqueRepository refactoringTechniqueRepository, IVoteRepository voteRepository, IHttpClientFactory clientFactory)
         {
             this.codeSmellRepository = codeSmellRepository;
             this.questionRepository = questionRepository;
             this.userManager = userManager;
-            this.questionResponseRepository = questionResponseRepository;   
+            this.questionResponseRepository = questionResponseRepository;
             this.responseCommentRepository = responseCommentRepository;
             this.reportIssueRepository = reportIssueRepository;
-            this.refactoringTechniqueRepository = refactoringTechniqueRepository;   
+            this.refactoringTechniqueRepository = refactoringTechniqueRepository;
             this.voteRepository = voteRepository;
-
+            _clientFactory = clientFactory;
         }
         public async Task<IActionResult> List(string? sortBy,
                                      string? questionType,
@@ -162,6 +165,41 @@ namespace CoSmellRefine.Controllers
              
             }).ToList();
 
+            //create issue model
+            CreateIssueViewModel createIssueModel = null;
+            var claims = await userManager.GetClaimsAsync(user);
+            var accessToken = claims.FirstOrDefault(c => c.Type == "access_token")?.Value;
+
+            if (accessToken != null)
+            {
+                var client = _clientFactory.CreateClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("CoSmellRefine", "1.0"));
+
+                var response = await client.GetStringAsync("https://api.github.com/user/repos");
+                var repositories = JsonSerializer.Deserialize<List<Repository>>(response);
+
+                if (repositories != null && repositories.Count > 0)
+                {
+                    var firstRepoFullName = repositories.First().full_name;
+                    var owner = firstRepoFullName.Split('/')[0];
+
+                    var repoSelectList = repositories.Select(repo => new SelectListItem
+                    {
+                        Value = repo.full_name,
+                        Text = repo.name
+                    }).ToList();
+
+                    createIssueModel = new CreateIssueViewModel
+                    {
+                        Repo = repositories.First().full_name,
+                        Owner = owner,
+                        Repositories = repoSelectList
+                    };
+                }
+            }
+
+
             var viewModel = new QuestionDetailViewModel
             {
                 Question = question,
@@ -181,7 +219,8 @@ namespace CoSmellRefine.Controllers
                         Value = rt.Id.ToString(),
                         Text = rt.Name
                     }).ToList()
-                }
+                },
+                CreateIssue = createIssueModel ?? new CreateIssueViewModel()
             };
 
             return View(viewModel);
@@ -347,6 +386,43 @@ namespace CoSmellRefine.Controllers
 
             return annotatedSnippet.ToString();
         }
+
+
+        [HttpPost]
+        public async Task<IActionResult> CreateIssue([FromBody] CreateIssueViewModel issueModel)
+        {
+            var user = await userManager.GetUserAsync(User);
+            var claims = await userManager.GetClaimsAsync(user);
+            var accessToken = claims.FirstOrDefault(c => c.Type == "access_token")?.Value;
+
+            if (accessToken == null)
+            {
+                return Unauthorized();
+            }
+
+            var client = _clientFactory.CreateClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("CoSmellRefine", "1.0"));
+
+            var issue = new
+            {
+                title = issueModel.Title,
+                body = issueModel.Body
+            };
+
+            var url = $"https://api.github.com/repos/{issueModel.Repo}/issues";
+            var response = await client.PostAsJsonAsync(url, issue);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                return StatusCode((int)response.StatusCode, errorContent);
+            }
+
+            return Ok();
+        }
+
+
 
 
 

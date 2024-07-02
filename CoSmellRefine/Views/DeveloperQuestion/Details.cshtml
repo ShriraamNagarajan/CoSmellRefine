@@ -27,6 +27,9 @@
     }
     <section class="user-main dashboard-content p-5">
         <div class="container">
+            <a asp-controller="DeveloperQuestion" asp-action="List" class="btn dark-btn mb-5">
+                <i class="fas fa-arrow-left"></i> Back
+            </a>
             <div class="row justify-content-center mb-5">
                 <div class="col-md-12">
                     <div class="card mt-3 rounded" style="background-color: #fff !important;">
@@ -113,6 +116,7 @@
                         <div class="card-footer action-buttons d-flex flex-row justify-content-between mt-2" style="border:none; background:#fff !important;">
                             @if (!Model.Question.IsDeleted)
                             {
+
                                 @if (Model.Question.User.Id == userId)
                                 {
                                     <button id="getFinalAnswerButton" data-question-id="@Model.Question.Id" class="btn light-btn">Get Final Answer</button>
@@ -122,7 +126,7 @@
                                     @if (Model.Question.Status.Equals(CoSmellRefine.Utility.QuestionStatus.Open))
                                     {
                                         <button class="btn light-btn" data-bs-toggle="modal" data-bs-target="#answerModal">Post your answer</button>
-                                        
+
                                     }
 
                                 }
@@ -382,7 +386,6 @@
                 </div>
             </div>
         }
-
         <!-- Get Final Answer Modal -->
         <div class="modal fade" id="annotatedCodeSnippetModal" tabindex="-1" aria-labelledby="annotatedCodeSnippetModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -392,17 +395,44 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div id ="answerEditor" class="editor question-editor w-100">
-
+                        <div id="answerEditor" class="editor question-editor w-100"></div>
+                        <div class="d-flex justify-content-center align-items-center">
+                            <button type="button" class="btn light-btn mt-3" id="showCreateIssueFields">
+                                Create Issue
+                            </button>
                         </div>
-                        <!-- Annotated code snippet will be inserted here -->
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <!-- Create Issue Form Fields -->
+                        <form id="createIssueForm" class="mt-4" style="display: none;">
+                            <div class="mb-3">
+                                <label for="issueTitle" class="form-label">Title</label>
+                                <input type="text" class="form-control" id="issueTitle" name="Title" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="repoSelect" class="form-label">Repository</label>
+                                <select class="form-select" id="repoSelect" name="Repo" required>
+                                    <!-- Repositories will be populated here -->
+                                    @if (Model.CreateIssue.Repositories!=null)
+                                    {
+                                        @foreach (var repo in Model.CreateIssue.Repositories)
+                                        {
+                                            <option value="@repo.Value">@repo.Text</option>
+                                        }
+                                        
+                                    }
+                            
+                                </select>
+                            </div>
+                            <input type="hidden" id="issueBody" name="Body" value="">
+                            <input type="hidden" id="issueOwner" name="Owner" value="@Model.CreateIssue.Owner">
+                            <div class="modal-footer d-flex justify-content-center align-items-center">
+                                <button type="submit" class="btn dark-btn">Create</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
+
 
         
     </section>
@@ -618,6 +648,65 @@
                             window.location.href = '@Url.Action("CloseQuestion", "DeveloperQuestion")' + '?id=' + questionId;
                         }
                     });
+                });
+            });
+
+            // Show the Create Issue form fields when the button is clicked
+            document.getElementById('showCreateIssueFields').addEventListener('click', function () {
+                document.getElementById('createIssueForm').style.display = 'block';
+                this.style.display = 'none'; // Hide the "Create Issue" button
+            });
+
+            // Handle form submission
+            document.getElementById('createIssueForm').addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                // Get the form data
+                var title = document.getElementById('issueTitle').value;
+                var repo = document.getElementById('repoSelect').value;
+                var owner = document.getElementById('issueOwner').value;
+               
+
+                // Get the content from the editor
+                var body = answerEditor.getValue();
+
+                // Prepare the issue data
+                var issueData = {
+                    Title: title,
+                    Body: body,
+                    Repo: repo,
+                    Owner: owner
+                };
+
+                // Submit the issue via AJAX
+                fetch('/DeveloperQuestion/CreateIssue', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(issueData)
+                }).then(response => {
+                    if (response.ok) {
+                        // Handle success (e.g., close modal, show success message)
+                        $('#annotatedCodeSnippetModal').modal('hide');
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'Issue created successfully!',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        });
+                    } else {
+                        // Handle error
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'Failed to create issue.',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                }).catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred.');
                 });
             });
         });

@@ -13,6 +13,7 @@
     const dashboard = document.querySelector("#dashboard");
     const question = document.querySelector("#question");
     const learn = document.querySelector("#learn");
+    const repository = document.querySelector("#repository");
 
 
     let previousToggled = null;
@@ -29,6 +30,10 @@
 
     learn.addEventListener("click", (e) => {
         toggleMenu(learn);
+    });
+
+    repository.addEventListener("click", (e) => {
+        toggleMenu(repository);
     });
 
 
@@ -93,6 +98,14 @@
         learn.appendChild(p_learn);
 
 
+        let p_repository = document.createElement("p");
+        p_repository.id = "p-repository";
+        p_repository.innerHTML = "Repository";
+        repository.style.width = "220px";
+        repository.style.justifyContent = "left";
+        repository.appendChild(p_repository);
+
+
 
         icon_logout.style.width = "25%";
 
@@ -130,6 +143,10 @@
         learn.removeChild(document.getElementById("p-learn"));
         learn.style.width = "50px";
         learn.style.justifyContent = "center";
+
+        repository.removeChild(document.getElementById("p-repository"));
+        repository.style.width = "50px";
+        repository.style.justifyContent = "center";
 
         logout_container.removeChild(document.getElementById("user-container"));
         logout_container.style.paddingLeft = "0px";

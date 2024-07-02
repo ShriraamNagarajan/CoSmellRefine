@@ -15,5 +15,7 @@ namespace CoSmellRefine.Models.ViewModels
 
         public AddResponseViewModel AddResponse;
 
+        public CreateIssueViewModel CreateIssue;
+
     }
 }

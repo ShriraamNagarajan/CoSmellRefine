@@ -1,0 +1,39 @@
+﻿@model List<CoSmellRefine.Models.ViewModels.RepositoryContent>
+@{
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+    ViewData["Title"] = "CoSmellRefine";
+}
+
+<div class="sidebar-container">
+    <partial name="_DeveloperSidebar" />
+    <section class="user-main dashboard-content p-5">
+        <div class="container mt-5">
+            <a asp-controller="GitHubRepository" asp-action="Repositories" class="btn dark-btn mb-5">
+                <i class="fas fa-arrow-left"></i> Back
+            </a>
+            <p class="h2 m-0">Repository Contents</p>
+
+                    <div class="card">
+                        <ul class="list-group list-group-flush">
+                    @foreach (var content in Model)
+                    {
+                        <li class="list-group-item">
+                            @if (content.Type == "dir")
+                            {
+                                <a asp-action="RepositoryContent" asp-route-owner="@ViewData["Owner"]" asp-route-repo="@ViewData["Repo"]" asp-route-path="@content.Path">@content.Name</a>
+                            }
+                            else if (content.Type == "file")
+                            {
+                                <a asp-action="RepositoryFileContent" asp-route-owner="@ViewData["Owner"]" asp-route-repo="@ViewData["Repo"]" asp-route-path="@content.Path">@content.Name</a>
+                            }
+                        </li>
+                    }
+                        </ul>
+                    </div>
+        </div>
+    </section>
+</div>
+
+@section Scripts {
+    <script src="/js/developer_sidebar.js"></script>
+}

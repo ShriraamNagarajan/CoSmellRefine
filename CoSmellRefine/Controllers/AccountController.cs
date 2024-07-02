@@ -1,6 +1,8 @@
 ﻿using CoSmellRefine.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace CoSmellRefine.Controllers
 {
@@ -144,6 +146,90 @@ namespace CoSmellRefine.Controllers
                 }
             }
         }
+
+
+        [HttpPost]
+        [AllowAnonymous]
+        public IActionResult ExternalLogin(string provider, string returnUrl = null)
+        {
+            var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Account", new { ReturnUrl = returnUrl });
+            var properties = signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+            return Challenge(properties, provider);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
+        {
+            returnUrl = returnUrl ?? Url.Content("~/DeveloperDashboard/Index");
+            if (remoteError != null)
+            {
+                ModelState.AddModelError(string.Empty, $"Error from external provider: {remoteError}");
+                return View(nameof(Login));
+            }
+
+            var info = await signInManager.GetExternalLoginInfoAsync();
+            if (info == null)
+            {
+                return RedirectToAction(nameof(Login));
+            }
+
+            var accessToken = info.AuthenticationTokens.FirstOrDefault(t => t.Name == "access_token")?.Value;
+
+            var signInResult = await signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
+            if (signInResult.Succeeded)
+            {
+                var user = await userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
+                if (user != null)
+                {
+                    if (accessToken != null)
+                    {
+                        var existingClaims = await userManager.GetClaimsAsync(user);
+                        var accessTokenClaims = existingClaims.Where(c => c.Type == "access_token").ToList();
+
+                        if (accessTokenClaims.Any())
+                        {
+                            await userManager.RemoveClaimsAsync(user, accessTokenClaims);
+                        }
+
+                        var newClaim = new Claim("access_token", accessToken);
+                        await userManager.AddClaimAsync(user, newClaim);
+                    }
+                }
+
+                return LocalRedirect(returnUrl);
+            }
+            else
+            {
+                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+                if (email != null)
+                {
+                    var user = new IdentityUser { UserName = email, Email = email };
+                    var result = await userManager.CreateAsync(user);
+                    if (result.Succeeded)
+                    {
+                        result = await userManager.AddLoginAsync(user, info);
+                        if (result.Succeeded)
+                        {
+                            if (accessToken != null)
+                            {
+                                var newClaim = new Claim("access_token", accessToken);
+                                await userManager.AddClaimAsync(user, newClaim);
+                            }
+                            await signInManager.SignInAsync(user, isPersistent: false);
+                            return LocalRedirect(returnUrl);
+                        }
+                    }
+                }
+                return View("ExternalLoginFailure");
+            }
+        }
+
+
+
+
+
+
 
     }
 }

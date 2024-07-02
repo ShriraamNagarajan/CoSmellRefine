@@ -1,7 +1,10 @@
 using CoSmellRefine.Data;
 using CoSmellRefine.Repositories;
+using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Http.Headers;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,6 +44,40 @@ builder.Services.AddScoped<IQuizResultsRepository, QuizResultsRepository>();
 builder.Services.AddScoped<IModuleCompletionRepository, ModuleCompletionRepository>();
 builder.Services.AddScoped<IRefactoringTechniqueRepository, RefactoringTechniqueRepository>();
 builder.Services.AddScoped<IVoteRepository, VoteRepository>();
+builder.Services.AddHttpClient();
+
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
+    options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
+    options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+})
+.AddGitHub(options =>
+{
+    options.ClientId = builder.Configuration["Authentication:GitHub:ClientId"];
+    options.ClientSecret = builder.Configuration["Authentication:GitHub:ClientSecret"];
+    options.CallbackPath = new PathString("/signin-github");
+    options.Scope.Add("user:email");
+    options.Scope.Add("repo");
+    options.SaveTokens = true; // Ensure tokens are saved
+    options.Events = new OAuthEvents
+    {
+        OnCreatingTicket = async context =>
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, options.UserInformationEndpoint);
+            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", context.AccessToken);
+
+            var response = await context.Backchannel.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, context.HttpContext.RequestAborted);
+            response.EnsureSuccessStatusCode();
+
+            var user = JsonDocument.Parse(await response.Content.ReadAsStringAsync());
+
+            context.RunClaimActions(user.RootElement);
+        }
+    };
+});
 
 var app = builder.Build();
 
