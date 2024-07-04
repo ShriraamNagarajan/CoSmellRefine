@@ -8,6 +8,8 @@ namespace CoSmellRefine.Repositories
         QuestionResponse? Get(Guid id);
         Task<QuestionResponse?> DeleteAsync(Guid id);
 
-        QuestionResponse Add(QuestionResponse questionResponse);    
+        QuestionResponse Add(QuestionResponse questionResponse);
+
+        List<(string UserName, int Count)> GetTopContributors(int count);
     }
 }

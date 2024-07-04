@@ -362,14 +362,6 @@ namespace CoSmellRefine.Data
            {
                Id = Guid.NewGuid(),
                UserId = developer.Id,
-               ResponseId = response1.Id,
-               VoteDate = DateTime.UtcNow,
-               IsUpvote = false
-           },
-           new Vote
-           {
-               Id = Guid.NewGuid(),
-               UserId = developer.Id,
                ResponseId = response2.Id,
                VoteDate = DateTime.UtcNow,
                IsUpvote = true

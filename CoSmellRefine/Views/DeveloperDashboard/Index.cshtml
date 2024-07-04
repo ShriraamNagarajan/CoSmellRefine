@@ -1,139 +1,92 @@
-﻿@{
+﻿@model CoSmellRefine.Models.ViewModels.DeveloperDashboardViewModel
+
+@{
     Layout = "~/Views/Shared/_UserLayout.cshtml";
     ViewData["Title"] = "CoSmellRefine";
 }
-
 
 <div class="sidebar-container">
     <partial name="_DeveloperSidebar" />
 
     <section class="user-main dashboard-content p-5">
         <p class="h1 mb-4">Welcome back, Developer!!!</p>
+
         <div class="row mt-5">
-            <div class="col-6 mt-5 h-100">
+            <div class="col-12 col-md-6 mt-5 h-100">
                 <p class="h3">Recently Posted Questions</p>
                 <div class="row h-100 p-2 bg-transparent">
-                    <div class="col-12 mt-2 dashboard-content-container">
-                        <div class="row h-100">
-                            <div class="col-9 d-flex flex-column justify-content-center align-items-start">
-                                <p class="mb-0 mt-1">Identifying Code Smells in My Singleton Class Implementation</p>
-                                <p>2 min</p>
+                    @if (Model.RecentQuestions != null && Model.RecentQuestions.Any())
+                    {
+                        @foreach (var question in Model.RecentQuestions)
+                        {
+                            <div class="col-12 mt-2 dashboard-content-container">
+                                <div class="row h-100">
+                                    <div class="col-9 d-flex flex-column justify-content-center align-items-start">
+                                        <p class="mb-0 mt-1">@question.Title</p>
+                                        <p>@Model.GetTimeDifference(question.PostedDate)</p>
+                                    </div>
+                                    <div class="col-3 d-flex flex-column justify-content-center align-items-start">
+                                        <a class="btn light-btn" asp-controller="DeveloperQuestion" asp-action="Details" asp-route-id="@question.Id">View Details</a>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-3 d-flex flex-column justify-content-center align-items-start">
-                                <a class="btn light-btn" asp-controller="DeveloperQuestion" asp-action="Details">View Details</a>
-                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="col-12 mt-2">
+                            <p>No recent questions.</p>
                         </div>
-                    </div>
-
-                    <div class="col-12 mt-2 dashboard-content-container">
-                        <div class="row h-100">
-                            <div class="col-9 d-flex flex-column justify-content-center align-items-start">
-                                <p class="mb-0 mt-1">Identifying Code Smells in My Singleton Class Implementation</p>
-                                <p>2 min</p>
-                            </div>
-                            <div class="col-3 d-flex flex-column justify-content-center align-items-start">
-                                <a class="btn light-btn" asp-controller="DeveloperQuestion" asp-action="Details">View Details</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 mt-2 dashboard-content-container">
-                        <div class="row h-100">
-                            <div class="col-9 d-flex flex-column justify-content-center align-items-start">
-                                <p class="mb-0 mt-1">Identifying Code Smells in My Singleton Class Implementation</p>
-                                <p>2 min</p>
-                            </div>
-                            <div class="col-3 d-flex flex-column justify-content-center align-items-start">
-                                <a class="btn light-btn" asp-controller="DeveloperQuestion" asp-action="Details">View Details</a>
-                            </div>
-                        </div>
-                    </div>
-
-
+                    }
                 </div>
             </div>
-            <div class="col-3 offset-1 mt-1 h-100">
-                <p class="h3">Recent Notification</p>
+
+            <div class="col-12 col-md-3 offset-0 offset-md-1 mt-1 h-100">
+                <p class="h3">Recent Notifications</p>
                 <div class="row dashboard-content-container h-100 p-2">
-                    <div class="col-12">
-                        <div class="row h-100">
-                            <div class="col-3 d-flex justify-content-center align-items-center">
-                                <img src="/images/notification.svg" alt="Notification">
+                    @if (Model.Notifications != null && Model.Notifications.Any())
+                    {
+                        @foreach (var notification in Model.Notifications)
+                        {
+                            <div class="col-12">
+                                <div class="row h-100">
+                                    <div class="col-3 d-flex justify-content-center align-items-center">
+                                        <img src="/images/notification.svg" alt="Notification">
+                                    </div>
+                                    <div class="col-9 d-flex flex-column justify-content-center align-items-start">
+                                        <p class="notification-header">@notification.Message</p>
+                                        <p class="notification-description">@Model.GetTimeDifference(notification.SentTime)</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-9 d-flex flex-column justify-content-center align-items-start">
-                                <p class="notification-header">User Guideline Violation</p>
-                                <p class="notification-description">2 min</p>
-                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="col-12 mt-2">
+                            <p>No recent notifications.</p>
                         </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="row h-100">
-                            <div class="col-3 d-flex justify-content-center align-items-center">
-                                <img src="/images/notification.svg" alt="Notification">
-                            </div>
-                            <div class="col-9 d-flex flex-column justify-content-center align-items-start">
-                                <p class="notification-header">User Guideline Violation</p>
-                                <p class="notification-description">2 min</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="row h-100">
-                            <div class="col-3 d-flex justify-content-center align-items-center">
-                                <img src="/images/notification.svg" alt="Notification">
-                            </div>
-                            <div class="col-9 d-flex flex-column justify-content-center align-items-start">
-                                <p class="notification-header">User Guideline Violation</p>
-                                <p class="notification-description">2 min</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="row h-100">
-                            <div class="col-3 d-flex justify-content-center align-items-center">
-                                <img src="/images/notification.svg" alt="Notification">
-
-                            </div>
-                            <div class="col-9 d-flex flex-column justify-content-center align-items-start">
-                                <p class="notification-header">User Guideline Violation</p>
-                                <p class="notification-description">2 min</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="row h-100">
-                            <div class="col-3 d-flex justify-content-center align-items-center">
-                                <img src="/images/notification.svg" alt="Notification">
-
-                            </div>
-                            <div class="col-9 d-flex flex-column justify-content-center align-items-start">
-                                <p class="notification-header">User Guideline Violation</p>
-                                <p class="notification-description">2 min</p>
-                            </div>
-                        </div>
-                    </div>
+                    }
                 </div>
             </div>
-
         </div>
+
         <div class="row mt-5">
-            <div class="col-5">
+            <div class="col-12 col-md-5">
                 <p class="h3">QnA Summary</p>
                 <canvas id="qnaChart" class="dashboard-content-container p-2"></canvas>
             </div>
-            <div class="col-5 offset-1">
-                <p class="h3">Learn Stats</p>
-                <canvas id="learnChart" class="dashboard-content-container p-2"></canvas>
+            <div class="col-12 col-md-5 offset-0 offset-md-1">
+                <p class="h3">Module Completion</p>
+                <canvas id="moduleCompletionChart" class="dashboard-content-container p-2"></canvas>
             </div>
         </div>
-
-
     </section>
 </div>
 
 @section Scripts {
     <script src="/js/developer_sidebar.js"></script>
     <script>
-
         //User Guided Intro Tour
         $(document).ready(function () {
             const tour = new Shepherd.Tour({
@@ -178,7 +131,7 @@
 
             tour.addStep({
                 title: 'QnA',
-                text: 'Here you can post and discuss questions related to code smells and refactoring techniques',
+                text: 'Here you can view and post code smell and refactoring techniques related questions.',
                 attachTo: {
                     element: '#question',
                     on: 'right'
@@ -197,9 +150,27 @@
 
             tour.addStep({
                 title: 'Learn',
-                text: 'Here you can learn about code smells and refactoring techniques in a fun and interactive way.',
+                text: 'Here you can learn about code smells and refactoring techniques.',
                 attachTo: {
                     element: '#learn',
+                    on: 'right'
+                },
+                buttons: [
+                    {
+                        text: 'Back',
+                        action: tour.back
+                    },
+                    {
+                        text: 'Next',
+                        action: tour.next
+                    }
+                ]
+            });
+            tour.addStep({
+                title: 'Repository',
+                text: 'Here you can view your GitHub Repositories with the complete code files',
+                attachTo: {
+                    element: '#repository',
                     on: 'right'
                 },
                 buttons: [
@@ -235,10 +206,7 @@
                 tour.start();
             }, 2500);
         });
-
-
-        // Data for the charts
-        // QnA Summary (Grouped Bar Chart)
+        // Data for the QnA Summary chart
         const qnaData = {
             labels: ['January', 'February', 'March', 'April'],
             datasets: [
@@ -259,19 +227,7 @@
             ]
         };
 
-        // Learn Stats (Line Chart)
-        const learnData = {
-            labels: ['January', 'February', 'March', 'April'],
-            datasets: [{
-                label: 'Learning Progress',
-                data: [10, 20, 30, 40],
-                fill: false,
-                borderColor: 'rgb(54, 162, 235)',
-                tension: 0.1
-            }]
-        };
-
-        // Configurations for the charts
+        // QnA Summary Chart
         const qnaConfig = new Chart(document.getElementById('qnaChart'), {
             type: 'bar',
             data: qnaData,
@@ -287,13 +243,22 @@
             }
         });
 
-        const learnConfig = new Chart(document.getElementById('learnChart'), {
+        // Data for the Module Completion chart
+        const moduleCompletionData = {
+            labels: @Html.Raw(Json.Serialize(Model.ModuleCompletions.Select(mc => mc.CompletedDate.ToString("MMMM")))),
+            datasets: [{
+                label: 'Modules Completed',
+                data: @Html.Raw(Json.Serialize(Model.ModuleCompletions.GroupBy(mc => mc.CompletedDate.ToString("MMMM")).Select(g => g.Count()))),
+                borderColor: 'rgb(54, 162, 235)',
+                tension: 0.1
+            }]
+        };
+
+        // Module Completion Chart
+        const moduleCompletionConfig = new Chart(document.getElementById('moduleCompletionChart'), {
             type: 'line',
-            data: learnData,
+            data: moduleCompletionData,
             options: {}
         });
-
-
     </script>
-
 }

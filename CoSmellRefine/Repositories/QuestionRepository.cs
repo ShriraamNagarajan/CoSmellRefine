@@ -1,5 +1,6 @@
 ﻿using CoSmellRefine.Data;
 using CoSmellRefine.Models.Domain;
+using CoSmellRefine.Models.ViewModels;
 using CoSmellRefine.Utility;
 using Microsoft.EntityFrameworkCore;
 
@@ -115,6 +116,61 @@ namespace CoSmellRefine.Repositories
         {
             dbContext.Questions.Update(question);
             dbContext.SaveChanges();
+        }
+
+        public async Task<IEnumerable<Question>> GetRecentQuestionsAsync(string userId)
+        {
+            return await dbContext.Questions
+                                 .Where(q => q.UserId == userId)
+                                 .OrderByDescending(q => q.PostedDate)
+                                 .Take(5) // or any number you want to show
+                                 .ToListAsync();
+        }
+        public async Task<IEnumerable<Question>> GetRecentQuestionsAsync()
+        {
+            return await dbContext.Questions
+                                 .OrderByDescending(q => q.PostedDate)
+                                 .Take(5) // or any number you want to show
+                                 .ToListAsync();
+        }
+
+        public ModeratorDiscussionSummaryViewModel GetQuestionsPerMonth()
+        {
+            var questions = dbContext.Questions
+                                    .Where(q => !q.IsDeleted)
+                                    .GroupBy(q => new { q.PostedDate.Year, q.PostedDate.Month })
+                                    .Select(g => new
+                                    {
+                                        Year = g.Key.Year,
+                                        Month = g.Key.Month,
+                                        Count = g.Count()
+                                    })
+                                    .OrderBy(g => g.Year)
+                                    .ThenBy(g => g.Month)
+                                    .ToList();
+
+            var viewModel = new ModeratorDiscussionSummaryViewModel
+            {
+                NumberOfQuestions = questions.Select(q => q.Count).ToList(),
+                Months = questions.Select(q => new DateTime(q.Year, q.Month, 1).ToString("MMM yyyy")).ToList()
+            };
+
+            return viewModel;
+        }
+
+        public List<(string MonthYear, int OpenQuestions, int ClosedQuestions)> GetQuestionSummaryByMonth()
+        {
+            return dbContext.Questions
+                           .GroupBy(q => new { q.PostedDate.Year, q.PostedDate.Month })
+                           .Select(g => new
+                           {
+                               MonthYear = $"{g.Key.Month}/{g.Key.Year}",
+                               OpenQuestions = g.Count(q => q.Status == QuestionStatus.Open),
+                               ClosedQuestions = g.Count(q => q.Status == QuestionStatus.Closed)
+                           })
+                           .ToList()
+                           .Select(q => (q.MonthYear, q.OpenQuestions, q.ClosedQuestions))
+                           .ToList();
         }
 
     }

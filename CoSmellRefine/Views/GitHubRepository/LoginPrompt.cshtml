@@ -1,0 +1,31 @@
+﻿@{
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+    ViewData["Title"] = "GitHub Login Required";
+}
+<div class="sidebar-container">
+    <partial name="_DeveloperSidebar" />
+    <section class="user-main dashboard-content p-5">
+<div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="text-center">
+        <h2>GitHub Login Required</h2>
+        <p>To use this feature, you need to log in via your GitHub account.</p>
+        <form asp-controller="Account" asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+            <button type="submit" name="provider" value="GitHub" class="btn light-btn d-flex justify-content-center align-items-center w-100">
+                <img src="/images/github-logo.svg" alt="GitHub Logo" style="height: 24px; margin-right: 8px;">
+                <span>Continue with GitHub</span>
+            </button>
+        </form>
+    </div>
+</div>
+
+
+    </section>
+</div>
+
+@section Scripts {
+    <script src="/js/developer_sidebar.js"></script>
+    <script>
+        new ClipboardJS('.copy-btn');
+    </script>
+}
+

@@ -11,13 +11,14 @@ namespace CoSmellRefine.Controllers
         private readonly IQuestionRepository questionRepository;
         private readonly UserManager<IdentityUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
-
+        private readonly IQuestionResponseRepository questionResponseRepository;
         public ModeratorDiscussionController(IQuestionRepository questionRepository,
-            UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+            UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IQuestionResponseRepository questionResponseRepository)
         {
             this.questionRepository = questionRepository;
             this.userManager = userManager;
             this.roleManager = roleManager;
+            this.questionResponseRepository = questionResponseRepository;   
         }
 
         [HttpGet]
@@ -51,6 +52,10 @@ namespace CoSmellRefine.Controllers
             ViewBag.PageNumber = pageNumber;
 
             var discussionList = await questionRepository.GetAllAsync(searchQuery, sortBy, sortDirection, pageNumber, pageSize);
+            foreach (var question in discussionList)
+            {
+                question.Responses = (await questionResponseRepository.GetByQuestionId(question.Id)).ToList();
+            }
 
 
             var moderatorDiscussionViewModels = discussionList.Select(q => new ModeratorDiscussionViewModel

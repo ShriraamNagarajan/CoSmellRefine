@@ -18,7 +18,7 @@
 }
 
 html {
-    font-size: 12.5px;
+    font-size: 10px;
     max-width: 100vw !important;
     scroll-behavior: smooth !important;
 }
@@ -80,6 +80,13 @@ nav{
     background-color: #fff;
     color: #2489D3;
     border: 0.125rem solid #2489D3;
+}
+
+@media (max-width: 767px) {
+    .light-btn, .dark-btn, .shepherd-button {
+        padding: 0.5rem 1rem; /* Adjust padding for smaller screens */
+        font-size: 0.875rem; /* Adjust font size for smaller screens */
+    }
 }
 
 .landing-page-heading {
@@ -176,6 +183,20 @@ nav{
     font-weight: bold;
 }
 
+.avatar-circle-small {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background-color: #2489D3;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+
 
 
 
@@ -189,7 +210,7 @@ nav{
     perspective: 2400px;
     perspective-origin: 50% 100%;
     opacity: 0;
-    transition: 4500ms opacity;
+    transition: 4000ms opacity;
 }
 
     .mockup.loaded {
@@ -214,7 +235,7 @@ nav{
         position: relative;
         transform-style: preserve-3d;
         transform-origin: 50% 100%;
-        transition: 4500ms;
+        transition: 4000ms;
     }
 
     .mockup.opened .part .top {
@@ -224,7 +245,7 @@ nav{
     .mockup .part .top {
         transform-origin: 50% 0;
         transform: translate3d(0, 0, -11px) rotateX(90deg);
-        transition: 4500ms;
+        transition: 4000ms;
     }
 
     .mockup img {
@@ -765,3 +786,23 @@ nav{
 .vote-btn{
     cursor:pointer;
 }
+
+
+.w-md-10 {
+    width: 100%;
+}
+
+
+.w-md-90 {
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .w-md-10 {
+        width: 10%;
+    }
+    .w-md-90 {
+        width: 90%;
+    }
+}
+

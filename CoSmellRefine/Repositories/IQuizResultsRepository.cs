@@ -13,6 +13,8 @@ namespace CoSmellRefine.Repositories
 
         Task<QuizResults> GetQuizResultsAsync(Guid moduleId, string userId);
 
-        void Update(QuizResults result);    
+        void Update(QuizResults result);
+
+        List<(string ModuleName, double AverageResult)> GetAverageQuizResults();
     }
 }

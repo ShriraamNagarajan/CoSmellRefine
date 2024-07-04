@@ -21,6 +21,11 @@ namespace CoSmellRefine.Repositories
             return completion;
         }
 
+        public async Task<IEnumerable<ModuleCompletion>> GetAllAsync()
+        {
+            return await dbContext.ModuleCompletion
+                            .ToListAsync();
+        }
 
 
         public async Task<IEnumerable<ModuleCompletion>> GetUserAsync(string userId)

@@ -131,6 +131,11 @@ namespace CoSmellRefine.Repositories
             return dbContext.Modules.Count();
         }
 
+        public string GetRecentlyUpdatedModule()
+        {
+            return dbContext.Modules.OrderByDescending(m => m.LastModifiedDate).FirstOrDefault()?.Title ?? "N/A";
+        }
+
 
     }
 }

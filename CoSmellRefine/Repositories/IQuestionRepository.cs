@@ -1,4 +1,5 @@
 ﻿using CoSmellRefine.Models.Domain;
+using CoSmellRefine.Models.ViewModels;
 
 namespace CoSmellRefine.Repositories
 {
@@ -15,5 +16,11 @@ namespace CoSmellRefine.Repositories
 
         void Update(Question question);
 
+        Task<IEnumerable<Question>> GetRecentQuestionsAsync(string userId);
+
+        Task<IEnumerable<Question>> GetRecentQuestionsAsync();
+
+        ModeratorDiscussionSummaryViewModel GetQuestionsPerMonth();
+        List<(string MonthYear, int OpenQuestions, int ClosedQuestions)> GetQuestionSummaryByMonth();
     }
 }

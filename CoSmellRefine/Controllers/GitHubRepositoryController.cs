@@ -1,6 +1,7 @@
 ﻿using CoSmellRefine.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
@@ -10,10 +11,12 @@ namespace CoSmellRefine.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IHttpClientFactory _clientFactory;
-        public GitHubRepositoryController(UserManager<IdentityUser> userManager, IHttpClientFactory clientFactory)
+        private readonly IMemoryCache _memoryCache;
+        public GitHubRepositoryController(UserManager<IdentityUser> userManager, IHttpClientFactory clientFactory, IMemoryCache memeoryCache)
         {
             this._userManager = userManager;    
-            this._clientFactory = clientFactory;    
+            this._clientFactory = clientFactory;   
+            this._memoryCache = memeoryCache;
             
         }
         public async Task<IActionResult> Repositories()
@@ -23,15 +26,28 @@ namespace CoSmellRefine.Controllers
             var accessToken = claims.FirstOrDefault(c => c.Type == "access_token")?.Value;
             if (accessToken == null)
             {
-                TempData["failure"] = "You have to login through GitHub to use this feature";
-                return RedirectToAction(nameof(AccountController.Login), "Account");
+                TempData["error"] = "You have to login through GitHub to use this feature";
+                return View("LoginPrompt");
             }
-            var client = _clientFactory.CreateClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("CoSmellRefine", "1.0"));
+            var cacheKey = $"repositories_{user.Id}";
+            if (!_memoryCache.TryGetValue(cacheKey, out List<Repository> repositories))
+            {
+                var client = _clientFactory.CreateClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("CoSmellRefine", "1.0"));
 
-            var response = await client.GetStringAsync("https://api.github.com/user/repos");
-            var repositories = JsonSerializer.Deserialize<List<Repository>>(response);
+                var response = await client.GetStringAsync("https://api.github.com/user/repos");
+                repositories = JsonSerializer.Deserialize<List<Repository>>(response);
+
+                // Set cache options
+                var cacheEntryOptions = new MemoryCacheEntryOptions()
+                    .SetSlidingExpiration(TimeSpan.FromMinutes(5)) // Sliding expiration
+                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(10)) // Absolute expiration
+                    .SetPriority(CacheItemPriority.High); // Priority
+
+                // Cache the data
+                _memoryCache.Set(cacheKey, repositories, cacheEntryOptions);
+            }
 
             return View(repositories);
         }

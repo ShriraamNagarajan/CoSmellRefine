@@ -1,5 +1,6 @@
 ﻿using CoSmellRefine.Data;
 using CoSmellRefine.Models.Domain;
+using CoSmellRefine.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace CoSmellRefine.Repositories
@@ -79,6 +80,29 @@ namespace CoSmellRefine.Repositories
             dbContext.Add(issue);
             dbContext.SaveChanges();
             return issue;
+        }
+
+        public ModeratorReportIssueSummaryViewModel GetIssuesPerMonth()
+        {
+            var reportIssues = dbContext.ReportIssues
+                                    .GroupBy(q => new { q.ReportDate.Year, q.ReportDate.Month })
+                                    .Select(g => new
+                                    {
+                                        Year = g.Key.Year,
+                                        Month = g.Key.Month,
+                                        Count = g.Count()
+                                    })
+                                    .OrderBy(g => g.Year)
+                                    .ThenBy(g => g.Month)
+                                    .ToList();
+
+            var viewModel = new ModeratorReportIssueSummaryViewModel
+            {
+                NumberOfIssues = reportIssues.Select(q => q.Count).ToList(),
+                Months = reportIssues.Select(q => new DateTime(q.Year, q.Month, 1).ToString("MMM yyyy")).ToList()
+            };
+
+            return viewModel;
         }
     }
 }

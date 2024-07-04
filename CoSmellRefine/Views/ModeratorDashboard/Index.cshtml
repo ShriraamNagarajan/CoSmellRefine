@@ -1,4 +1,7 @@
-﻿@{
+﻿@model CoSmellRefine.Models.ViewModels.ModeratorDashboardViewModel
+
+
+@{
     Layout = "~/Views/Shared/_UserLayout.cshtml";
     ViewData["Title"] = "CoSmellRefine";
 }
@@ -10,118 +13,56 @@
     <section class="user-main dashboard-content p-5">
         <p class="h1 mb-4">Welcome back, Moderator!!!</p>
         <div class="row mt-5">
-            <div class="col-6 mt-5 h-100">
+            <div class="col-12 col-md-6 mt-5 mb-3 h-100">
                 <p class="h3">Recent Discussions</p>
                 <div class="row h-100 p-2 bg-transparent">
-                    <div class="col-12 mt-2 dashboard-content-container">
-                        <div class="row h-100">
-                            <div class="col-9 d-flex flex-column justify-content-center align-items-start">
-                                <p class="mb-0 mt-1">Identifying Code Smells in My Singleton Class Implementation</p>
-                                <p>2 min</p>
-                            </div>
-                            <div class="col-3 d-flex flex-column justify-content-center align-items-start">
-                                <a class="btn light-btn" asp-controller="ModeratorDiscussion" asp-action="Edit">View Details</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-12 mt-2 dashboard-content-container">
-                        <div class="row h-100">
-                            <div class="col-9 d-flex flex-column justify-content-center align-items-start">
-                                <p class="mb-0 mt-1">Identifying Code Smells in My Singleton Class Implementation</p>
-                                <p>2 min</p>
-                            </div>
-                            <div class="col-3 d-flex flex-column justify-content-center align-items-start">
-                                <a class="btn light-btn" asp-controller="ModeratorDiscussion" asp-action="Edit">View Details</a>
+                    @foreach(var question in Model.RecentQuestions)
+                    {
+                        <div class="col-12 mt-2 dashboard-content-container">
+                            <div class="row h-100">
+                                <div class="col-9 d-flex flex-column justify-content-center align-items-start">
+                                    <p class="mb-0 mt-1">@question.Title</p>
+                                    <p>@Model.GetTimeDifference(question.PostedDate)</p>
+                                </div>
+                                <div class="col-3 d-flex flex-column justify-content-center align-items-start">
+                                    <a class="btn light-btn" asp-controller="DeveloperQuestion" asp-action="Details" asp-route-id="@question.Id">View Details</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-12 mt-2 dashboard-content-container">
-                        <div class="row h-100">
-                            <div class="col-9 d-flex flex-column justify-content-center align-items-start">
-                                <p class="mb-0 mt-1">Identifying Code Smells in My Singleton Class Implementation</p>
-                                <p>2 min</p>
-                            </div>
-                            <div class="col-3 d-flex flex-column justify-content-center align-items-start">
-                                <a class="btn light-btn" asp-controller="ModeratorDiscussion" asp-action="Edit">View Details</a>
-                            </div>
-                        </div>
-                    </div>
-  
-                    
+                    }
                 </div>
             </div>
-            <div class="col-3 offset-1 mt-1 h-100">
+            <div class="col-12 col-md-3 offset-0 offset-md-1 mt-1 mb-3 h-100">
                 <p class="h3">Recent Notification</p>
                 <div class="row dashboard-content-container h-100 p-2">
-                    <div class="col-12">
-                        <div class="row h-100">
-                            <div class="col-3 d-flex justify-content-center align-items-center">
-                                <img src="/images/notification.svg" alt="Notification">
-                            </div>
-                            <div class="col-9 d-flex flex-column justify-content-center align-items-start">
-                                <p class="notification-header">User Guideline Violation</p>
-                                <p class="notification-description">2 min</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="row h-100">
-                            <div class="col-3 d-flex justify-content-center align-items-center">
-                                <img src="/images/notification.svg" alt="Notification">
-                            </div>
-                            <div class="col-9 d-flex flex-column justify-content-center align-items-start">
-                                <p class="notification-header">User Guideline Violation</p>
-                                <p class="notification-description">2 min</p>
+                    @foreach(var notification in Model.Notifications)
+                    {
+                        <div class="col-12">
+                            <div class="row h-100">
+                                <div class="col-3 d-flex justify-content-center align-items-center">
+                                    <img src="/images/notification.svg" alt="Notification">
+                                </div>
+                                <div class="col-9 d-flex flex-column justify-content-center align-items-start">
+                                    <p class="notification-header">@notification.Message</p>
+                                    <p class="notification-description">@Model.GetTimeDifference(notification.SentTime)</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="row h-100">
-                            <div class="col-3 d-flex justify-content-center align-items-center">
-                                <img src="/images/notification.svg" alt="Notification">
-                            </div>
-                            <div class="col-9 d-flex flex-column justify-content-center align-items-start">
-                                <p class="notification-header">User Guideline Violation</p>
-                                <p class="notification-description">2 min</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="row h-100">
-                            <div class="col-3 d-flex justify-content-center align-items-center">
-                                <img src="/images/notification.svg" alt="Notification">
 
-                            </div>
-                            <div class="col-9 d-flex flex-column justify-content-center align-items-start">
-                                <p class="notification-header">User Guideline Violation</p>
-                                <p class="notification-description">2 min</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="row h-100">
-                            <div class="col-3 d-flex justify-content-center align-items-center">
-                                <img src="/images/notification.svg" alt="Notification">
+                        
+                    }
 
-                            </div>
-                            <div class="col-9 d-flex flex-column justify-content-center align-items-start">
-                                <p class="notification-header">User Guideline Violation</p>
-                                <p class="notification-description">2 min</p>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
             
         </div>
 
         <div class="row mt-5">
-            <div class="col-5">
+            <div class="col-12 col-md-5 mt-2">
                 <p class="h3">Discussion Summary</p>
                 <canvas id="discussionChart" class="dashboard-content-container p-2"></canvas>
             </div>
-            <div class="col-5 offset-1">
+            <div class="col-12 col-md-5 offset-0 offset-md-1 mt-2">
                 <p class="h3">Reported Issues Summary</p>
                 <canvas id="issuesChart" class="dashboard-content-container p-2"></canvas>
             </div>
@@ -239,10 +180,10 @@
         // Data for the charts
         // Discussion Summary
         const discussionData = {
-            labels: ['January', 'February', 'March', 'April'],
+            labels: @Html.Raw(Json.Serialize(Model.DiscussionSummary.Months)),
             datasets: [{
-                label: 'Discussions',
-                data: [50, 60, 70, 90],
+                label: 'Questions',
+                data: @Html.Raw(Json.Serialize(Model.DiscussionSummary.NumberOfQuestions)),
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 borderColor: 'rgba(75, 192, 192, 1)',
                 borderWidth: 1
@@ -251,10 +192,10 @@
 
         // Reported Issues Summary
         const issuesData = {
-            labels: ['January', 'February', 'March', 'April'],
+            labels: @Html.Raw(Json.Serialize(Model.ReportIssueSummary.Months)),
             datasets: [{
                 label: 'Issues',
-                data: [20, 25, 30, 35],
+                data: @Html.Raw(Json.Serialize(Model.ReportIssueSummary.NumberOfIssues)),
                 fill: false,
                 borderColor: 'rgb(255, 99, 132)',
                 tension: 0.1

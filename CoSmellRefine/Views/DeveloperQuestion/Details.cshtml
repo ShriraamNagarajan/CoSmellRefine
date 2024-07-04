@@ -21,21 +21,22 @@
     {
         <partial name="_ModeratorSidebar" />
     }
-    else if (roles.Contains("Developer"))
+    else
     {
         <partial name="_DeveloperSidebar" />
     }
     <section class="user-main dashboard-content p-5">
         <div class="container">
-            <a asp-controller="DeveloperQuestion" asp-action="List" class="btn dark-btn mb-5">
+            <a href="javascript:void(0);" class="btn dark-btn mb-5" onclick="history.back()">
                 <i class="fas fa-arrow-left"></i> Back
             </a>
+         
             <div class="row justify-content-center mb-5">
                 <div class="col-md-12">
                     <div class="card mt-3 rounded" style="background-color: #fff !important;">
                         @if (!Model.Question.IsDeleted)
                         {
-                            <div class="card-header" style="background-color: #fff !important; border:none;">
+                            <div class="card-header question-card-header" style="background-color: #fff !important; border:none;">
 
                                 <div class="d-flex justify-content-end align-items-start">
                                     @if (Model.Question.User.Id == userId && Model.Question.Status.Equals(CoSmellRefine.Utility.QuestionStatus.Open))
@@ -73,7 +74,7 @@
                             </div>
                             
                         }
-                        <div class="card-body d-flex flex-row p-2">
+                        <div class="card-body question-card-body d-flex flex-md-row flex-column p-2">
                             @if (Model.Question.IsDeleted)
                             {
                                 <div class="alert alert-danger d-flex justify-content-center align-items-center" role="alert">
@@ -85,11 +86,10 @@
                             }
                             else
                             {
-                                <div class="d-flex flex-column justify-content-start align-items-center" style="width:10%;">
+                                <div class="d-flex flex-row justify-content-md-start justify-content-center align-items-center w-md-10">
                                     <img src="https://via.placeholder.com/64" class="rounded-circle mb-1" alt="User Image">
-
                                 </div>
-                                <div class="question-content p-1" style="border-radius:5px; width:90%;">
+                                <div class="question-content p-1 w-md-90" style="border-radius:5px;">
                                     <p class="h4">@Model.Question.Title</p>
                                     <p>@Model.Question.Body</p>
 
@@ -113,7 +113,7 @@
                             }
                
                         </div>
-                        <div class="card-footer action-buttons d-flex flex-row justify-content-between mt-2" style="border:none; background:#fff !important;">
+                        <div class="card-footer question-card-footer action-buttons d-flex flex-row justify-content-between mt-2" style="border:none; background:#fff !important;">
                             @if (!Model.Question.IsDeleted)
                             {
 
@@ -131,7 +131,7 @@
 
                                 }
                                 <p class="text-center"> Asked by @Model.Question.User.UserName </p>
-                                @if (Model.Question.Status.Equals(CoSmellRefine.Utility.QuestionStatus.Open))
+                                @if (Model.Question.Status.Equals(CoSmellRefine.Utility.QuestionStatus.Open) && Model.Question.User.Id!=userId)
                                 {
                                     <button class="btn btn-danger ml-2" data-bs-toggle="modal" data-bs-target="#reportModal-Question"><i class="bi bi-flag"></i></button>
                                     
@@ -146,8 +146,10 @@
                 </div>
             </div>
 
-            <p class="h2 mt-5 pt-5">@Model.Responses.Count @(Model.Responses.Count>1 ? "Answers" : "Answer")</p>
-            <div class="row justify-content-center">
+            <p id="answer-count" class="h2 mt-5 pt-5" data-count="@Model.Responses.Count">
+                @Model.Responses.Count @(Model.Responses.Count > 1 ? "Answers" : "Answer")
+            </p>
+            <div class="row response-row justify-content-center">
                 @foreach (var response in Model.Responses)
                 {
                     <div class="col-md-12 m-2">
@@ -165,7 +167,7 @@
                                 else
                                 {
                                     <div class="d-flex flex-column justify-content-start align-items-center" style="width:10%;">
-                                        <img src="https://via.placeholder.com/64" class="rounded-circle mb-1" alt="User Image">
+                                        <img src="https://via.placeholder.com/64" class="rounded-circle mb-1 d-none d-md-block" alt="User Image">
 
                                         <div class="d-flex flex-column justify-content-center align-items-center">
                                             <i class="bi bi-caret-up-fill h2"></i>
@@ -231,11 +233,11 @@
                                 <div class="card-footer action-buttons d-flex flex-column mt-2" style="border:none; background:#fff !important;">
                                     <div class="d-flex flex-row justify-content-between">
                                         <div>
-                                            <button class="btn light-btn comment-btn" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample-@response.Id" aria-expanded="false" aria-controls="collapseExample-@response.User.Id">View comments</button>
-                                            <button class="btn light-btn" data-bs-toggle="modal" data-bs-target="#commentModal-@response.Id">Add a comment</button>
+                                            <button class="btn light-btn comment-btn mt-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample-@response.Id" aria-expanded="false" aria-controls="collapseExample-@response.User.Id">View comments</button>
+                                            <button class="btn light-btn mt-1" data-bs-toggle="modal" data-bs-target="#commentModal-@response.Id">Add a comment</button>
                                         </div>
                                         <p class="text-center"> Answered by @response.User.UserName </p>
-                                        <button class="btn btn-danger ml-2" data-bs-toggle="modal" data-bs-target="#reportModal-@response.Id"><i class="bi bi-flag"></i></button>
+                                        <button class="btn btn-danger ml-1" data-bs-toggle="modal" data-bs-target="#reportModal-@response.Id"><i class="bi bi-flag"></i></button>
                                     </div>
                                 </div>
                                 <div class="collapse" id="collapseExample-@response.Id">
@@ -267,7 +269,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body" id="answer-body">
-                        <form asp-action="AddResponse" method="post" onsubmit="updateCodeSnippet()">
+                        <form asp-action="AddResponse" method="post" onsubmit="return validateAndSubmitAnswer()">
                             <input type="hidden" name="QuestionId" value="@Model.AddResponse.QuestionId" />
                             <div class="form-group">
                                 <label for="answer-body">Answer Description</label>
@@ -439,8 +441,12 @@
 </div>
 
 @section Scripts {
+    <script>
+        window.currentQuestionId = "@Model.Question.Id";
+    </script>
 
-
+    <script src="~/js/signalr.js"></script>
+    <script src="~/js/signalr_question.js"></script>
     @if (roles.Contains("Admin"))
     {
         <script src="/js/admin_sidebar.js"></script>
@@ -579,10 +585,17 @@
             codeSnippetEditor.setTheme("ace/theme/github");
             codeSnippetEditor.session.setMode("ace/mode/csharp");
 
+         
+
             window.updateCodeSnippet = function () {
                 var codeSnippet = codeSnippetEditor.getValue();
                 $('#codeSnippetText').val(codeSnippet);
             };
+
+
+
+
+
 
             // Report form submission
             document.querySelectorAll('.report-form').forEach(form => {
@@ -710,5 +723,39 @@
                 });
             });
         });
+
+        var responseEditor = ace.edit("codeSnippetEditor");
+        responseEditor.setTheme("ace/theme/monokai");
+        responseEditor.session.setMode("ace/mode/csharp");
+
+        function validateAndSubmitAnswer() {
+            var codeSnippet = responseEditor.getValue();
+            var isValid = false;
+
+            $.ajax({
+                url: '/api/CodeValidation/ValidateCSharp',
+                type: 'POST',
+                contentType: 'application/json',
+                async: false,
+                data: JSON.stringify({ CodeSnippet: codeSnippet }),
+                success: function (response) {
+                    isValid = true;
+                },
+                error: function (xhr, status, error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Invalid Code Snippet',
+                        text: 'C# is the object-oriented language that is currently supported. Please enter a valid C# code snippet.',
+                    });
+                }
+            });
+
+            if (isValid) {
+                $('#codeSnippetText').val(codeSnippet);
+            }
+
+            return isValid;
+        }
+
     </script>
 }

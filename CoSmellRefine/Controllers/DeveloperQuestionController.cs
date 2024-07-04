@@ -1,11 +1,14 @@
-﻿using CoSmellRefine.Models.Domain;
+﻿using CoSmellRefine.Hubs;
+using CoSmellRefine.Models.Domain;
 using CoSmellRefine.Models.ViewModels;
 using CoSmellRefine.Repositories;
 using CoSmellRefine.Utility;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
@@ -24,8 +27,10 @@ namespace CoSmellRefine.Controllers
         private readonly IRefactoringTechniqueRepository refactoringTechniqueRepository;
         private readonly IVoteRepository voteRepository;
         private readonly IHttpClientFactory _clientFactory;
+        private readonly IHubContext<QuestionHub> questionHub;
+        private readonly IMemoryCache memoryCache;
 
-        public DeveloperQuestionController(ICodeSmellRepository codeSmellRepository, IQuestionRepository questionRepository, UserManager<IdentityUser> userManager, IQuestionResponseRepository questionResponseRepository, IResponseCommentRepository responseCommentRepository, IReportIssueRepository reportIssueRepository, IRefactoringTechniqueRepository refactoringTechniqueRepository, IVoteRepository voteRepository, IHttpClientFactory clientFactory)
+        public DeveloperQuestionController(ICodeSmellRepository codeSmellRepository, IQuestionRepository questionRepository, UserManager<IdentityUser> userManager, IQuestionResponseRepository questionResponseRepository, IResponseCommentRepository responseCommentRepository, IReportIssueRepository reportIssueRepository, IRefactoringTechniqueRepository refactoringTechniqueRepository, IVoteRepository voteRepository, IHttpClientFactory clientFactory, IHubContext<QuestionHub> questionHub, IMemoryCache memoryCache)
         {
             this.codeSmellRepository = codeSmellRepository;
             this.questionRepository = questionRepository;
@@ -35,7 +40,10 @@ namespace CoSmellRefine.Controllers
             this.reportIssueRepository = reportIssueRepository;
             this.refactoringTechniqueRepository = refactoringTechniqueRepository;
             this.voteRepository = voteRepository;
-            _clientFactory = clientFactory;
+            this._clientFactory = clientFactory;
+            this.questionHub = questionHub;
+            this.memoryCache = memoryCache;
+            
         }
         public async Task<IActionResult> List(string? sortBy,
                                      string? questionType,
@@ -64,11 +72,27 @@ namespace CoSmellRefine.Controllers
                 userId = user.Id;
             }
 
-            var questions = await questionRepository.GetAllAsync(sortBy, questionType, userId, pageNumber, pageSize);
-            foreach(var question in questions)
+
+            var cacheKey = $"questions_{sortBy}_{questionType}_{filterType}_{pageSize}_{pageNumber}_{userId}";
+            if (!memoryCache.TryGetValue(cacheKey, out IEnumerable<Question> questions))
             {
-                question.Responses = (await questionResponseRepository.GetByQuestionId(question.Id)).ToList();
+                // If not cached, get the data from the repository
+                questions = await questionRepository.GetAllAsync(sortBy, questionType, userId, pageNumber, pageSize);
+                foreach (var question in questions)
+                {
+                    question.Responses = (await questionResponseRepository.GetByQuestionId(question.Id)).ToList();
+                }
+
+                // Set cache options
+                var cacheEntryOptions = new MemoryCacheEntryOptions()
+                    .SetSlidingExpiration(TimeSpan.FromMinutes(1)) // Sliding expiration
+                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(5)) // Absolute expiration
+                    .SetPriority(CacheItemPriority.High); // Priority
+
+                // Cache the data
+                memoryCache.Set(cacheKey, questions, cacheEntryOptions);
             }
+
 
             var viewModel = new QuestionListModel
             {
@@ -248,6 +272,18 @@ namespace CoSmellRefine.Controllers
             };
 
             responseCommentRepository.Add(responseComment);
+            // Broadcast the new comment to other clients
+            await questionHub.Clients.All.SendAsync("CommentAdded", new
+            {
+                Id = responseComment.Id,
+                UserId = user.Id,
+                ResponseId = addResponseComment.ResponseId,
+                CommentDate = responseComment.CommentDate,
+                IsDeleted = responseComment.IsDeleted,
+                Body = addResponseComment.Body,
+                UserName = user.UserName,
+                QuestionId = addResponseComment.QuestionId
+            });
             return RedirectToAction("Details", new { id = addResponseComment.QuestionId});
         }
 
@@ -306,16 +342,32 @@ namespace CoSmellRefine.Controllers
 
             questionResponseRepository.Add(questionResponse);
 
+
+            await questionHub.Clients.All.SendAsync("ResponseAdded", new
+            {
+                Id = questionResponse.Id,
+                UserId = user.Id,
+                QuestionId = model.QuestionId,
+                Body = model.Body,
+                CodeSnippet = model.CodeSnippet,
+                PostedDate = questionResponse.PostedDate,
+                IsDeleted = questionResponse.IsDeleted,
+                CodeSmellList = codeSmells.Select(cs => new { cs.Id, cs.Name }),
+                RefactoringTechniques = refactoringTechniques.Select(rt => new { rt.Id, rt.Name }),
+                UserName = user.UserName
+            });
+
             return RedirectToAction("Details", new { id = model.QuestionId });
         }
 
 
 
-        public IActionResult CloseQuestion(Guid id)
+        public async Task<IActionResult> CloseQuestion(Guid id)
         {
             var question = questionRepository.Get(id);
             question.Status = QuestionStatus.Closed;
             questionRepository.Update(question);
+            await questionHub.Clients.All.SendAsync("QuestionClosed", id);
             return RedirectToAction("Details", new { id = id });
         }
 

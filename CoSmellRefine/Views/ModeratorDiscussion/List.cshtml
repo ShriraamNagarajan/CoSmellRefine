@@ -37,201 +37,205 @@
 
                 @if (Model != null && Model.Any())
                 {
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Question Id</th>
-                                <th>
-                                    <div class="d-flex flex-row justify-content-center align-items-center">
-                                        User
-                                     
-                                            <span>
-                                                <a class="btn btn-link"
-                                                   asp-controller="ModeratorDiscussion"
-                                                   asp-action="List"
-                                                   asp-route-sortBy="User"
-                                                   asp-route-sortDirection="Asc"
-                                                   asp-route-searchQuery="@ViewBag.SearchQuery">
-                                                    <i class="bi bi-arrow-up"></i>
-                                                </a>
-                                            </span>
-                                            <span>
-                                                <a class="btn btn-link"
-                                                   asp-controller="ModeratorDiscussion"
-                                                   asp-action="List"
-                                                   asp-route-sortBy="User"
-                                                   asp-route-sortDirection="Desc"
-                                                   asp-route-searchQuery="@ViewBag.SearchQuery">
-                                                    <i class="bi bi-arrow-down"></i>
-                                                </a>
-                                            </span>
-                                      
-                                    </div>
-
-
-                                </th>
-                                <th>
-                                    <div class="d-flex flex-row justify-content-center align-items-center">
-                                        Title
-                                      
-                                            <span>
-                                                <a class="btn btn-link"
-                                                   asp-controller="ModeratorDiscussion"
-                                                   asp-action="List"
-                                                   asp-route-sortBy="Title"
-                                                   asp-route-sortDirection="Asc"
-                                                   asp-route-searchQuery="@ViewBag.SearchQuery">
-                                                    <i class="bi bi-arrow-up"></i>
-                                                </a>
-                                            </span>
-                                            <span>
-                                                <a class="btn btn-link"
-                                                   asp-controller="ModeratorDiscussion"
-                                                   asp-action="List"
-                                                   asp-route-sortBy="Title"
-                                                   asp-route-sortDirection="Desc"
-                                                   asp-route-searchQuery="@ViewBag.SearchQuery">
-                                                    <i class="bi bi-arrow-down"></i>
-                                                </a>
-                                            </span>
-                                      
-                                    </div>
-
-                                </th>
-                                <th>
-                                    <div class="d-flex flex-row justify-content-center align-items-center">
-                                        Posted Date
-                                  
-                                            <span>
-                                                <a class="btn btn-link"
-                                                   asp-controller="ModeratorDiscussion"
-                                                   asp-action="List"
-                                                   asp-route-sortBy="PostedDate"
-                                                   asp-route-sortDirection="Asc"
-                                                   asp-route-searchQuery="@ViewBag.SearchQuery">
-                                                    <i class="bi bi-arrow-up"></i>
-                                                </a>
-                                            </span>
-                                            <span>
-                                                <a class="btn btn-link"
-                                                   asp-controller="ModeratorDiscussion"
-                                                   asp-action="List"
-                                                   asp-route-sortBy="PostedDate"
-                                                   asp-route-sortDirection="Desc"
-                                                   asp-route-searchQuery="@ViewBag.SearchQuery">
-                                                    <i class="bi bi-arrow-down"></i>
-                                                </a>
-                                            </span>
-                                        
-                                    </div>
-                                </th>
-                                <th>
-                                    <div class="d-flex flex-row justify-content-center align-items-center">
-                                        Status
-                                   
-                                            <span>
-                                                <a class="btn btn-link"
-                                                   asp-controller="ModeratorDiscussion"
-                                                   asp-action="List"
-                                                   asp-route-sortBy="Status"
-                                                   asp-route-sortDirection="Asc"
-                                                   asp-route-searchQuery="@ViewBag.SearchQuery">
-                                                    <i class="bi bi-arrow-up"></i>
-                                                </a>
-                                            </span>
-                                            <span>
-                                                <a class="btn btn-link"
-                                                   asp-controller="ModeratorDiscussion"
-                                                   asp-action="List"
-                                                   asp-route-sortBy="Status"
-                                                   asp-route-sortDirection="Desc"
-                                                   asp-route-searchQuery="@ViewBag.SearchQuery">
-                                                    <i class="bi bi-arrow-down"></i>
-                                                </a>
-                                            </span>
-                                    
-                                    </div>
-                                </th>
-                                <th>
-                                    <div class="d-flex flex-row justify-content-center align-items-center">
-                                        Type
-                                    
-                                            <span>
-                                                <a class="btn btn-link"
-                                                   asp-controller="ModeratorDiscussion"
-                                                   asp-action="List"
-                                                   asp-route-sortBy="Type"
-                                                   asp-route-sortDirection="Asc"
-                                                   asp-route-searchQuery="@ViewBag.SearchQuery">
-                                                    <i class="bi bi-arrow-up"></i>
-                                                </a>
-                                            </span>
-                                            <span>
-                                                <a class="btn btn-link"
-                                                   asp-controller="ModeratorDiscussion"
-                                                   asp-action="List"
-                                                   asp-route-sortBy="Type"
-                                                   asp-route-sortDirection="Desc"
-                                                   asp-route-searchQuery="@ViewBag.SearchQuery">
-                                                    <i class="bi bi-arrow-down"></i>
-                                                </a>
-                                            </span>
-                                   
-                                    </div>
-                                </th>
-                                <th>
-                                    <div class="d-flex flex-row justify-content-center align-items-center">
-                                        Number of Responses
-                                     
-                                            <span>
-                                                <a class="btn btn-link"
-                                                   asp-controller="ModeratorDiscussion"
-                                                   asp-action="List"
-                                                   asp-route-sortBy="Responses"
-                                                   asp-route-sortDirection="Asc"
-                                                   asp-route-searchQuery="@ViewBag.SearchQuery">
-                                                    <i class="bi bi-arrow-up"></i>
-                                                </a>
-                                            </span>
-                                            <span>
-                                                <a class="btn btn-link"
-                                                   asp-controller="ModeratorDiscussion"
-                                                   asp-action="List"
-                                                   asp-route-sortBy="Responses"
-                                                   asp-route-sortDirection="Desc"
-                                                   asp-route-searchQuery="@ViewBag.SearchQuery">
-                                                    <i class="bi bi-arrow-down"></i>
-                                                </a>
-                                            </span>
-                                    
-                                    </div>
-                                </th>
-
-                                <th> </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var question in Model)
-                            {
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
                                 <tr>
-                                    <td>@question.Id</td>
-                                    <td>@question.User.UserName</td>
-                                    <td>@question.Title</td>
-                                    <td>@question.PostedDate</td>
-                                    <td>@question.Status</td>
-                                    <td>@question.Type</td>
-                                    <td>@question.NumOfResponses</td>
-                                    <td>
-                                        <a asp-controller="DeveloperQuestion" asp-action="Details" asp-route-id="@question.Id" class="btn btn-primary mx-2">
-                                            <i class="bi bi-eye-fill"></i> 
-                                        </a>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+                                    <th>Question Id</th>
+                                    <th>
+                                        <div class="d-flex flex-row justify-content-center align-items-center">
+                                            User
 
-                    <nav aria-label="Page navigation example" class="bg-transparent">
+                                            <span>
+                                                <a class="btn btn-link"
+                                                   asp-controller="ModeratorDiscussion"
+                                                   asp-action="List"
+                                                   asp-route-sortBy="User"
+                                                   asp-route-sortDirection="Asc"
+                                                   asp-route-searchQuery="@ViewBag.SearchQuery">
+                                                    <i class="bi bi-arrow-up"></i>
+                                                </a>
+                                            </span>
+                                            <span>
+                                                <a class="btn btn-link"
+                                                   asp-controller="ModeratorDiscussion"
+                                                   asp-action="List"
+                                                   asp-route-sortBy="User"
+                                                   asp-route-sortDirection="Desc"
+                                                   asp-route-searchQuery="@ViewBag.SearchQuery">
+                                                    <i class="bi bi-arrow-down"></i>
+                                                </a>
+                                            </span>
+
+                                        </div>
+
+
+                                    </th>
+                                    <th>
+                                        <div class="d-flex flex-row justify-content-center align-items-center">
+                                            Title
+
+                                            <span>
+                                                <a class="btn btn-link"
+                                                   asp-controller="ModeratorDiscussion"
+                                                   asp-action="List"
+                                                   asp-route-sortBy="Title"
+                                                   asp-route-sortDirection="Asc"
+                                                   asp-route-searchQuery="@ViewBag.SearchQuery">
+                                                    <i class="bi bi-arrow-up"></i>
+                                                </a>
+                                            </span>
+                                            <span>
+                                                <a class="btn btn-link"
+                                                   asp-controller="ModeratorDiscussion"
+                                                   asp-action="List"
+                                                   asp-route-sortBy="Title"
+                                                   asp-route-sortDirection="Desc"
+                                                   asp-route-searchQuery="@ViewBag.SearchQuery">
+                                                    <i class="bi bi-arrow-down"></i>
+                                                </a>
+                                            </span>
+
+                                        </div>
+
+                                    </th>
+                                    <th>
+                                        <div class="d-flex flex-row justify-content-center align-items-center">
+                                            Posted Date
+
+                                            <span>
+                                                <a class="btn btn-link"
+                                                   asp-controller="ModeratorDiscussion"
+                                                   asp-action="List"
+                                                   asp-route-sortBy="PostedDate"
+                                                   asp-route-sortDirection="Asc"
+                                                   asp-route-searchQuery="@ViewBag.SearchQuery">
+                                                    <i class="bi bi-arrow-up"></i>
+                                                </a>
+                                            </span>
+                                            <span>
+                                                <a class="btn btn-link"
+                                                   asp-controller="ModeratorDiscussion"
+                                                   asp-action="List"
+                                                   asp-route-sortBy="PostedDate"
+                                                   asp-route-sortDirection="Desc"
+                                                   asp-route-searchQuery="@ViewBag.SearchQuery">
+                                                    <i class="bi bi-arrow-down"></i>
+                                                </a>
+                                            </span>
+
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div class="d-flex flex-row justify-content-center align-items-center">
+                                            Status
+
+                                            <span>
+                                                <a class="btn btn-link"
+                                                   asp-controller="ModeratorDiscussion"
+                                                   asp-action="List"
+                                                   asp-route-sortBy="Status"
+                                                   asp-route-sortDirection="Asc"
+                                                   asp-route-searchQuery="@ViewBag.SearchQuery">
+                                                    <i class="bi bi-arrow-up"></i>
+                                                </a>
+                                            </span>
+                                            <span>
+                                                <a class="btn btn-link"
+                                                   asp-controller="ModeratorDiscussion"
+                                                   asp-action="List"
+                                                   asp-route-sortBy="Status"
+                                                   asp-route-sortDirection="Desc"
+                                                   asp-route-searchQuery="@ViewBag.SearchQuery">
+                                                    <i class="bi bi-arrow-down"></i>
+                                                </a>
+                                            </span>
+
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div class="d-flex flex-row justify-content-center align-items-center">
+                                            Type
+
+                                            <span>
+                                                <a class="btn btn-link"
+                                                   asp-controller="ModeratorDiscussion"
+                                                   asp-action="List"
+                                                   asp-route-sortBy="Type"
+                                                   asp-route-sortDirection="Asc"
+                                                   asp-route-searchQuery="@ViewBag.SearchQuery">
+                                                    <i class="bi bi-arrow-up"></i>
+                                                </a>
+                                            </span>
+                                            <span>
+                                                <a class="btn btn-link"
+                                                   asp-controller="ModeratorDiscussion"
+                                                   asp-action="List"
+                                                   asp-route-sortBy="Type"
+                                                   asp-route-sortDirection="Desc"
+                                                   asp-route-searchQuery="@ViewBag.SearchQuery">
+                                                    <i class="bi bi-arrow-down"></i>
+                                                </a>
+                                            </span>
+
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div class="d-flex flex-row justify-content-center align-items-center">
+                                            Number of Answers
+
+                                            <span>
+                                                <a class="btn btn-link"
+                                                   asp-controller="ModeratorDiscussion"
+                                                   asp-action="List"
+                                                   asp-route-sortBy="Responses"
+                                                   asp-route-sortDirection="Asc"
+                                                   asp-route-searchQuery="@ViewBag.SearchQuery">
+                                                    <i class="bi bi-arrow-up"></i>
+                                                </a>
+                                            </span>
+                                            <span>
+                                                <a class="btn btn-link"
+                                                   asp-controller="ModeratorDiscussion"
+                                                   asp-action="List"
+                                                   asp-route-sortBy="Responses"
+                                                   asp-route-sortDirection="Desc"
+                                                   asp-route-searchQuery="@ViewBag.SearchQuery">
+                                                    <i class="bi bi-arrow-down"></i>
+                                                </a>
+                                            </span>
+
+                                        </div>
+                                    </th>
+
+                                    <th> </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var question in Model)
+                                {
+                                    <tr>
+                                        <td>@question.Id</td>
+                                        <td>@question.User.UserName</td>
+                                        <td>@question.Title</td>
+                                        <td>@question.PostedDate</td>
+                                        <td>@question.Status</td>
+                                        <td>@question.Type</td>
+                                        <td>@question.NumOfResponses</td>
+                                        <td>
+                                            <a asp-controller="DeveloperQuestion" asp-action="Details" asp-route-id="@question.Id" class="btn btn-primary mx-2">
+                                                <i class="bi bi-eye-fill"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+                  
+
+                    <nav aria-label="Page navigation example" class="bg-transparent mt-5 d-flex justify-content-center">
                         <ul class="pagination">
                             <li class="page-item">
                                 <a class="page-link"

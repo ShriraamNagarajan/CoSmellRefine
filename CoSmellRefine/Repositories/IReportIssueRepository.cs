@@ -1,4 +1,5 @@
 ﻿using CoSmellRefine.Models.Domain;
+using CoSmellRefine.Models.ViewModels;
 
 namespace CoSmellRefine.Repositories
 {
@@ -8,6 +9,7 @@ namespace CoSmellRefine.Repositories
         Task<ReportIssue?> GetAsync(Guid id);
         Task<int> CountAsync();
         Task<ReportIssue?> UpdateAsync(ReportIssue issue);
-        ReportIssue Add(ReportIssue issue); 
+        ReportIssue Add(ReportIssue issue);
+        ModeratorReportIssueSummaryViewModel GetIssuesPerMonth();
     }
 }

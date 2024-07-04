@@ -1,10 +1,13 @@
-﻿using CoSmellRefine.Models.Domain;
+﻿using CoSmellRefine.Hubs;
+using CoSmellRefine.Models.Domain;
 using CoSmellRefine.Models.ViewModels;
 using CoSmellRefine.Repositories;
 using CoSmellRefine.Utility;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 
 namespace CoSmellRefine.Controllers
 {
@@ -17,9 +20,10 @@ namespace CoSmellRefine.Controllers
         private readonly IQuestionResponseRepository questionResponseRepository;
         private readonly IResponseCommentRepository responseCommentRepository;
         private readonly INotificationRepository notificationRepository;
+        private readonly IHubContext<QuestionHub> questionHub;
 
         public ModeratorIssueController(IReportIssueRepository reportIssueRepository,
-            UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IQuestionRepository questionRepository, IQuestionResponseRepository questionResponseRepository, IResponseCommentRepository responseCommentRepository, INotificationRepository notificationRepository)
+            UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IQuestionRepository questionRepository, IQuestionResponseRepository questionResponseRepository, IResponseCommentRepository responseCommentRepository, INotificationRepository notificationRepository, IHubContext<QuestionHub> questionHub)
         {
             this.reportIssueRepository = reportIssueRepository;
             this.userManager = userManager;
@@ -28,6 +32,7 @@ namespace CoSmellRefine.Controllers
             this.questionResponseRepository = questionResponseRepository;
             this.responseCommentRepository = responseCommentRepository;
             this.notificationRepository = notificationRepository;
+            this.questionHub = questionHub;
         }
 
         [HttpGet]
@@ -176,12 +181,15 @@ namespace CoSmellRefine.Controllers
                 {
                     case DiscussionType.Question:
                         await questionRepository.DeleteAsync(issueDetails.DiscussionItemId);
+                        await questionHub.Clients.All.SendAsync("ContentRemoved", issueDetails.DiscussionItemId, "Question");
                         break;
                     case DiscussionType.Response:
                         await questionResponseRepository.DeleteAsync(issueDetails.DiscussionItemId);
+                        await questionHub.Clients.All.SendAsync("ContentRemoved", issueDetails.DiscussionItemId, "Response");
                         break;
                     case DiscussionType.ResponseComment:
                         await responseCommentRepository.DeleteAsync(issueDetails.DiscussionItemId);
+                        await questionHub.Clients.All.SendAsync("ContentRemoved", issueDetails.DiscussionItemId, "ResponseComment");
                         break;
                     default:
                         // Handle unknown type or throw an exception

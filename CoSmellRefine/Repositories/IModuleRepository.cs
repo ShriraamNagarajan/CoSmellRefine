@@ -10,5 +10,6 @@ namespace CoSmellRefine.Repositories
         Module? Update(Module module);
         Module? Delete(Guid id);
         int Count();
+        string GetRecentlyUpdatedModule();
     }
 }

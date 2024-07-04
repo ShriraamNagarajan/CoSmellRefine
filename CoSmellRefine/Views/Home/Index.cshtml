@@ -1,40 +1,41 @@
 ﻿
 <div class="row container-fluid pe-0 p-2">
-     <div class="row" style="background:#E5F0FF;">
-            <div class="col-6 mx-2">
-                <div class="row h-100 d-flex flex-column justify-content-center align-items-center gy-5">
-                    <div class="col-10">
-                        <p class="display-5 landing-page-heading" id="typeit-container"></p>
+    <div class="row" style="background:#E5F0FF;">
+        <div class="col-md-6 col-12 order-2 order-md-1 mx-2">
+            <div class="row h-100 d-flex flex-column justify-content-center align-items-center">
+                <div class="col-md-10 mb-3 d-flex flex-column align-items-center align-items-md-start">
+                    <p class="display-5 landing-page-heading" id="typeit-container"></p>
                     <img src="/images/underline.svg" alt="Heading Decorator">
-                    </div>
-                    <div class="col-10">
-                        <p class="landing-page-description">Join our platform to enhance your skills in  <br> identifying and resolving code smells, collaboratively and effectively. </p>
-
-                    </div>
-                    <div class="col-10 gx-4">
-                        <button type="button" class="btn dark-btn me-2" data-tilt data-tilt-scale="1.1">Get Started</button>
+                </div>
+                <div class="col-md-10 mb-3">
+                    <p class="landing-page-description text-center text-md-start">Join our platform to enhance your skills in<br>identifying and resolving code smells, collaboratively and effectively.</p>
+                </div>
+              
+                <div class="col-md-10 gx-4 mb-3 d-flex flex-row justify-content-center justify-content-md-start">
+                    <a asp-controller="Account" asp-action="Register" type="button" class="btn dark-btn me-2" data-tilt data-tilt-scale="1.1">Get Started</a>
                     <button type="button" class="btn light-btn ms-2" data-tilt data-tilt-scale="1.1" onclick="scrollToSection('features')">Learn More</button>
-                    </div>
                 </div>
             </div>
-            <div class="col-5">
-                <figure class="figure">
-                    <img src="/images/clean_code_landing_image.svg" class="figure-img img-fluid rounded" alt="Clean Coder">
-                  </figure>
-            </div>
         </div>
+        <div class="col-md-5 col-10 offset-1 offset-md-0 order-1 order-md-2">
+            <figure class="figure">
+                <img src="/images/clean_code_landing_image.svg" class="figure-img img-fluid rounded" alt="Clean Coder">
+            </figure>
+        </div>
+    </div>
+
         <div class="row my-5" id="features" style="background: #FFF;">
-            <p class="display-5 landing-page-heading text-center m-5">CoSmellRefine comes with <br> amazing <mark>features</mark> like:</p>
-            <div class="col col-12 col-md-3 offset-0 offset-md-3 me-5 mt-5" data-aos="fade-up">
+            <p class="display-5 landing-page-heading text-center mt-5 mb-5">CoSmellRefine comes with <br> amazing <mark>features</mark> like:</p>
+            <div class="col col-12 col-md-3 offset-0 offset-md-3 me-5 mt-5 d-flex flex-column align-items-md-start align-items-center justify-content-md-center" data-aos="fade-up">
                 <img src="/images/qna.svg" class="figure-img img-fluid rounded" alt="Clean Coder" data-tilt data-tilt-scale="1.1">
-                <p class="h3 contet-header p-2"> Collaborative Q&A</p>
-                <p class="section-content p-2"> Ask questions, share knowledge, and get expert  advice on identifying code smells and applying refactoring techniques.</p>
+                <p class="h3 contet-header p-2 text-center text-md-start"> Collaborative Q&A</p>
+                <p class="section-content p-2 text-center text-md-start"> Ask questions, share knowledge, and get expert  advice on identifying code smells and applying refactoring techniques.</p>
                 
             </div>
-            <div class="col col-12 col-md-3 mt-5 ms-5" data-aos="fade-up">
+        <div class="col col-12 col-md-3 mt-5 ms-md-5 d-flex flex-column align-items-md-start align-items-center justify-content-md-cente" data-aos="fade-up">
                 <img src="/images/interactive_learn.svg" class="figure-img img-fluid rounded" alt="Clean Coder" data-tilt data-tilt-scale="1.1">
-                <p class="h3 contet-header p-2"> Interactive Learning</p>
-                <p class="section-content p-2"> Access tutorials, flashcards, and quizzes to deepen your understanding of code smells and refactoring methods.</p>
+            <p class="h3 contet-header p-2 text-center text-md-start"> Interactive Learning</p>
+            <p class="section-content p-2 text-center text-md-start"> Access tutorials, flashcards, and quizzes to deepen your understanding of code smells and refactoring methods.</p>
             </div>
       </div>
     <div class="row mockup-row" style="background: #E5F0FF;">
@@ -61,29 +62,29 @@
     </div>
       <div class="row" id="howitworks" style="background: #fff;" >
         <p class="display-5 landing-page-heading text-center pb-5 pt-5">How <mark>Collaborative Q&A</mark> Works?</p>
-        <div class="col-6">
+        <div class="col-10 col-md-6 offset-1 offset-md-0">
             <figure class="figure w-100 h-100 text-center" data-tilt data-tilt-scale="1.1">
                 <img src="/images/collaboration.svg" class="figure-img img-fluid rounded" alt="Clollaboration"  data-aos="flip-left">
               </figure>
         </div>
-        <div class="col-6">
+        <div class="col-md-6">
             <div class="row h-100">
-                <div class="col-6">
+                <div class="col-6" data-aos="fade-up">
                     <p class="collaboration-step">1<span class="step-decorate">.</span></p>
                     <p class="collaboration-header">Ask Questions</p>
                     <p class="collaboration-content">Submit your code snippets with questions about potential code smells.  Provide details and context to help the community understand your issue.</p>
                 </div>
-                <div class="col-6">
+                <div class="col-6" data-aos="fade-up">
                     <p class="collaboration-step">2<span class="step-decorate">.</span></p>
                     <p class="collaboration-header">Collaborate</p>
                     <p class="collaboration-content">Engage in discussions with the community. Offer your own insights, ask  for clarifications, and collaboratively resolve code smell issues.</p>
                 </div>
-                <div class="col-6">
+                <div class="col-6" data-aos="fade-up">
                     <p class="collaboration-step">3<span class="step-decorate">.</span></p>
                     <p class="collaboration-header">Vote and Validate</p>
                     <p class="collaboration-content">Vote on the best answers and solutions. Help validate code smells and refactoring techniques through community consensus.</p>
                 </div>
-                <div class="col-6">
+                <div class="col-6" data-aos="fade-up">
                     <p  class="collaboration-step">4<span class="step-decorate">.</span></p>
                     <p class="collaboration-header">Review and Implement</p>
                     <p class="collaboration-content">Review the suggested solutions, implement the refactoring techniques,  and improve your code quality with community-driven feedback.</p>
@@ -93,7 +94,7 @@
       </div>
     <div class="row" style="background: #E5F0FF;">
         <p class="display-5 landing-page-heading text-start lh-lg pt-5 pb-2">Let’s checkout your <mark>learning</mark> journey</p>
-        <div class="col-6">
+        <div class="col-md-6 order-2 order-md-1">
             <div class="row h-100 p-2">
                 <div class="col-6">
                     <p class="collaboration-step">1<span class="step-decorate">.</span></p>
@@ -117,17 +118,17 @@
                 </div>
             </div>
         </div>
-        <div class="col-5 offset-1">
+        <div class="col-12 col-md-5 offset-0 offset-md-1 order-1 order-md-2">
             <div class="row h-100">
                 <div class="col-4" data-tilt data-tilt-scale="1.1">
                     <img src="/images/book.svg" class="figure-img img-fluid rounded" alt="Clollaboration" data-aos="fade-up">
                 </div>
-                <div class="w-100">
+                <div class="w-100 d-none d-md-block">
                 </div>
-                <div class="col-4 offset-5" data-tilt data-tilt-scale="1.1">
+                <div class="col-4 offset-0 offset-md-5" data-tilt data-tilt-scale="1.1">
                         <img src="/images/check.svg" class="figure-img img-fluid rounded" alt="Check" data-aos="fade-up">
                 </div>
-                <div class="w-100">
+                <div class="w-100 d-none d-md-block">
                 </div>
                 <div class="col-4" data-tilt data-tilt-scale="1.1">
                         <img src="/images/up.svg" class="figure-img img-fluid rounded" alt="Up" data-aos="fade-up">
@@ -137,8 +138,8 @@
       </div>
 
       <div class="row" id="contactus" style="background: #fff;">
-        <div class="col-6">
-            <p class="display-5 landing-page-heading text-start">Contact Us</p>
+        <div class="col-md-6 order-2 order-md-1 pb-1">
+            <p class="display-5 landing-page-heading text-center text-md-start">Contact Us</p>
             <form>
                 <div class="mb-3">
                     <label for="contact-name" class="form-label">Name</label>
@@ -161,7 +162,7 @@
                 </div>
               </form>
         </div>
-        <div class="col-6" >
+        <div class="col-10 col-md-6 offset-1 offset-md-0 order-1 order-md-2">
             <figure class="figure w-100 h-100 text-center mt-2" data-tilt data-tilt-scale="1.1">
                 <img src="/images/email.svg" class="figure-img img-fluid rounded" alt="Contact" data-aos="zoom-in">
               </figure>

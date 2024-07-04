@@ -13,5 +13,6 @@ namespace CoSmellRefine.Repositories
         Task<ModuleCompletion> GetModuleCompletionAsync(Guid moduleId, string userId);
 
         void Update(ModuleCompletion completion);
+        Task<IEnumerable<ModuleCompletion>> GetAllAsync();
     }
 }

@@ -57,5 +57,27 @@ namespace CoSmellRefine.Repositories
             return questionResponse; 
         }
 
+        public List<(string UserName, int Count)> GetTopContributors(int count)
+        {
+            return dbContext.Responses
+                           .GroupBy(qr => qr.UserId)
+                           .Select(g => new
+                           {
+                               UserId = g.Key,
+                               Count = g.Count()
+                           })
+                           .OrderByDescending(g => g.Count)
+                           .Take(count)
+                           .Join(dbContext.Users, g => g.UserId, u => u.Id, (g, u) => new
+                           {
+                               UserName = u.UserName,
+                               Count = g.Count
+                           })
+                           .ToList()
+                           .Select(tc => (tc.UserName, tc.Count))
+                           .ToList();
+        }
+
+
     }
 }

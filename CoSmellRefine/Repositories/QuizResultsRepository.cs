@@ -54,5 +54,19 @@ namespace CoSmellRefine.Repositories
             dbContext.QuizResults.Update(result);
             dbContext.SaveChanges();
         }
+
+        public List<(string ModuleName, double AverageResult)> GetAverageQuizResults()
+        {
+            return dbContext.QuizResults
+                           .GroupBy(qr => qr.ModuleId)
+                           .Select(g => new
+                           {
+                               ModuleName = g.FirstOrDefault().Module.Title,
+                               AverageResult = g.Average(qr => qr.Result)
+                           })
+                           .ToList()
+                           .Select(qr => (qr.ModuleName, qr.AverageResult))
+                           .ToList();
+        }
     }
 }

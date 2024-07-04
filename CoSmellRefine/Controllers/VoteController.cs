@@ -1,9 +1,12 @@
-﻿using CoSmellRefine.Models.Domain;
+﻿using CoSmellRefine.Hubs;
+using CoSmellRefine.Models.Domain;
 using CoSmellRefine.Models.ViewModels;
 using CoSmellRefine.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 
 namespace CoSmellRefine.Controllers
 {
@@ -13,11 +16,13 @@ namespace CoSmellRefine.Controllers
     {
         private readonly UserManager<IdentityUser> userManager;
         private readonly IVoteRepository voteRepository;
+        private readonly IHubContext<QuestionHub> questionHub;
 
-        public VoteController(IVoteRepository voteRepository, UserManager<IdentityUser> userManager)
+        public VoteController(IVoteRepository voteRepository, UserManager<IdentityUser> userManager, IHubContext<QuestionHub> questionHub)
         {
             this.voteRepository = voteRepository;
             this.userManager = userManager;
+            this.questionHub = questionHub;
         }
 
 
@@ -49,7 +54,10 @@ namespace CoSmellRefine.Controllers
                 var result = voteRepository.Add(vote);
 
             }
-       
+            var totalVotes = await voteRepository.GetTotalVotesAsync(addVote.ResponseId);
+            await questionHub.Clients.All.SendAsync("VoteUpdated", addVote.ResponseId, totalVotes);
+
+
             return Ok();
         }
 

@@ -1,4 +1,5 @@
 using CoSmellRefine.Data;
+using CoSmellRefine.Hubs;
 using CoSmellRefine.Repositories;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Identity;
@@ -78,7 +79,8 @@ builder.Services.AddAuthentication(options =>
         }
     };
 });
-
+builder.Services.AddSignalR();
+builder.Services.AddMemoryCache();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -99,5 +101,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapHub<QuestionHub>("/hubs/question");
 
 app.Run();
