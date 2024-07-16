@@ -136,38 +136,38 @@
             </div>
         </div>
       </div>
-
-      <div class="row" id="contactus" style="background: #fff;">
+    <div class="row" id="contactus" style="background: #fff;">
         <div class="col-md-6 order-2 order-md-1 pb-1">
             <p class="display-5 landing-page-heading text-center text-md-start">Contact Us</p>
-            <form>
+            <form id="contactForm">
                 <div class="mb-3">
                     <label for="contact-name" class="form-label">Name</label>
                     <input type="text" class="form-control" id="contact-name" aria-describedby="name" required>
-                  </div>
+                </div>
                 <div class="mb-3">
-                  <label for="contact-email" class="form-label">Email address</label>
-                  <input type="email" class="form-control" id="contact-email" aria-describedby="emailHelp">
+                    <label for="contact-email" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="contact-email" aria-describedby="emailHelp" required>
                 </div>
                 <div class="mb-3">
                     <label for="contact-number" class="form-label">Phone Number</label>
                     <input type="text" class="form-control" id="contact-number" aria-describedby="phoneNumber" required>
-                  </div>
-                  <div class="mb-3">
+                </div>
+                <div class="mb-3">
                     <label for="message" class="form-label">Message</label>
-                    <textarea class="form-control" aria-label="message" required ></textarea>
-                  </div>
+                    <textarea class="form-control" id="contact-message" aria-label="message" required></textarea>
+                </div>
                 <div class="d-flex justify-content-center align-items-center" data-tilt data-tilt-scale="1.1">
                     <button type="submit" class="btn dark-btn me-0 text-center">Submit</button>
                 </div>
-              </form>
+            </form>
         </div>
         <div class="col-10 col-md-6 offset-1 offset-md-0 order-1 order-md-2">
             <figure class="figure w-100 h-100 text-center mt-2" data-tilt data-tilt-scale="1.1">
                 <img src="/images/email.svg" class="figure-img img-fluid rounded" alt="Contact" data-aos="zoom-in">
-              </figure>
+            </figure>
         </div>
-      </div>
+    </div>
+
 </div>
 
 
@@ -205,6 +205,43 @@
 
             // Initialize AOS (Animate On Scroll)
             AOS.init();
+
+
+
+            $('#contactForm').on('submit', function (e) {
+                e.preventDefault();
+
+                var name = $('#contact-name').val();
+                var email = $('#contact-email').val();
+                var phone = $('#contact-number').val();
+                var message = $('#contact-message').val();
+
+                $.ajax({
+                    url: '/api/email/send',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        to: 'shrirajan331@gmail.com',
+                        subject: 'Contact Form Submission',
+                        body: `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nMessage: ${message}`
+                    }),
+                    success: function (response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Message Sent',
+                            text: 'Your message has been sent successfully!'
+                        });
+                        $('#contactForm')[0].reset();
+                    },
+                    error: function (xhr, status, error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'There was an error sending your message. Please try again later.'
+                        });
+                    }
+                });
+            });
         });
     </script>
 

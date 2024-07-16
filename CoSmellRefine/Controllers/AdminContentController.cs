@@ -2,12 +2,14 @@
 using CoSmellRefine.Models.Domain;
 using CoSmellRefine.Models.ViewModels;
 using CoSmellRefine.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace CoSmellRefine.Controllers
 {
+    [Authorize]
     public class AdminContentController : Controller
     {
         private readonly IModuleRepository moduleRepository;

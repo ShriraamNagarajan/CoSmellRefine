@@ -1,8 +1,13 @@
 ﻿using CoSmellRefine.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using System.Security.Claims;
+using System.Text.Encodings.Web;
+using System.Text;
+using CoSmellRefine.Services;
 
 namespace CoSmellRefine.Controllers
 {
@@ -10,12 +15,14 @@ namespace CoSmellRefine.Controllers
     {
         private readonly UserManager<IdentityUser> userManager;
         private readonly SignInManager<IdentityUser> signInManager;
+        private readonly EmailService _emailService;
 
         public AccountController(UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager)
+            SignInManager<IdentityUser> signInManager, EmailService emailService)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this._emailService = emailService;
         }
 
 
@@ -93,13 +100,16 @@ namespace CoSmellRefine.Controllers
                 {
                     return RedirectToAction("Index", "AdminDashboard");
                 }
+                else if(roles.Contains("Moderator") && roles.Contains("Developer"))
+                {
+                    return RedirectToAction("Index", "DeveloperDashboard");
+                }
                 else if (roles.Contains("Moderator"))
                 {
                     return RedirectToAction("Index", "ModeratorDashboard");
                 }
                 else if (roles.Contains("Developer"))
                 {
-                    // Default to user dashboard or home
                     return RedirectToAction("Index", "DeveloperDashboard");
                 }
             }
@@ -140,10 +150,11 @@ namespace CoSmellRefine.Controllers
                 {
                     ModelState.AddModelError("Password", "Password must contain at least one non-alphanumeric character.");
                 }
-                if (registerViewModel.Password.Distinct().Count() < registerViewModel.Password.Length - 1)
+                if (registerViewModel.Password.Distinct().Count() < 2)
                 {
-                    ModelState.AddModelError("Password", "Password must contain at least one non-alphanumeric character.");
+                    ModelState.AddModelError("Password", "Password must contain at least two different characters.");
                 }
+
             }
         }
 
@@ -225,7 +236,92 @@ namespace CoSmellRefine.Controllers
             }
         }
 
-       
+
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await userManager.FindByEmailAsync(model.Email);
+                if (user == null)
+                {
+                    return RedirectToAction("ForgotPasswordConfirmation");
+                }
+
+                var code = await userManager.GeneratePasswordResetTokenAsync(user);
+                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                var callbackUrl = Url.Action(
+                    "ResetPassword",
+                    "Account",
+                    new { code, email = model.Email },
+                    protocol: Request.Scheme);
+
+                await _emailService.SendEmailAsync(
+                    model.Email,
+                    "Reset Password",
+                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                return RedirectToAction("ForgotPasswordConfirmation");
+            }
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult ForgotPasswordConfirmation()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult ResetPassword(string code = null)
+        {
+            if (code == null)
+            {
+                return BadRequest("A code must be supplied for password reset.");
+            }
+            code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
+            var model = new ResetPasswordViewModel { Code = code };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                return RedirectToAction("ResetPasswordConfirmation");
+            }
+
+            var result = await userManager.ResetPasswordAsync(user, Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(model.Code)), model.Password);
+            if (result.Succeeded)
+            {
+                return RedirectToAction("ResetPasswordConfirmation");
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult ResetPasswordConfirmation()
+        {
+            return View();
+        }
 
 
 

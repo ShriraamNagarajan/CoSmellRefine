@@ -1,6 +1,7 @@
 using CoSmellRefine.Data;
 using CoSmellRefine.Hubs;
 using CoSmellRefine.Repositories;
+using CoSmellRefine.Services;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -16,7 +17,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
 builder.Services.Configure<IdentityOptions>(options =>
 {
     options.Password.RequireDigit = true;
@@ -81,6 +83,15 @@ builder.Services.AddAuthentication(options =>
 });
 builder.Services.AddSignalR();
 builder.Services.AddMemoryCache();
+
+var redisConnectionString = builder.Configuration["RedisCache:ConnectionString"];
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = redisConnectionString;
+    options.InstanceName = "CoSmellRefineInstance";
+});
+
+builder.Services.AddScoped<EmailService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

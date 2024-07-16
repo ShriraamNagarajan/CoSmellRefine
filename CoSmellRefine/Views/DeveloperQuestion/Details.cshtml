@@ -12,433 +12,427 @@
 }
 
 
-<div class="sidebar-container">
-    @if (roles.Contains("Admin"))
-    {
-        <partial name="_AdminSidebar" />
-    }
-    else if (roles.Contains("Moderator"))
-    {
-        <partial name="_ModeratorSidebar" />
-    }
-    else
-    {
-        <partial name="_DeveloperSidebar" />
-    }
-    <section class="user-main dashboard-content p-5">
-        <div class="container">
-            <a href="javascript:void(0);" class="btn dark-btn mb-5" onclick="history.back()">
-                <i class="fas fa-arrow-left"></i> Back
-            </a>
+
+<div class="container">
+    <a href="javascript:void(0);" class="btn dark-btn mb-5" onclick="history.back()">
+        <i class="fas fa-arrow-left"></i> Back
+    </a>
          
-            <div class="row justify-content-center mb-5">
-                <div class="col-md-12">
-                    <div class="card mt-3 rounded" style="background-color: #fff !important;">
-                        @if (!Model.Question.IsDeleted)
-                        {
-                            <div class="card-header question-card-header" style="background-color: #fff !important; border:none;">
+    <div class="row justify-content-center mb-5">
+        <div class="col-md-12">
+            <div class="card mt-3 rounded" style="background-color: #fff !important;">
+                @if (!Model.Question.IsDeleted)
+                {
+                    <div class="card-header question-card-header" style="background-color: #fff !important; border:none;">
 
-                                <div class="d-flex justify-content-end align-items-start">
-                                    @if (Model.Question.User.Id == userId && Model.Question.Status.Equals(CoSmellRefine.Utility.QuestionStatus.Open))
-                                    {
-                                        <div class="dropdown">
-                                            <div id="questionOptions" data-bs-toggle="dropdown" aria-expanded="false" style="cursor:pointer;">
-                                                <i class="bi bi-three-dots h3"></i>
-                                            </div>
-                                            <ul class="dropdown-menu" aria-labelledby="questionOptions">
-                                                <li><a class="dropdown-item close-question" href="#" data-question-id="@Model.Question.Id">Close Question</a></li>
-                                            </ul>
-                                        </div>
-                                    }
-                                </div>
-                                <div class="d-flex justify-content-between align-items-start mt-0 pt-0 mb-1">
-                                    @if (Model.Question.Status.Equals(CoSmellRefine.Utility.QuestionStatus.Open))
-                                    {
-                                        <span class="badge bg-success">@Model.Question.Status</span>
-                                    }
-                                    else
-                                    {
-                                        <span class="badge bg-danger">@Model.Question.Status</span>
-                                    }
-                                    @if (Model.Question.Type.Equals(CoSmellRefine.Utility.QuestionType.CodeSmellIdentification))
-                                    {
-                                        <span class="badge bg-primary">@Model.Question.Type</span>
-                                    }
-                                    else
-                                    {
-                                        <span class="badge bg-secondary">@Model.Question.Type</span>
-                                    }
-
-                                </div>
-                             
-                            </div>
-                            
-                        }
-                        <div class="card-body question-card-body d-flex flex-md-row flex-column p-2">
-                            @if (Model.Question.IsDeleted)
+                        <div class="d-flex justify-content-end align-items-start">
+                            @if (Model.Question.User.Id == userId && Model.Question.Status.Equals(CoSmellRefine.Utility.QuestionStatus.Open))
                             {
-                                <div class="alert alert-danger d-flex justify-content-center align-items-center" role="alert">
-                                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                                    <div class="d-flex justify-content-center align-items-cetner">
-                                        This item has been removed due to inappropriate content.
+                                <div class="dropdown">
+                                    <div id="questionOptions" data-bs-toggle="dropdown" aria-expanded="false" style="cursor:pointer;">
+                                        <i class="bi bi-three-dots h3"></i>
                                     </div>
+                                    <ul class="dropdown-menu" aria-labelledby="questionOptions">
+                                        <li><a class="dropdown-item close-question" href="#" data-question-id="@Model.Question.Id">Close Question</a></li>
+                                    </ul>
                                 </div>
+                            }
+                        </div>
+                        <div class="d-flex justify-content-between align-items-start mt-0 pt-0 mb-1">
+                            @if (Model.Question.Status.Equals(CoSmellRefine.Utility.QuestionStatus.Open))
+                            {
+                                <span class="badge bg-success">@Model.Question.Status</span>
                             }
                             else
                             {
-                                <div class="d-flex flex-row justify-content-md-start justify-content-center align-items-center w-md-10">
-                                    <img src="https://via.placeholder.com/64" class="rounded-circle mb-1" alt="User Image">
-                                </div>
-                                <div class="question-content p-1 w-md-90" style="border-radius:5px;">
-                                    <p class="h4">@Model.Question.Title</p>
-                                    <p>@Model.Question.Body</p>
-
-                                    @foreach (var codeSmell in Model.Question.CodeSmellList)
-                                    {
-                                        <span class="badge bg-primary h1"> @codeSmell.Name </span>
-                                    }
-
-
-                                    <div class="editor question-editor w-100">
-                                        @Model.Question.CodeSnippet
-                                    </div>
-                                    <div class="question-supporting-images mt-3 w-25">
-                                        @foreach (var image in Model.Question.Images)
-                                        {
-                                            <img src="@image.ImageUrl" alt="Supporting Image" class="img-fluid w-100 border border-dark">
-                                        }
-                                    </div>
-                                </div>
-                                
+                                <span class="badge bg-danger">@Model.Question.Status</span>
                             }
-               
-                        </div>
-                        <div class="card-footer question-card-footer action-buttons d-flex flex-row justify-content-between mt-2" style="border:none; background:#fff !important;">
-                            @if (!Model.Question.IsDeleted)
+                            @if (Model.Question.Type.Equals(CoSmellRefine.Utility.QuestionType.CodeSmellIdentification))
                             {
+                                <span class="badge bg-primary">@Model.Question.Type</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">@Model.Question.Type</span>
+                            }
 
-                                @if (Model.Question.User.Id == userId)
+                        </div>
+                             
+                    </div>
+                            
+                }
+                <div class="card-body question-card-body d-flex flex-md-row flex-column p-2">
+                    @if (Model.Question.IsDeleted)
+                    {
+                        <div class="alert alert-danger d-flex justify-content-center align-items-center" role="alert">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                            <div class="d-flex justify-content-center align-items-cetner">
+                                This item has been removed due to inappropriate content.
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="d-flex flex-row justify-content-md-start justify-content-center align-items-center w-md-10">
+                            <img src="https://via.placeholder.com/64" class="rounded-circle mb-1" alt="User Image">
+                        </div>
+                        <div class="question-content p-1 w-md-90" style="border-radius:5px;">
+                            <p class="h4">@Model.Question.Title</p>
+                            <p>@Model.Question.Body</p>
+
+                            @foreach (var codeSmell in Model.Question.CodeSmellList)
+                            {
+                                <span class="badge bg-primary h1"> @codeSmell.Name </span>
+                            }
+
+
+                            <div class="editor question-editor w-100">
+                                @Model.Question.CodeSnippet
+                            </div>
+                            <div class="question-supporting-images mt-3 w-25">
+                                @foreach (var image in Model.Question.Images)
                                 {
-                                    <button id="getFinalAnswerButton" data-question-id="@Model.Question.Id" class="btn light-btn">Get Final Answer</button>
+                                    <img src="@image.ImageUrl" alt="Supporting Image" class="img-fluid w-100 border border-dark">
                                 }
-                                else
-                                {
-                                    @if (Model.Question.Status.Equals(CoSmellRefine.Utility.QuestionStatus.Open))
-                                    {
-                                        <button class="btn light-btn" data-bs-toggle="modal" data-bs-target="#answerModal">Post your answer</button>
+                            </div>
+                        </div>
+                                
+                    }
+               
+                </div>
+                <div class="card-footer question-card-footer action-buttons d-flex flex-row justify-content-between mt-2" style="border:none; background:#fff !important;">
+                    @if (!Model.Question.IsDeleted)
+                    {
 
-                                    }
+                        @if (Model.Question.User.Id == userId)
+                        {
+                            <button id="getFinalAnswerButton" data-question-id="@Model.Question.Id" class="btn light-btn">Get Final Answer</button>
+                        }
+                        else
+                        {
+                            @if (Model.Question.Status.Equals(CoSmellRefine.Utility.QuestionStatus.Open))
+                            {
+                                <button class="btn light-btn" data-bs-toggle="modal" data-bs-target="#answerModal">Post your answer</button>
 
-                                }
-                                <p class="text-center"> Asked by @Model.Question.User.UserName </p>
-                                @if (Model.Question.Status.Equals(CoSmellRefine.Utility.QuestionStatus.Open) && Model.Question.User.Id!=userId)
-                                {
-                                    <button class="btn btn-danger ml-2" data-bs-toggle="modal" data-bs-target="#reportModal-Question"><i class="bi bi-flag"></i></button>
+                            }
+
+                        }
+                        <p class="text-center"> Asked by @Model.Question.User.UserName </p>
+                        @if (Model.Question.Status.Equals(CoSmellRefine.Utility.QuestionStatus.Open) && Model.Question.User.Id!=userId)
+                        {
+                            <button class="btn btn-danger ml-2" data-bs-toggle="modal" data-bs-target="#reportModal-Question"><i class="bi bi-flag"></i></button>
                                     
-                                }
+                        }
 
                                 
-                            }
+                    }
 
                            
-                        </div>
-                    </div>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <p id="answer-count" class="h2 mt-5 pt-5" data-count="@Model.Responses.Count">
-                @Model.Responses.Count @(Model.Responses.Count > 1 ? "Answers" : "Answer")
-            </p>
-            <div class="row response-row justify-content-center">
-                @foreach (var response in Model.Responses)
-                {
-                    <div class="col-md-12 m-2">
-                        <div class="card mt-3 rounded" style="background-color: #fff !important;">
-                            <div class="card-body d-flex flex-row p-2">
-                                @if (response.IsDeleted)
-                                {
-                                    <div class="alert alert-danger d-flex justify-content-center align-items-center" role="alert">
-                                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                                        <div class="d-flex justify-content-center align-items-cetner">
-                                            This item has been removed due to inappropriate content.
-                                        </div>
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div class="d-flex flex-column justify-content-start align-items-center" style="width:10%;">
-                                        <img src="https://via.placeholder.com/64" class="rounded-circle mb-1 d-none d-md-block" alt="User Image">
+    <p id="answer-count" class="h2 mt-5 pt-5" data-count="@Model.Responses.Count">
+        @Model.Responses.Count @(Model.Responses.Count > 1 ? "Answers" : "Answer")
+    </p>
+    <div class="row response-row justify-content-center">
+        @foreach (var response in Model.Responses)
+        {
+            <div class="col-md-12 m-2">
+                <div class="card mt-3 rounded" style="background-color: #fff !important;">
+                    <div class="card-body d-flex flex-row p-2">
+                        @if (response.IsDeleted)
+                        {
+                            <div class="alert alert-danger d-flex justify-content-center align-items-center" role="alert">
+                                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                <div class="d-flex justify-content-center align-items-cetner">
+                                    This item has been removed due to inappropriate content.
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="d-flex flex-column justify-content-start align-items-center" style="width:10%;">
+                                <img src="https://via.placeholder.com/64" class="rounded-circle mb-1 d-none d-md-block" alt="User Image">
 
-                                        <div class="d-flex flex-column justify-content-center align-items-center">
-                                            <i class="bi bi-caret-up-fill h2"></i>
-                                            <p class="h4 m-0 vote-count" data-response-id="@response.Id">@response.VoteCount</p>
-                                            <i class="bi bi-caret-down-fill h2"></i>
-                                        </div>
-                                    </div>
-                                    <div class="question-content ms-2" style="width:90%;">
-                                        <div class="d-flex flex-row justify-content-end align-items-center">
-                                            @if (response.VoteByUser == null)
+                                <div class="d-flex flex-column justify-content-center align-items-center">
+                                    <i class="bi bi-caret-up-fill h2"></i>
+                                    <p class="h4 m-0 vote-count" data-response-id="@response.Id">@response.VoteCount</p>
+                                    <i class="bi bi-caret-down-fill h2"></i>
+                                </div>
+                            </div>
+                            <div class="question-content ms-2" style="width:90%;">
+                                <div class="d-flex flex-row justify-content-end align-items-center">
+                                    @if (response.User.Id != userId)
+                                    {
+                                        @if (response.VoteByUser == null)
+                                        {
+                                            <!-- No vote by user, show unfilled icons -->
+                                            <i class="bi bi-hand-thumbs-up m-2 h3 vote-btn" data-response-id="@response.Id" data-vote-type="upvote"></i>
+                                            <i class="bi bi-hand-thumbs-up-fill m-2 h3 voted-btn" data-response-id="@response.Id" data-vote-type="upvote" style="display:none;"></i>
+                                            <i class="bi bi-hand-thumbs-down m-2 h3 vote-btn" data-response-id="@response.Id" data-vote-type="downvote"></i>
+                                            <i class="bi bi-hand-thumbs-down-fill m-2 h3 voted-btn" data-response-id="@response.Id" data-vote-type="downvote" style="display:none;"></i>
+                                        }
+                                        else
+                                        {
+                                            if (response.VoteByUser.IsUpvote)
                                             {
-                                                <!-- No vote by user, show unfilled icons -->
-                                                <i class="bi bi-hand-thumbs-up m-2 h3 vote-btn" data-response-id="@response.Id" data-vote-type="upvote"></i>
-                                                <i class="bi bi-hand-thumbs-up-fill m-2 h3 voted-btn" data-response-id="@response.Id" data-vote-type="upvote" style="display:none;"></i>
+                                                <!-- User has upvoted, show filled thumbs-up and unfilled thumbs-down -->
+                                                <i class="bi bi-hand-thumbs-up m-2 h3 vote-btn" data-response-id="@response.Id" data-vote-type="upvote" style="display:none;"></i>
+                                                <i class="bi bi-hand-thumbs-up-fill m-2 h3 voted-btn" data-response-id="@response.Id" data-vote-type="upvote"></i>
                                                 <i class="bi bi-hand-thumbs-down m-2 h3 vote-btn" data-response-id="@response.Id" data-vote-type="downvote"></i>
                                                 <i class="bi bi-hand-thumbs-down-fill m-2 h3 voted-btn" data-response-id="@response.Id" data-vote-type="downvote" style="display:none;"></i>
                                             }
                                             else
                                             {
-                                                if (response.VoteByUser.IsUpvote)
-                                                {
-                                                    <!-- User has upvoted, show filled thumbs-up and unfilled thumbs-down -->
-                                                    <i class="bi bi-hand-thumbs-up m-2 h3 vote-btn" data-response-id="@response.Id" data-vote-type="upvote" style="display:none;"></i>
-                                                    <i class="bi bi-hand-thumbs-up-fill m-2 h3 voted-btn" data-response-id="@response.Id" data-vote-type="upvote"></i>
-                                                    <i class="bi bi-hand-thumbs-down m-2 h3 vote-btn" data-response-id="@response.Id" data-vote-type="downvote"></i>
-                                                    <i class="bi bi-hand-thumbs-down-fill m-2 h3 voted-btn" data-response-id="@response.Id" data-vote-type="downvote" style="display:none;"></i>
-                                                }
-                                                else
-                                                {
-                                                    <!-- User has downvoted, show unfilled thumbs-up and filled thumbs-down -->
-                                                    <i class="bi bi-hand-thumbs-up m-2 h3 vote-btn" data-response-id="@response.Id" data-vote-type="upvote"></i>
-                                                    <i class="bi bi-hand-thumbs-up-fill m-2 h3 voted-btn" data-response-id="@response.Id" data-vote-type="upvote" style="display:none;"></i>
-                                                    <i class="bi bi-hand-thumbs-down m-2 h3 vote-btn" data-response-id="@response.Id" data-vote-type="downvote" style="display:none;"></i>
-                                                    <i class="bi bi-hand-thumbs-down-fill m-2 h3 voted-btn" data-response-id="@response.Id" data-vote-type="downvote"></i>
-                                                }
+                                                <!-- User has downvoted, show unfilled thumbs-up and filled thumbs-down -->
+                                                <i class="bi bi-hand-thumbs-up m-2 h3 vote-btn" data-response-id="@response.Id" data-vote-type="upvote"></i>
+                                                <i class="bi bi-hand-thumbs-up-fill m-2 h3 voted-btn" data-response-id="@response.Id" data-vote-type="upvote" style="display:none;"></i>
+                                                <i class="bi bi-hand-thumbs-down m-2 h3 vote-btn" data-response-id="@response.Id" data-vote-type="downvote" style="display:none;"></i>
+                                                <i class="bi bi-hand-thumbs-down-fill m-2 h3 voted-btn" data-response-id="@response.Id" data-vote-type="downvote"></i>
                                             }
-                                        </div>
-                                        <p class="h4">@Html.Raw(response.Body)</p>
-                                        <div class="editor question-editor w-100">
-                                            @response.CodeSnippet
-                                        </div>
-                                        <div>
-                                            @foreach (var codeSmell in response.CodeSmellList)
-                                            {
-                                                <span class="badge bg-primary h1"> @codeSmell.Name </span>
-                                            }
-                                        </div>
-                                        <div>
-                                            @foreach (var refactoringTechnique in response.RefactoringTechniques)
-                                            {
-                                                <span class="badge bg-secondary h1"> @refactoringTechnique.Name </span>
-                                            }
-                                        </div>
-
-
-                                    </div>
-                                    
-                                }
-                   
-                            </div>
-                            @if (!response.IsDeleted)
-                            {
-                                <div class="card-footer action-buttons d-flex flex-column mt-2" style="border:none; background:#fff !important;">
-                                    <div class="d-flex flex-row justify-content-between">
-                                        <div>
-                                            <button class="btn light-btn comment-btn mt-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample-@response.Id" aria-expanded="false" aria-controls="collapseExample-@response.User.Id">View comments</button>
-                                            <button class="btn light-btn mt-1" data-bs-toggle="modal" data-bs-target="#commentModal-@response.Id">Add a comment</button>
-                                        </div>
-                                        <p class="text-center"> Answered by @response.User.UserName </p>
-                                        <button class="btn btn-danger ml-1" data-bs-toggle="modal" data-bs-target="#reportModal-@response.Id"><i class="bi bi-flag"></i></button>
-                                    </div>
-                                </div>
-                                <div class="collapse" id="collapseExample-@response.Id">
-                                    @foreach (var comment in response.ResponseComments)
-                                    {
-                                        <div class="card card-body">
-                                            @comment.Body
-                                            <small class="text-muted">@comment.User.UserName replied @comment.CommentDate</small>
-                                        </div>
-                                    }
-
-                                </div>
-                                
-                            }
- 
-                        </div>
-                    </div>
-                }
-            </div>
-        </div>
-
-        <!-- Modals for answer, report, and comment -->
-        <!-- Answer Modal -->
-        <div class="modal fade" id="answerModal" tabindex="-1" aria-labelledby="answerModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content" style="background-color:#D0E2FB;">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="answerModalLabel">Post Your Answer</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" id="answer-body">
-                        <form asp-action="AddResponse" method="post" onsubmit="return validateAndSubmitAnswer()">
-                            <input type="hidden" name="QuestionId" value="@Model.AddResponse.QuestionId" />
-                            <div class="form-group">
-                                <label for="answer-body">Answer Description</label>
-                                <textarea id="froala-editor" name="Body" class="form-control"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="code-snippet">Code Snippet</label>
-                                <div class="response-editor question-editor" id="codeSnippetEditor"></div>
-                                <input type="hidden" id="codeSnippetText" name="CodeSnippet" />
-                            </div>
-                            <div class="form-group">
-                                <p>Code Smell Tags (If applicable)</p>
-                                <select name="SelectedCodeSmellIds" class="form-control" id="code-smell-tags" multiple="multiple" style="width: 100%;">
-                                    @foreach (var codeSmell in Model.AddResponse.CodeSmells)
-                                    {
-                                        <option value="@codeSmell.Value">@codeSmell.Text</option>
-                                    }
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <p>Refactoring Techniques Tags (if applicable)</p>
-                                <select name="SelectedRefactoringTechniqueIds" class="form-control tag-select" multiple="multiple" style="width: 100%;" id="refactoring-techniques-tags">
-                                    @foreach (var refactoringTechnique in Model.AddResponse.RefactoringTechniques)
-                                    {
-                                        <option value="@refactoringTechnique.Value">@refactoringTechnique.Text</option>
-                                    }
-                                </select>
-                            </div>
-                            <div class="d-flex justify-content-center align-items-center m-2">
-                                <button type="submit" class="btn light-btn">Post</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Report Modals -->
-        <div class="modal fade" id="reportModal-Question" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content" style="background-color:#D0E2FB;">
-                    <div class="modal-header">
-                        <p class="h3">Report Question</p>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form class="report-form" data-report-type="Question" data-discussion-item-id="@Model.Question.Id">
-                            <input type="hidden" name="QuestionId" value="@Model.Question.Id" />
-                            <input type="hidden" name="DiscussionItemId" value="@Model.Question.Id" />
-                            <input type="hidden" name="DiscussionType" value="Question" />
-                            <div class="form-group">
-                                <label for="report-reason">Reason</label>
-                                <textarea id="froala-editor-report-Question" name="Reason" class="form-control"></textarea>
-                            </div>
-                            <div class="d-flex justify-content-center align-items-center m-2">
-                                <button type="submit" class="btn light-btn">Submit</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        @foreach (var response in Model.Responses)
-        {
-            <div class="modal fade" id="reportModal-@response.Id" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content" style="background-color:#D0E2FB;">
-                        <div class="modal-header">
-                            <p class="h3">Report Response</p>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form class="report-form" data-report-type="Response" data-discussion-item-id="@response.Id">
-                                <input type="hidden" name="QuestionId" value="@Model.Question.Id" />
-                                <input type="hidden" name="DiscussionItemId" value="@response.Id" />
-                                <input type="hidden" name="DiscussionType" value="Response" />
-                                <div class="form-group">
-                                    <label for="report-reason">Reason</label>
-                                    <textarea id="froala-editor-report-@response.Id" name="Reason" class="form-control"></textarea>
-                                </div>
-                                <div class="d-flex justify-content-center align-items-center m-2">
-                                    <button type="submit" class="btn light-btn">Submit</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        }
-
-
-        <!-- Comment Modals -->
-        @foreach (var response in Model.Responses)
-        {
-            <div class="modal fade" id="commentModal-@response.Id" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content" style="background-color:#D0E2FB;">
-                        <div class="modal-header">
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form asp-action="AddComment" method="post">
-                                <input type="hidden" name="AddResponseComment.QuestionId" value="@Model.Question.Id" />
-                                <input type="hidden" name="AddResponseComment.ResponseId" value="@response.Id" />
-                                <div class="form-group">
-                                    <label for="comment-body">Comment</label>
-                                    <textarea id="froala-editor-@response.Id" name="AddResponseComment.Body" class="form-control"></textarea>
-                                </div>
-                                <div class="d-flex justify-content-center align-items-center m-2">
-                                    <button type="submit" class="btn light-btn">Post</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        }
-        <!-- Get Final Answer Modal -->
-        <div class="modal fade" id="annotatedCodeSnippetModal" tabindex="-1" aria-labelledby="annotatedCodeSnippetModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content" style="background-color:#D0E2FB;">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="annotatedCodeSnippetModalLabel">Annotated Code Snippet</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div id="answerEditor" class="editor question-editor w-100"></div>
-                        <div class="d-flex justify-content-center align-items-center">
-                            <button type="button" class="btn light-btn mt-3" id="showCreateIssueFields">
-                                Create Issue
-                            </button>
-                        </div>
-                        <!-- Create Issue Form Fields -->
-                        <form id="createIssueForm" class="mt-4" style="display: none;">
-                            <div class="mb-3">
-                                <label for="issueTitle" class="form-label">Title</label>
-                                <input type="text" class="form-control" id="issueTitle" name="Title" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="repoSelect" class="form-label">Repository</label>
-                                <select class="form-select" id="repoSelect" name="Repo" required>
-                                    <!-- Repositories will be populated here -->
-                                    @if (Model.CreateIssue.Repositories!=null)
-                                    {
-                                        @foreach (var repo in Model.CreateIssue.Repositories)
-                                        {
-                                            <option value="@repo.Value">@repo.Text</option>
                                         }
-                                        
+                                                
                                     }
-                            
-                                </select>
+                                   
+                                </div>
+                                <p class="h4">@Html.Raw(response.Body)</p>
+                                <div class="editor question-editor w-100">
+                                    @response.CodeSnippet
+                                </div>
+                                <div>
+                                    @foreach (var codeSmell in response.CodeSmellList)
+                                    {
+                                        <span class="badge bg-primary h1"> @codeSmell.Name </span>
+                                    }
+                                </div>
+                                <div>
+                                    @foreach (var refactoringTechnique in response.RefactoringTechniques)
+                                    {
+                                        <span class="badge bg-secondary h1"> @refactoringTechnique.Name </span>
+                                    }
+                                </div>
+
+
                             </div>
-                            <input type="hidden" id="issueBody" name="Body" value="">
-                            <input type="hidden" id="issueOwner" name="Owner" value="@Model.CreateIssue.Owner">
-                            <div class="modal-footer d-flex justify-content-center align-items-center">
-                                <button type="submit" class="btn dark-btn">Create</button>
-                            </div>
-                        </form>
+                                    
+                        }
+                   
                     </div>
+                    @if (!response.IsDeleted)
+                    {
+                        <div class="card-footer action-buttons d-flex flex-column mt-2" style="border:none; background:#fff !important;">
+                            <div class="d-flex flex-row justify-content-between">
+                                <div>
+                                    <button class="btn light-btn comment-btn mt-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample-@response.Id" aria-expanded="false" aria-controls="collapseExample-@response.User.Id">View comments</button>
+                                    <button class="btn light-btn mt-1" data-bs-toggle="modal" data-bs-target="#commentModal-@response.Id">Add a comment</button>
+                                </div>
+                                <p class="text-center"> Answered by @response.User.UserName </p>
+                                @if (response.User.Id != userId)
+                                {
+                                    <button class="btn btn-danger ml-1" data-bs-toggle="modal" data-bs-target="#reportModal-@response.Id"><i class="bi bi-flag"></i></button>
+                                }
+                                        
+                            </div>
+                        </div>
+                        <div class="collapse" id="collapseExample-@response.Id">
+                            @foreach (var comment in response.ResponseComments)
+                            {
+                                <div class="card card-body">
+                                    @comment.Body
+                                    <small class="text-muted">@comment.User.UserName replied @comment.CommentDate</small>
+                                </div>
+                            }
+
+                        </div>
+                                
+                    }
+ 
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Modals for answer, report, and comment -->
+<!-- Answer Modal -->
+<div class="modal fade" id="answerModal" tabindex="-1" aria-labelledby="answerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="background-color:#D0E2FB;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="answerModalLabel">Post Your Answer</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="answer-body">
+                <form asp-action="AddResponse" method="post" onsubmit="return validateAndSubmitAnswer()">
+                    <input type="hidden" name="QuestionId" value="@Model.AddResponse.QuestionId" />
+                    <div class="form-group">
+                        <label for="answer-body">Answer Description</label>
+                        <textarea id="froala-editor" name="Body" class="form-control"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="code-snippet">Code Snippet</label>
+                        <div class="response-editor question-editor" id="codeSnippetEditor"></div>
+                        <input type="hidden" id="codeSnippetText" name="CodeSnippet" />
+                    </div>
+                    <div class="form-group">
+                        <p>Code Smell Tags (If applicable)</p>
+                        <select name="SelectedCodeSmellIds" class="form-control" id="code-smell-tags" multiple="multiple" style="width: 100%;">
+                            @foreach (var codeSmell in Model.AddResponse.CodeSmells)
+                            {
+                                <option value="@codeSmell.Value">@codeSmell.Text</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <p>Refactoring Techniques Tags (if applicable)</p>
+                        <select name="SelectedRefactoringTechniqueIds" class="form-control tag-select" multiple="multiple" style="width: 100%;" id="refactoring-techniques-tags">
+                            @foreach (var refactoringTechnique in Model.AddResponse.RefactoringTechniques)
+                            {
+                                <option value="@refactoringTechnique.Value">@refactoringTechnique.Text</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center m-2">
+                        <button type="submit" class="btn light-btn">Post</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Report Modals -->
+<div class="modal fade" id="reportModal-Question" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="background-color:#D0E2FB;">
+            <div class="modal-header">
+                <p class="h3">Report Question</p>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="report-form" data-report-type="Question" data-discussion-item-id="@Model.Question.Id">
+                    <input type="hidden" name="QuestionId" value="@Model.Question.Id" />
+                    <input type="hidden" name="DiscussionItemId" value="@Model.Question.Id" />
+                    <input type="hidden" name="DiscussionType" value="Question" />
+                    <div class="form-group">
+                        <label for="report-reason">Reason</label>
+                        <textarea id="froala-editor-report-Question" name="Reason" class="form-control"></textarea>
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center m-2">
+                        <button type="submit" class="btn light-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@foreach (var response in Model.Responses)
+{
+    <div class="modal fade" id="reportModal-@response.Id" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="background-color:#D0E2FB;">
+                <div class="modal-header">
+                    <p class="h3">Report Response</p>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="report-form" data-report-type="Response" data-discussion-item-id="@response.Id">
+                        <input type="hidden" name="QuestionId" value="@Model.Question.Id" />
+                        <input type="hidden" name="DiscussionItemId" value="@response.Id" />
+                        <input type="hidden" name="DiscussionType" value="Response" />
+                        <div class="form-group">
+                            <label for="report-reason">Reason</label>
+                            <textarea id="froala-editor-report-@response.Id" name="Reason" class="form-control"></textarea>
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center m-2">
+                            <button type="submit" class="btn light-btn">Submit</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
+    </div>
+}
 
 
-        
-    </section>
+<!-- Comment Modals -->
+@foreach (var response in Model.Responses)
+{
+    <div class="modal fade" id="commentModal-@response.Id" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="background-color:#D0E2FB;">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form asp-action="AddComment" method="post">
+                        <input type="hidden" name="AddResponseComment.QuestionId" value="@Model.Question.Id" />
+                        <input type="hidden" name="AddResponseComment.ResponseId" value="@response.Id" />
+                        <div class="form-group">
+                            <label for="comment-body">Comment</label>
+                            <textarea id="froala-editor-@response.Id" name="AddResponseComment.Body" class="form-control"></textarea>
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center m-2">
+                            <button type="submit" class="btn light-btn">Post</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<!-- Get Final Answer Modal -->
+<div class="modal fade" id="annotatedCodeSnippetModal" tabindex="-1" aria-labelledby="annotatedCodeSnippetModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="background-color:#D0E2FB;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="annotatedCodeSnippetModalLabel">Annotated Code Snippet</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="answerEditor" class="editor question-editor w-100"></div>
+                <div class="d-flex justify-content-center align-items-center">
+                    <button type="button" class="btn light-btn mt-3" id="showCreateIssueFields">
+                        Create Issue
+                    </button>
+                </div>
+                <!-- Create Issue Form Fields -->
+                <form id="createIssueForm" class="mt-4" style="display: none;">
+                    <div class="mb-3">
+                        <label for="issueTitle" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="issueTitle" name="Title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="repoSelect" class="form-label">Repository</label>
+                        <select class="form-select" id="repoSelect" name="Repo" required>
+                            <!-- Repositories will be populated here -->
+                            @if (Model.CreateIssue.Repositories!=null)
+                            {
+                                @foreach (var repo in Model.CreateIssue.Repositories)
+                                {
+                                    <option value="@repo.Value">@repo.Text</option>
+                                }
+                                        
+                            }
+                            
+                        </select>
+                    </div>
+                    <input type="hidden" id="issueBody" name="Body" value="">
+                    <input type="hidden" id="issueOwner" name="Owner" value="@Model.CreateIssue.Owner">
+                    <div class="modal-footer d-flex justify-content-center align-items-center">
+                        <button type="submit" class="btn dark-btn">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
+
+
+
 
 @section Scripts {
     <script>
@@ -447,19 +441,6 @@
 
     <script src="~/js/signalr.js"></script>
     <script src="~/js/signalr_question.js"></script>
-    @if (roles.Contains("Admin"))
-    {
-        <script src="/js/admin_sidebar.js"></script>
-    }
-    else if (roles.Contains("Moderator"))
-    {
-        <script src="/js/moderator_sidebar.js"></script>
-    }
-    else if (roles.Contains("Developer"))
-    {
-        <script src="/js/developer_sidebar.js"></script>
-    }
-
     <script>
         $(document).ready(function () {
             // Initialize Froala Editor

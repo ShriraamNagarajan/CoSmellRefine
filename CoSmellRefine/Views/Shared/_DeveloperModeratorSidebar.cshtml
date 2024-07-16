@@ -1,0 +1,51 @@
+﻿<aside class="sidebar">
+    <ul class="menu-list">
+        <li>
+            <div class="menu-container">
+                <button class="icon" id="menu">
+                    <img src="/images/menu.svg" alt="menu" />
+                </button>
+            </div>
+        </li>
+        <li>
+            <a class="icon" id="dashboard" asp-controller="DeveloperDashboard" asp-action="Index" style="text-decoration:none !important;">
+                <img src="/images/dashboard.svg" alt="dashboard" />
+            </a>
+        </li>
+        <li>
+            <a class="icon" id="question" asp-controller="DeveloperQuestion" asp-action="List" style="text-decoration:none !important;">
+                <img src="/images/question.svg" alt="question" />
+            </a>
+        </li>
+        <li>
+            <a class="icon" id="learn" asp-controller="DeveloperLearn" asp-action="Index" style="text-decoration:none !important;">
+                <img src="/images/Content.svg" alt="content" />
+            </a>
+        </li>
+        <li>
+            <a class="icon" id="repository" asp-controller="GitHubRepository" asp-action="Repositories" style="text-decoration:none !important;">
+                <img src="/images/repository.svg" alt="Repository" />
+            </a>
+        </li>
+        <li>
+            <a class="icon" id="discussion" asp-controller="ModeratorDiscussion" asp-action="List" style="text-decoration:none !important;">
+                <img src="/images/discussion.svg" alt="discussion" />
+            </a>
+        </li>
+        <li>
+            <a class="icon" id="issue" asp-controller="ModeratorIssue" asp-action="List" style="text-decoration:none !important;">
+                <img src="/images/reported_issue.svg" alt="content" />
+            </a>
+        </li>
+    </ul>
+    <div class="logout-container">
+        <a class="icon-logout" asp-controller="Account" asp-action="Logout">
+            <img src="/images/log-out.svg" alt="logout" />
+        </a>
+    </div>
+</aside>
+
+
+@section Scripts {
+    <script src="/js/developer_moderator_sidebar.js"></script>
+}

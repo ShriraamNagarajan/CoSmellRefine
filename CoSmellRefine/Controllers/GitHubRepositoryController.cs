@@ -1,22 +1,25 @@
 ﻿using CoSmellRefine.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
 namespace CoSmellRefine.Controllers
 {
+    [Authorize]
     public class GitHubRepositoryController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IHttpClientFactory _clientFactory;
-        private readonly IMemoryCache _memoryCache;
-        public GitHubRepositoryController(UserManager<IdentityUser> userManager, IHttpClientFactory clientFactory, IMemoryCache memeoryCache)
+        private readonly IDistributedCache _distributedCache;
+        public GitHubRepositoryController(UserManager<IdentityUser> userManager, IHttpClientFactory clientFactory, IDistributedCache distributedCache)
         {
             this._userManager = userManager;    
             this._clientFactory = clientFactory;   
-            this._memoryCache = memeoryCache;
+            this._distributedCache = distributedCache;
             
         }
         public async Task<IActionResult> Repositories()
@@ -30,7 +33,14 @@ namespace CoSmellRefine.Controllers
                 return View("LoginPrompt");
             }
             var cacheKey = $"repositories_{user.Id}";
-            if (!_memoryCache.TryGetValue(cacheKey, out List<Repository> repositories))
+            var cachedRepositories = await _distributedCache.GetStringAsync(cacheKey);
+            List<Repository> repositories;
+
+            if (!string.IsNullOrEmpty(cachedRepositories))
+            {
+                repositories = JsonSerializer.Deserialize<List<Repository>>(cachedRepositories);
+            }
+            else
             {
                 var client = _clientFactory.CreateClient();
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
@@ -40,13 +50,13 @@ namespace CoSmellRefine.Controllers
                 repositories = JsonSerializer.Deserialize<List<Repository>>(response);
 
                 // Set cache options
-                var cacheEntryOptions = new MemoryCacheEntryOptions()
+                var cacheEntryOptions = new DistributedCacheEntryOptions()
                     .SetSlidingExpiration(TimeSpan.FromMinutes(5)) // Sliding expiration
-                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(10)) // Absolute expiration
-                    .SetPriority(CacheItemPriority.High); // Priority
+                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(10)); // Absolute expiration
 
                 // Cache the data
-                _memoryCache.Set(cacheKey, repositories, cacheEntryOptions);
+                var serializedRepositories = JsonSerializer.Serialize(repositories);
+                await _distributedCache.SetStringAsync(cacheKey, serializedRepositories, cacheEntryOptions);
             }
 
             return View(repositories);

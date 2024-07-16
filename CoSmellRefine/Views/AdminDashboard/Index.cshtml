@@ -5,10 +5,6 @@
     ViewData["Title"] = "CoSmellRefine";
 }
 
-<div class="sidebar-container">
-    <partial name="_AdminSidebar" />
-
-    <section class="user-main dashboard-content p-5">
         <p class="h1 mb-4">Welcome back, Admin!!!</p>
         <div class="row mb-3">
             <div class="col-12 col-md-5 mb-4 mt-3">
@@ -74,11 +70,9 @@
             </div>
         </div>
 
-    </section>
-</div>
+
 
 @section Scripts {
-    <script src="/js/admin_sidebar.js"></script>
     <script>
         $(document).ready(function () {
             const tour = new Shepherd.Tour({
@@ -146,6 +140,24 @@
                 attachTo: {
                     element: '#content',
                     on: 'right'
+                },
+                buttons: [
+                    {
+                        text: 'Back',
+                        action: tour.back
+                    },
+                    {
+                        text: 'Next',
+                        action: tour.next
+                    }
+                ]
+            });
+            tour.addStep({
+                title: 'Code Smells and Refactoring Techniques Mapping Summary',
+                text: 'Refer to the code smells and their associated refactoring techniques here as a reference whenever you encounter an unfamiliar code smell or technique..',
+                attachTo: {
+                    element: '#book-icon',
+                    on: 'bottom'
                 },
                 buttons: [
                     {

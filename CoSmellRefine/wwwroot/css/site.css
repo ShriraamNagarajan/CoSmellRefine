@@ -64,7 +64,6 @@ nav{
 .dark-btn {
     background-color: #2489D3;
     color: #fff;
-    /* Other properties are inherited from .light-btn */
 }
 
 .light-btn:hover {

@@ -6,10 +6,7 @@
     int prevPage = Convert.ToInt32(ViewBag.PageNumber) - 1;
 }
 
-<div class="sidebar-container">
-    <partial name="_AdminSidebar" />
 
-    <section class="user-main dashboard-content p-5">
 <div class="py-2">
     <div class="container">
         <h1>Modules</h1>
@@ -231,13 +228,11 @@
     }
 
 </div>
-</section>
-</div>
+
 
 
 
 @section Scripts {
-    <script src="/js/admin_sidebar.js"></script>
     @{
         <partial name="_DeleteConfirmation" />
     }

@@ -1,12 +1,14 @@
 ﻿using Azure.Core;
 using CoSmellRefine.Models.ViewModels;
 using CoSmellRefine.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CoSmellRefine.Controllers
 {
+    [Authorize]
     public class AdminUsersController : Controller
     {
         private readonly IUserRepository userRepository;
@@ -95,10 +97,11 @@ namespace CoSmellRefine.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(AddUserRequest addUserRequest)
+        public async Task<IActionResult> Add(AdminUsersViewModel addUserRequest)
         {
-            //add custom password validation
+            //add custom validation
             ValidatePassword(addUserRequest);
+            ValidateRoles(addUserRequest);
 
             if (ModelState.IsValid)
             {
@@ -120,10 +123,6 @@ namespace CoSmellRefine.Controllers
                         // assign roles to this user
                         var roles = new List<string>();
 
-                        if (addUserRequest.AdminRoleCheckbox)
-                        {
-                            roles.Add("Admin");
-                        }
                         if (addUserRequest.DeveloperRoleCheckbox)
                         {
                             roles.Add("Developer");
@@ -151,7 +150,58 @@ namespace CoSmellRefine.Controllers
             return View();
         }
 
-        private void ValidatePassword(AddUserRequest addUserRequest)
+        [HttpGet]
+        public async Task<IActionResult> Edit(string id)
+        {
+            var user = await userRepository.GetAsync(id);
+            var roles = await userManager.GetRolesAsync(user);
+            var developerCheckbox = roles.Contains("Developer") ? true : false;
+            var moderatorCheckbox = roles.Contains("Moderator") ? true: false;
+            if (user == null)
+            {
+                TempData["error"] = "User doesn't exist";
+                return BadRequest();
+            }
+
+            var viewModel = new AdminUsersViewModel
+            {
+                Id = id,
+                Username = user.UserName,
+                Password = user.PasswordHash,
+                Email = user.Email,
+                DeveloperRoleCheckbox = developerCheckbox,
+                ModeratorRoleCheckbox = moderatorCheckbox
+            };
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(AdminUsersViewModel model)
+        {
+            ValidateRoles(model);
+            if (!ModelState.IsValid)
+            {
+                TempData["error"] = "Failed to update user";
+                return RedirectToAction(nameof(Edit), new {id = model.Id});
+            }
+
+            var user = await userRepository.GetAsync(model.Id);
+            if (user == null)
+            {
+                TempData["error"] = "User doesn't exist";
+                return BadRequest();
+            }
+
+            var roles = await userManager.GetRolesAsync(user);
+            await UpdateUserRoles(user, roles, model);
+
+            TempData["success"] = "User has been updated successfully";
+            return RedirectToAction("List", "AdminUsers");
+        }
+
+
+
+        private void ValidatePassword(AdminUsersViewModel addUserRequest)
         {
             if (addUserRequest.Password is not null)
             {
@@ -175,10 +225,39 @@ namespace CoSmellRefine.Controllers
                 {
                     ModelState.AddModelError("Password", "Password must contain at least one non-alphanumeric character.");
                 }
-                if (addUserRequest.Password.Distinct().Count() < addUserRequest.Password.Length - 1)
+                if (registerViewModel.Password.Distinct().Count() < 2)
                 {
-                    ModelState.AddModelError("Password", "Password must contain at least one non-alphanumeric character.");
+                    ModelState.AddModelError("Password", "Password must contain at least two different characters.");
                 }
+            }
+        }
+
+        private void ValidateRoles(AdminUsersViewModel model)
+        {
+            if(!model.DeveloperRoleCheckbox && !model.ModeratorRoleCheckbox)
+            {
+                ModelState.AddModelError("ModeratorRoleCheckbox", "You have to select at least one role");
+            }
+        }
+
+        private async Task UpdateUserRoles(IdentityUser user, IList<string> currentRoles, AdminUsersViewModel model)
+        {
+            if (model.ModeratorRoleCheckbox && !currentRoles.Contains("Moderator"))
+            {
+                await userManager.AddToRoleAsync(user, "Moderator");
+            }
+            else if (!model.ModeratorRoleCheckbox && currentRoles.Contains("Moderator"))
+            {
+                await userManager.RemoveFromRoleAsync(user, "Moderator");
+            }
+
+            if (model.DeveloperRoleCheckbox && !currentRoles.Contains("Developer"))
+            {
+                await userManager.AddToRoleAsync(user, "Developer");
+            }
+            else if (!model.DeveloperRoleCheckbox && currentRoles.Contains("Developer"))
+            {
+                await userManager.RemoveFromRoleAsync(user, "Developer");
             }
         }
 

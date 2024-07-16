@@ -3,129 +3,124 @@
     Layout = "~/Views/Shared/_UserLayout.cshtml";
     ViewData["Title"] = "CoSmellRefine";
 }
-<div class="sidebar-container">
-    <partial name="_DeveloperSidebar" />
-    <section class="user-main dashboard-content p-5">
-        <div class="container mt-5 h-100">
-            <a asp-controller="DeveloperQuestion" asp-action="List" class="btn dark-btn mb-5">
-                <i class="fas fa-arrow-left"></i> Back
-            </a>
-            <div class="progress question-progress mb-2" id="question-progressBar">
-                <div class="progress-bar" id="question-progress" role="progressbar" style="width: 0%">0%</div>
+
+<div class="container mt-5 h-100">
+    <a asp-controller="DeveloperQuestion" asp-action="List" class="btn dark-btn mb-5">
+        <i class="fas fa-arrow-left"></i> Back
+    </a>
+    <div class="progress question-progress mb-2" id="question-progressBar">
+        <div class="progress-bar" id="question-progress" role="progressbar" style="width: 0%">0%</div>
+    </div>
+    <div id="questionForm" class="h-75">
+        <form asp-action="PostQuestion" enctype="multipart/form-data" onsubmit="updateCodeSnippet()" class="h-100">
+            <!-- Greeting Section -->
+            <div id="greetingSection" class="question-form-section h-100">
+                <div class="d-flex flex-column justify-content-center align-items-center h-100">
+                    <p class="h1"> Hi there 👋<br>Let's ask a question</p>
+                    <button type="button" class="btn light-btn mt-3" onclick="showNextSection('basicDetails', 20)"> Start </button>
+                </div>
             </div>
-            <div id="questionForm" class="h-75">
-                <form asp-action="PostQuestion" enctype="multipart/form-data" onsubmit="updateCodeSnippet()" class="h-100">
-                    <!-- Greeting Section -->
-                    <div id="greetingSection" class="question-form-section h-100">
-                        <div class="d-flex flex-column justify-content-center align-items-center h-100">
-                            <p class="h1"> Hi there 👋<br>Let's ask a question</p>
-                            <button type="button" class="btn light-btn mt-3" onclick="showNextSection('basicDetails', 20)"> Start </button>
-                        </div>
-                    </div>
-                    <!-- Basic Details Section -->
-                    <div id="basicDetails" class="question-form-section h-100">
-                        <div class="d-flex justify-content-between mb-4">
-                            <button type="button" class="btn light-btn" onclick="showPreviousSection('greetingSection', 0)"> <i class="fas fa-arrow-left"></i> Back</button>
-                            <button type="button" class="btn light-btn" onclick="showNextSection('codeSnippet', 40)">Continue <i class="fas fa-arrow-right"></i></button>
-                        </div>
-                        <p class="h2">Enter Your Question Details</p>
-                        <p>Provide a title and description to give context to your question</p>
-                        <div class="mb-3">
-                            <label asp-for="Title" class="form-label"></label>
-                            <input asp-for="Title" class="form-control" />
-                            <span asp-validation-for="Title" class="text-danger"></span>
-                        </div>
-                        <div class="mb-3">
-                            <label asp-for="Body" class="form-label"></label>
-                            <textarea asp-for="Body" class="form-control"></textarea>
-                            <span asp-validation-for="Body" class="text-danger"></span>
-                        </div>
-                    </div>
-
-                    <!-- Code Snippet Section -->
-                    <div id="codeSnippet" class="question-form-section">
-                        <div class="d-flex justify-content-between mb-4">
-                            <button type="button" class="btn light-btn" onclick="showPreviousSection('basicDetails', 20)"> <i class="fas fa-arrow-left"></i> Back</button>
-                            <button type="button" class="btn light-btn" onclick=" validateCodeSnippet()">Continue <i class="fas fa-arrow-right"></i></button>
-                        </div>
-                        <p class="h2">Paste Your Code Snippet</p>
-                        <p>Share the specific part of the code where you need help</p>
-                        <div id="editor" style="height: 200px;"></div>
-                        <textarea asp-for="CodeSnippet" id="codeSnippetText" hidden></textarea>
-                    </div>
-
-                    <!-- Upload Images Section -->
-                    <div id="uploadImages" class="question-form-section">
-                        <div class="d-flex justify-content-between mb-4">
-                            <button type="button" class="btn light-btn" onclick="showPreviousSection('codeSnippet', 40)"><i class="fas fa-arrow-left"></i> Back</button>
-                            <button type="button" class="btn light-btn" onclick="showNextSection('selection', 80)">Continue <i class="fas fa-arrow-right"></i></button>
-                        </div>
-                        <p class="h2">Upload Supporting Images</p>
-                        <p>Add images that help explain your code issue better.</p>
-                        <div class="dropzone question-dropzone" id="imageUploadDropzone"></div>
-                        <input asp-for="ImageUrls" type="hidden" id="imageUrls" />
-                    </div>
-
-                    <!-- Selection Section -->
-                    <div id="selection" class="question-form-section">
-                        <div class="d-flex justify-content-between mb-4">
-                            <button type="button" class="btn dark-btn" onclick="showPreviousSection('uploadImages', 60)"> <i class="fas fa-arrow-left"></i> Back</button>
-                            <button type="button" class="btn light-btn" onclick="showNextSection('additionalDetails', 80)">Continue <i class="fas fa-arrow-right"></i></button>
-                        </div>
-                        <p class="h2">Please Select an Option</p>
-                        <p>Choose whether your question is about identifying code smells or refactoring techniques</p>
-
-                        <div class="row d-flex justify-content-center">
-                            <div class="col-12 col-md-3 d-flex flex-column justify-content-center align-items-center me-2 p-3 question-type-selection mt-3">
-                                <input type="radio" asp-for="Type" id="CodeSmellIdentification" value="@CoSmellRefine.Utility.QuestionType.CodeSmellIdentification" />
-                                <label for="CodeSmellIdentification" class="d-flex justiy-content-center align-items-center flex-column mt-1">
-                                    <img src="/images/code_smell_identification.svg" alt="Code Smell Identification">
-                                    <p class="text-center m-2"> Code Smell Identification </p>
-                                </label>
-                            </div>
-                            <div class="col-12 col-md-3 d-flex flex-column justify-content-center align-items-center me-2 p-3 question-type-selection mt-3">
-                                <input type="radio" asp-for="Type" id="RefactoringTechniqueIdentification" value="@CoSmellRefine.Utility.QuestionType.RefactoringTechniqueIdentification" />
-                                <label for="RefactoringTechniqueIdentification" class="d-flex justiy-content-center align-items-center flex-column mt-1">
-                                    <img src="/images/refactoring_technique_identification.svg" alt="Refactoring Technique Identification">
-                                    <p class="text-center m-2"> Refactoring Technique Identification </p>
-                                </label>
-                            </div>
-                        </div>
-                        <span asp-validation-for="Type" class="text-danger"></span>
-                    </div>
-
-                    <!-- Additional Details Section -->
-                    <div id="additionalDetails" class="question-form-section">
-                        <div class="d-flex justify-content-between mb-4">
-                            <button type="button" class="btn light-btn" onclick="showPreviousSection('selection', 80)"> <i class="fas fa-arrow-left"></i> Back</button>
-                            <button type="button" class="btn light-btn" onclick="showNextSection('final', 100)">Continue <i class="fas fa-arrow-right"></i></button>
-                        </div>
-                        <p class="h2">Provide Additional Details</p>
-                        <p>Select the suspected code smells or the identified code smells.</p>
-                        <select asp-for="SelectedCodeSmellIds" class="form-control" id="additionalDetailsSelect" multiple="multiple" style="width: 100%;">
-                            @foreach (var item in Model.CodeSmells)
-                            {
-                                <option value="@item.Value">@item.Text</option>
-                            }
-                        </select>
-                        <span asp-validation-for="SelectedCodeSmellIds" class="text-danger"></span>
-                    </div>
-                    <div id="final" class="question-form-section  h-100">
-                        <div class="d-flex justify-content-between mb-4">
-                            <button type="button" class="btn dark-btn" onclick="showPreviousSection('additionalDetails', 80)"> <i class="fas fa-arrow-left"></i> Back</button>
-                        </div>
-                        <div class="d-flex flex-column justify-content-center align-items-center h-100">
-                            <p class="h1"> 😄Alright, that's it!<br>Let's post the question.</p>
-                            <button class="btn btn-success mt-3" type="submit"> Post Question </button>
-                        </div>
-                    </div>
-                </form>
+            <!-- Basic Details Section -->
+            <div id="basicDetails" class="question-form-section h-100">
+                <div class="d-flex justify-content-between mb-4">
+                    <button type="button" class="btn light-btn" onclick="showPreviousSection('greetingSection', 0)"> <i class="fas fa-arrow-left"></i> Back</button>
+                    <button type="button" class="btn light-btn" onclick="showNextSection('codeSnippet', 40)">Continue <i class="fas fa-arrow-right"></i></button>
+                </div>
+                <p class="h2">Enter Your Question Details</p>
+                <p>Provide a title and description to give context to your question</p>
+                <div class="mb-3">
+                    <label asp-for="Title" class="form-label"></label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <textarea asp-for="Body" class="form-control"></textarea>
+                    <span asp-validation-for="Body" class="text-danger"></span>
+                </div>
             </div>
-    </section>
-</div>
+
+            <!-- Code Snippet Section -->
+            <div id="codeSnippet" class="question-form-section">
+                <div class="d-flex justify-content-between mb-4">
+                    <button type="button" class="btn light-btn" onclick="showPreviousSection('basicDetails', 20)"> <i class="fas fa-arrow-left"></i> Back</button>
+                    <button type="button" class="btn light-btn" onclick=" validateCodeSnippet()">Continue <i class="fas fa-arrow-right"></i></button>
+                </div>
+                <p class="h2">Paste Your Code Snippet</p>
+                <p>Share the specific part of the code where you need help</p>
+                <div id="editor" style="height: 200px;"></div>
+                <textarea asp-for="CodeSnippet" id="codeSnippetText" hidden></textarea>
+            </div>
+
+            <!-- Upload Images Section -->
+            <div id="uploadImages" class="question-form-section">
+                <div class="d-flex justify-content-between mb-4">
+                    <button type="button" class="btn light-btn" onclick="showPreviousSection('codeSnippet', 40)"><i class="fas fa-arrow-left"></i> Back</button>
+                    <button type="button" class="btn light-btn" onclick="showNextSection('selection', 80)">Continue <i class="fas fa-arrow-right"></i></button>
+                </div>
+                <p class="h2">Upload Supporting Images</p>
+                <p>Add images that help explain your code issue better.</p>
+                <div class="dropzone question-dropzone" id="imageUploadDropzone"></div>
+                <input asp-for="ImageUrls" type="hidden" id="imageUrls" />
+            </div>
+
+            <!-- Selection Section -->
+            <div id="selection" class="question-form-section">
+                <div class="d-flex justify-content-between mb-4">
+                    <button type="button" class="btn dark-btn" onclick="showPreviousSection('uploadImages', 60)"> <i class="fas fa-arrow-left"></i> Back</button>
+                    <button type="button" class="btn light-btn" onclick="showNextSection('additionalDetails', 80)">Continue <i class="fas fa-arrow-right"></i></button>
+                </div>
+                <p class="h2">Please Select an Option</p>
+                <p>Choose whether your question is about identifying code smells or refactoring techniques</p>
+
+                <div class="row d-flex justify-content-center">
+                    <div class="col-12 col-md-3 d-flex flex-column justify-content-center align-items-center me-2 p-3 question-type-selection mt-3">
+                        <input type="radio" asp-for="Type" id="CodeSmellIdentification" value="@CoSmellRefine.Utility.QuestionType.CodeSmellIdentification" />
+                        <label for="CodeSmellIdentification" class="d-flex justiy-content-center align-items-center flex-column mt-1">
+                            <img src="/images/code_smell_identification.svg" alt="Code Smell Identification">
+                            <p class="text-center m-2"> Code Smell Identification </p>
+                        </label>
+                    </div>
+                    <div class="col-12 col-md-3 d-flex flex-column justify-content-center align-items-center me-2 p-3 question-type-selection mt-3">
+                        <input type="radio" asp-for="Type" id="RefactoringTechniqueIdentification" value="@CoSmellRefine.Utility.QuestionType.RefactoringTechniqueIdentification" />
+                        <label for="RefactoringTechniqueIdentification" class="d-flex justiy-content-center align-items-center flex-column mt-1">
+                            <img src="/images/refactoring_technique_identification.svg" alt="Refactoring Technique Identification">
+                            <p class="text-center m-2"> Refactoring Technique Identification </p>
+                        </label>
+                    </div>
+                </div>
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+
+            <!-- Additional Details Section -->
+            <div id="additionalDetails" class="question-form-section">
+                <div class="d-flex justify-content-between mb-4">
+                    <button type="button" class="btn light-btn" onclick="showPreviousSection('selection', 80)"> <i class="fas fa-arrow-left"></i> Back</button>
+                    <button type="button" class="btn light-btn" onclick="showNextSection('final', 100)">Continue <i class="fas fa-arrow-right"></i></button>
+                </div>
+                <p class="h2">Provide Additional Details</p>
+                <p>Select the suspected code smells or the identified code smells.</p>
+                <select asp-for="SelectedCodeSmellIds" class="form-control" id="additionalDetailsSelect" multiple="multiple" style="width: 100%;">
+                    @foreach (var item in Model.CodeSmells)
+                    {
+                        <option value="@item.Value">@item.Text</option>
+                    }
+                </select>
+                <span asp-validation-for="SelectedCodeSmellIds" class="text-danger"></span>
+            </div>
+            <div id="final" class="question-form-section  h-100">
+                <div class="d-flex justify-content-between mb-4">
+                    <button type="button" class="btn dark-btn" onclick="showPreviousSection('additionalDetails', 80)"> <i class="fas fa-arrow-left"></i> Back</button>
+                </div>
+                <div class="d-flex flex-column justify-content-center align-items-center h-100">
+                    <p class="h1"> 😄Alright, that's it!<br>Let's post the question.</p>
+                    <button class="btn btn-success mt-3" type="submit"> Post Question </button>
+                </div>
+            </div>
+        </form>
+    </div>
 
 @section Scripts {
-    <script src="/js/developer_sidebar.js"></script>
     <script>
         $(document).ready(function () {
             $('#additionalDetailsSelect').select2({
@@ -149,7 +144,7 @@
 
         showPreviousSection('greetingSection', 0);
         var editor = ace.edit("editor");
-        editor.setTheme("ace/theme/monokai");
+        editor.setTheme("ace/theme/github");
         editor.session.setMode("ace/mode/csharp");
 
         function validateCodeSnippet() {

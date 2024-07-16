@@ -5,9 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using CoSmellRefine.Repositories;
 using CoSmellRefine.Models.Domain;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CoSmellRefine.Controllers
 {
+    [Authorize]
     public class UserProfileController : Controller
     {
         private readonly IUserProfileImageRepository userProfileImageRepository;

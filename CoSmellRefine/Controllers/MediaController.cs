@@ -20,8 +20,8 @@ namespace CoSmellRefine.Controllers
         [HttpPost]
         public async Task<IActionResult> UploadAsync(IFormFile file)
         {
-            // call a repository
-            var mediaURL = await mediaRepository.UploadAsync(file);
+   
+            var mediaURL = await mediaRepository.UploadAzureAsync(file);
 
             if (mediaURL == null)
             {

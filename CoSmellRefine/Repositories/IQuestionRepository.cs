@@ -22,5 +22,6 @@ namespace CoSmellRefine.Repositories
 
         ModeratorDiscussionSummaryViewModel GetQuestionsPerMonth();
         List<(string MonthYear, int OpenQuestions, int ClosedQuestions)> GetQuestionSummaryByMonth();
+        List<(string MonthYear, int OpenQuestions, int ClosedQuestions)> GetDeveloperQuestionSummaryByMonth(string userId);
     }
 }

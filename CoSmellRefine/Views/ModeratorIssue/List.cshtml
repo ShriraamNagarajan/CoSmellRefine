@@ -6,186 +6,180 @@
     int prevPage = Convert.ToInt32(ViewBag.PageNumber) - 1;
 }
 
-<div class="sidebar-container">
-    <partial name="_ModeratorSidebar" />
-    <section class="user-main dashboard-content p-5">
-        <div class="py-2">
-            <div class="container">
-                <h1>Reported Issues</h1>
-            </div>
-        </div>
-        <form method="get"
-              asp-controller="ModeratorIssue" ,
-              asp-action="List">
-            <div class="container mt-5">
-                <div class="row">
-                    <div class="col col-md-3 d-flex">
-                        <input type="text" class="form-control"
-                               name="searchQuery" value="@ViewBag.SearchQuery" />
-                        <button type="submit" class="btn btn-warning ms-3">Search</button>
-                    </div>
-                </div>
-            </div>
-        </form>
-        <div class="">
-            <div class="container py-5">
-                @if (Model != null && Model.Any())
-                {
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>
-                                        <div class="d-flex flex-row justify-content-center align-items-center">
-                                            User
-                                            <span>
-                                                <a class="btn btn-link"
-                                                   asp-controller="ModeratorIssue"
-                                                   asp-action="List"
-                                                   asp-route-sortBy="User"
-                                                   asp-route-sortDirection="Asc"
-                                                   asp-route-searchQuery="@ViewBag.SearchQuery">
-                                                    <i class="bi bi-arrow-up"></i>
-                                                </a>
-                                            </span>
-                                            <span>
-                                                <a class="btn btn-link"
-                                                   asp-controller="ModeratorIssue"
-                                                   asp-action="List"
-                                                   asp-route-sortBy="User"
-                                                   asp-route-sortDirection="Desc"
-                                                   asp-route-searchQuery="@ViewBag.SearchQuery">
-                                                    <i class="bi bi-arrow-down"></i>
-                                                </a>
-                                            </span>
-                                        </div>
-                                    </th>
-                                    <th>
-                                        <div class="d-flex flex-row justify-content-center align-items-center">
-                                            Report Date
-                                            <span>
-                                                <a class="btn btn-link"
-                                                   asp-controller="ModeratorIssue"
-                                                   asp-action="List"
-                                                   asp-route-sortBy="ReportDate"
-                                                   asp-route-sortDirection="Asc"
-                                                   asp-route-searchQuery="@ViewBag.SearchQuery">
-                                                    <i class="bi bi-arrow-up"></i>
-                                                </a>
-                                            </span>
-                                            <span>
-                                                <a class="btn btn-link"
-                                                   asp-controller="ModeratorIssue"
-                                                   asp-action="List"
-                                                   asp-route-sortBy="ReportDate"
-                                                   asp-route-sortDirection="Desc"
-                                                   asp-route-searchQuery="@ViewBag.SearchQuery">
-                                                    <i class="bi bi-arrow-down"></i>
-                                                </a>
-                                            </span>
-                                        </div>
-                                    </th>
-                                    <th>
-                                        <div class="d-flex flex-row justify-content-center align-items-center">
-                                            Status
-                                            <span>
-                                                <a class="btn btn-link"
-                                                   asp-controller="ModeratorIssue"
-                                                   asp-action="List"
-                                                   asp-route-sortBy="Status"
-                                                   asp-route-sortDirection="Asc"
-                                                   asp-route-searchQuery="@ViewBag.SearchQuery">
-                                                    <i class="bi bi-arrow-up"></i>
-                                                </a>
-                                            </span>
-                                            <span>
-                                                <a class="btn btn-link"
-                                                   asp-controller="ModeratorIssue"
-                                                   asp-action="List"
-                                                   asp-route-sortBy="Status"
-                                                   asp-route-sortDirection="Desc"
-                                                   asp-route-searchQuery="@ViewBag.SearchQuery">
-                                                    <i class="bi bi-arrow-down"></i>
-                                                </a>
-                                            </span>
-                                        </div>
-                                    </th>
-                                    <th> </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var issue in Model)
-                                {
-                                    <tr>
-                                        <td>@issue.Id</td>
-                                        <td>@issue.User.UserName</td>
-                                        <td>@issue.ReportDate</td>
-                                        <td>@issue.Status</td>
-                                        <td>
-                                            <a asp-controller="ModeratorIssue" asp-action="Details" asp-route-id="@issue.Id" class="btn btn-primary mx-2">
-                                                <i class="bi bi-eye-fill"></i> Review
-                                            </a>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
 
-                    </div>
-                 
-                    <nav aria-label="Page navigation example" class="bg-transparent mt-5 d-flex justify-content-center">
-                        <ul class="pagination">
-                            <li class="page-item">
-                                <a class="page-link"
-                                   asp-controller="ModeratorIssue"
-                                   asp-action="List"
-                                   asp-route-pageNumber="@prevPage"
-                                   asp-route-pageSize="@ViewBag.PageSize"
-                                   asp-route-sortBy="@ViewBag.SortBy"
-                                   asp-route-sortDirection="@ViewBag.SortDirection">
-                                    Previous
-                                </a>
-                            </li>
-
-                            @for (int i = 1; i <= ViewBag.TotalPages; i++)
-                            {
-                                <li class="page-item">
-                                    <a class="page-link"
-                                       asp-controller="ModeratorIssue"
-                                       asp-action="List"
-                                       asp-route-pageNumber="@i"
-                                       asp-route-pageSize="@ViewBag.PageSize"
-                                       asp-route-sortBy="@ViewBag.SortBy"
-                                       asp-route-sortDirection="@ViewBag.SortDirection">
-                                        @i
-                                    </a>
-                                </li>
-                            }
-
-
-                            <li class="page-item">
-                                <a class="page-link"
-                                   asp-controller="ModeratorIssue"
-                                   asp-action="List"
-                                   asp-route-pageNumber="@nextPage"
-                                   asp-route-pageSize="@ViewBag.PageSize"
-                                   asp-route-sortBy="@ViewBag.SortBy"
-                                   asp-route-sortDirection="@ViewBag.SortDirection">
-                                    Next
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                }
-                else
-                {
-                    <p>No discussion found!</p>
-                }
-            </div>
-        </div>
-    </section>
+<div class="py-2">
+    <div class="container">
+        <h1>Reported Issues</h1>
+    </div>
 </div>
-@section Scripts {
-    <script src="/js/moderator_sidebar.js"></script>
-}
+<form method="get"
+        asp-controller="ModeratorIssue" ,
+        asp-action="List">
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col col-md-3 d-flex">
+                <input type="text" class="form-control"
+                        name="searchQuery" value="@ViewBag.SearchQuery" />
+                <button type="submit" class="btn btn-warning ms-3">Search</button>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="">
+    <div class="container py-5">
+        @if (Model != null && Model.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>
+                                <div class="d-flex flex-row justify-content-center align-items-center">
+                                    User
+                                    <span>
+                                        <a class="btn btn-link"
+                                            asp-controller="ModeratorIssue"
+                                            asp-action="List"
+                                            asp-route-sortBy="User"
+                                            asp-route-sortDirection="Asc"
+                                            asp-route-searchQuery="@ViewBag.SearchQuery">
+                                            <i class="bi bi-arrow-up"></i>
+                                        </a>
+                                    </span>
+                                    <span>
+                                        <a class="btn btn-link"
+                                            asp-controller="ModeratorIssue"
+                                            asp-action="List"
+                                            asp-route-sortBy="User"
+                                            asp-route-sortDirection="Desc"
+                                            asp-route-searchQuery="@ViewBag.SearchQuery">
+                                            <i class="bi bi-arrow-down"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                            </th>
+                            <th>
+                                <div class="d-flex flex-row justify-content-center align-items-center">
+                                    Report Date
+                                    <span>
+                                        <a class="btn btn-link"
+                                            asp-controller="ModeratorIssue"
+                                            asp-action="List"
+                                            asp-route-sortBy="ReportDate"
+                                            asp-route-sortDirection="Asc"
+                                            asp-route-searchQuery="@ViewBag.SearchQuery">
+                                            <i class="bi bi-arrow-up"></i>
+                                        </a>
+                                    </span>
+                                    <span>
+                                        <a class="btn btn-link"
+                                            asp-controller="ModeratorIssue"
+                                            asp-action="List"
+                                            asp-route-sortBy="ReportDate"
+                                            asp-route-sortDirection="Desc"
+                                            asp-route-searchQuery="@ViewBag.SearchQuery">
+                                            <i class="bi bi-arrow-down"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                            </th>
+                            <th>
+                                <div class="d-flex flex-row justify-content-center align-items-center">
+                                    Status
+                                    <span>
+                                        <a class="btn btn-link"
+                                            asp-controller="ModeratorIssue"
+                                            asp-action="List"
+                                            asp-route-sortBy="Status"
+                                            asp-route-sortDirection="Asc"
+                                            asp-route-searchQuery="@ViewBag.SearchQuery">
+                                            <i class="bi bi-arrow-up"></i>
+                                        </a>
+                                    </span>
+                                    <span>
+                                        <a class="btn btn-link"
+                                            asp-controller="ModeratorIssue"
+                                            asp-action="List"
+                                            asp-route-sortBy="Status"
+                                            asp-route-sortDirection="Desc"
+                                            asp-route-searchQuery="@ViewBag.SearchQuery">
+                                            <i class="bi bi-arrow-down"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                            </th>
+                            <th> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var issue in Model)
+                        {
+                            <tr>
+                                <td>@issue.Id</td>
+                                <td>@issue.User.UserName</td>
+                                <td>@issue.ReportDate</td>
+                                <td>@issue.Status</td>
+                                <td>
+                                    <a asp-controller="ModeratorIssue" asp-action="Details" asp-route-id="@issue.Id" class="btn btn-primary mx-2">
+                                        <i class="bi bi-eye-fill"></i> Review
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+                 
+            <nav aria-label="Page navigation example" class="bg-transparent mt-5 d-flex justify-content-center">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link"
+                            asp-controller="ModeratorIssue"
+                            asp-action="List"
+                            asp-route-pageNumber="@prevPage"
+                            asp-route-pageSize="@ViewBag.PageSize"
+                            asp-route-sortBy="@ViewBag.SortBy"
+                            asp-route-sortDirection="@ViewBag.SortDirection">
+                            Previous
+                        </a>
+                    </li>
+
+                    @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                    {
+                        <li class="page-item">
+                            <a class="page-link"
+                                asp-controller="ModeratorIssue"
+                                asp-action="List"
+                                asp-route-pageNumber="@i"
+                                asp-route-pageSize="@ViewBag.PageSize"
+                                asp-route-sortBy="@ViewBag.SortBy"
+                                asp-route-sortDirection="@ViewBag.SortDirection">
+                                @i
+                            </a>
+                        </li>
+                    }
+
+
+                    <li class="page-item">
+                        <a class="page-link"
+                            asp-controller="ModeratorIssue"
+                            asp-action="List"
+                            asp-route-pageNumber="@nextPage"
+                            asp-route-pageSize="@ViewBag.PageSize"
+                            asp-route-sortBy="@ViewBag.SortBy"
+                            asp-route-sortDirection="@ViewBag.SortDirection">
+                            Next
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        }
+        else
+        {
+            <p>No discussion found!</p>
+        }
+    </div>
+</div>
+

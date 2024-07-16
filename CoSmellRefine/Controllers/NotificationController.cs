@@ -1,5 +1,6 @@
 ﻿using CoSmellRefine.Models.ViewModels;
 using CoSmellRefine.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +8,7 @@ using System.Security.Claims;
 
 namespace CoSmellRefine.Controllers
 {
+    [Authorize]
     public class NotificationController : Controller
     {
         private readonly INotificationRepository notificationRepository;

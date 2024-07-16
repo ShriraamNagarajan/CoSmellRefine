@@ -2,9 +2,7 @@
     Layout = "~/Views/Shared/_UserLayout.cshtml";
     ViewData["Title"] = "GitHub Login Required";
 }
-<div class="sidebar-container">
-    <partial name="_DeveloperSidebar" />
-    <section class="user-main dashboard-content p-5">
+
 <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
     <div class="text-center">
         <h2>GitHub Login Required</h2>
@@ -19,11 +17,9 @@
 </div>
 
 
-    </section>
-</div>
+
 
 @section Scripts {
-    <script src="/js/developer_sidebar.js"></script>
     <script>
         new ClipboardJS('.copy-btn');
     </script>

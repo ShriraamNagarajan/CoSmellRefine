@@ -123,14 +123,14 @@ namespace CoSmellRefine.Repositories
             return await dbContext.Questions
                                  .Where(q => q.UserId == userId)
                                  .OrderByDescending(q => q.PostedDate)
-                                 .Take(5) // or any number you want to show
+                                 .Take(3) 
                                  .ToListAsync();
         }
         public async Task<IEnumerable<Question>> GetRecentQuestionsAsync()
         {
             return await dbContext.Questions
                                  .OrderByDescending(q => q.PostedDate)
-                                 .Take(5) // or any number you want to show
+                                 .Take(3) 
                                  .ToListAsync();
         }
 
@@ -161,6 +161,23 @@ namespace CoSmellRefine.Repositories
         public List<(string MonthYear, int OpenQuestions, int ClosedQuestions)> GetQuestionSummaryByMonth()
         {
             return dbContext.Questions
+                           .GroupBy(q => new { q.PostedDate.Year, q.PostedDate.Month })
+                           .Select(g => new
+                           {
+                               MonthYear = $"{g.Key.Month}/{g.Key.Year}",
+                               OpenQuestions = g.Count(q => q.Status == QuestionStatus.Open),
+                               ClosedQuestions = g.Count(q => q.Status == QuestionStatus.Closed)
+                           })
+                           .ToList()
+                           .Select(q => (q.MonthYear, q.OpenQuestions, q.ClosedQuestions))
+                           .ToList();
+        }
+
+
+        public List<(string MonthYear, int OpenQuestions, int ClosedQuestions)> GetDeveloperQuestionSummaryByMonth(string userId)
+        {
+            return dbContext.Questions
+                            .Where(u => u.UserId == userId)
                            .GroupBy(q => new { q.PostedDate.Year, q.PostedDate.Month })
                            .Select(g => new
                            {

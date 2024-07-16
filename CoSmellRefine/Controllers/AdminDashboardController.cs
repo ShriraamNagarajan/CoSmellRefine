@@ -1,10 +1,12 @@
 ﻿using CoSmellRefine.Models.ViewModels;
 using CoSmellRefine.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CoSmellRefine.Controllers
 {
+    [Authorize]
     public class AdminDashboardController : Controller
     {
         private readonly IModuleCompletionRepository _moduleCompletionRepository;

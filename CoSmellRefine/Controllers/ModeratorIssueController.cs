@@ -3,6 +3,7 @@ using CoSmellRefine.Models.Domain;
 using CoSmellRefine.Models.ViewModels;
 using CoSmellRefine.Repositories;
 using CoSmellRefine.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CoSmellRefine.Controllers
 {
+    [Authorize]
     public class ModeratorIssueController : Controller
     {
         private readonly IReportIssueRepository reportIssueRepository;

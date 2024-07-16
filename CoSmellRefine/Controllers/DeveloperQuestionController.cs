@@ -3,6 +3,7 @@ using CoSmellRefine.Models.Domain;
 using CoSmellRefine.Models.ViewModels;
 using CoSmellRefine.Repositories;
 using CoSmellRefine.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -16,6 +17,7 @@ using System.Text.Json;
 
 namespace CoSmellRefine.Controllers
 {
+    [Authorize]
     public class DeveloperQuestionController : Controller
     {
         private readonly UserManager<IdentityUser> userManager;
@@ -28,9 +30,10 @@ namespace CoSmellRefine.Controllers
         private readonly IVoteRepository voteRepository;
         private readonly IHttpClientFactory _clientFactory;
         private readonly IHubContext<QuestionHub> questionHub;
+        private readonly INotificationRepository notificationRepository;
         private readonly IMemoryCache memoryCache;
 
-        public DeveloperQuestionController(ICodeSmellRepository codeSmellRepository, IQuestionRepository questionRepository, UserManager<IdentityUser> userManager, IQuestionResponseRepository questionResponseRepository, IResponseCommentRepository responseCommentRepository, IReportIssueRepository reportIssueRepository, IRefactoringTechniqueRepository refactoringTechniqueRepository, IVoteRepository voteRepository, IHttpClientFactory clientFactory, IHubContext<QuestionHub> questionHub, IMemoryCache memoryCache)
+        public DeveloperQuestionController(ICodeSmellRepository codeSmellRepository, IQuestionRepository questionRepository, UserManager<IdentityUser> userManager, IQuestionResponseRepository questionResponseRepository, IResponseCommentRepository responseCommentRepository, IReportIssueRepository reportIssueRepository, IRefactoringTechniqueRepository refactoringTechniqueRepository, IVoteRepository voteRepository, IHttpClientFactory clientFactory, IHubContext<QuestionHub> questionHub, IMemoryCache memoryCache, INotificationRepository notificationRepository)
         {
             this.codeSmellRepository = codeSmellRepository;
             this.questionRepository = questionRepository;
@@ -43,7 +46,8 @@ namespace CoSmellRefine.Controllers
             this._clientFactory = clientFactory;
             this.questionHub = questionHub;
             this.memoryCache = memoryCache;
-            
+            this.notificationRepository = notificationRepository;
+
         }
         public async Task<IActionResult> List(string? sortBy,
                                      string? questionType,
@@ -153,7 +157,7 @@ namespace CoSmellRefine.Controllers
 
                 questionRepository.Add(question);
                 TempData["success"] = "Question has been posted successfully";
-                return RedirectToAction(nameof(Index)); 
+                return RedirectToAction(nameof(List)); 
             }
             TempData["failure"] = "An issue in posting the question";
             model.CodeSmells = codeSmells.Select(cs => new SelectListItem
@@ -311,6 +315,26 @@ namespace CoSmellRefine.Controllers
             };
 
             reportIssueRepository.Add(reportIssue);
+
+            // Create and send the notification
+            var moderators = await userManager.GetUsersInRoleAsync("Moderator");
+            var moderator = moderators.FirstOrDefault();
+            if (moderator == null)
+            {
+                return BadRequest("No moderators found.");
+            }
+
+            // Create and send the notification
+            var notification = new Notification
+            {
+                Id = Guid.NewGuid(),
+                UserId = moderator.Id,
+                Message = "A new discussion item has been reported.",
+                SentTime = DateTime.UtcNow,
+                IsRead = false
+            };
+
+            notificationRepository.Add(notification);
             return Ok();
         }
 
@@ -324,6 +348,7 @@ namespace CoSmellRefine.Controllers
             {
                 return Unauthorized();
             }
+            var orignal_question = questionRepository.Get(model.QuestionId);
             var codeSmells = codeSmellRepository.GetByIds(model.SelectedCodeSmellIds);
             var refactoringTechniques = refactoringTechniqueRepository.GetByIds(model.SelectedRefactoringTechniqueIds);
 
@@ -356,6 +381,18 @@ namespace CoSmellRefine.Controllers
                 RefactoringTechniques = refactoringTechniques.Select(rt => new { rt.Id, rt.Name }),
                 UserName = user.UserName
             });
+
+            // Create and send the notification
+            var notification = new Notification
+            {
+                Id = Guid.NewGuid(),
+                UserId = orignal_question.User.Id,
+                Message = $"Your question {orignal_question.Id} has received an answer.",
+                SentTime = DateTime.UtcNow,
+                IsRead = false
+            };
+
+            notificationRepository.Add(notification);
 
             return RedirectToAction("Details", new { id = model.QuestionId });
         }

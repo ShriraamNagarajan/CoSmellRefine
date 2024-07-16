@@ -8,6 +8,10 @@ namespace CoSmellRefine.Models.ViewModels
         public IEnumerable<Notification> Notifications { get; set; }
         public IEnumerable<Question> RecentQuestions { get; set; }
 
+        public List<string> QuestionMonths { get; set; }
+        public List<int> OpenQuestions { get; set; }
+        public List<int> ClosedQuestions { get; set; }
+
 
         public string GetTimeDifference(DateTime sentTime)
         {
