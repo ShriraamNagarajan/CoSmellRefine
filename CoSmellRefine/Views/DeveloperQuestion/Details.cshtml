@@ -269,7 +269,7 @@
                     <input type="hidden" name="QuestionId" value="@Model.AddResponse.QuestionId" />
                     <div class="form-group">
                         <label for="answer-body">Answer Description</label>
-                        <textarea id="froala-editor" name="Body" class="form-control"></textarea>
+                        <textarea id="froala-editor-answer-body" name="Body" class="form-control"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="code-snippet">Code Snippet</label>
@@ -368,7 +368,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form asp-action="AddComment" method="post">
+                    <form asp-action="AddComment" method="post" class="comment-form" data-response-id="@response.Id">
                         <input type="hidden" name="AddResponseComment.QuestionId" value="@Model.Question.Id" />
                         <input type="hidden" name="AddResponseComment.ResponseId" value="@response.Id" />
                         <div class="form-group">
@@ -444,7 +444,7 @@
     <script>
         $(document).ready(function () {
             // Initialize Froala Editor
-            new FroalaEditor('#froala-editor', {
+            new FroalaEditor('#froala-editor-answer-body', {
                 height: 200
             });
 
@@ -561,6 +561,24 @@
                 }
             }
 
+            // Comment form validation
+            $('.comment-form').on('submit', function (e) {
+                var responseId = $(this).data('response-id');
+                var comment = $('#froala-editor-' + responseId).val();
+                if (comment.trim() === '') {
+                    e.preventDefault();
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Comment field cannot be empty.',
+                    });
+                    return false;
+                }
+                return true;
+            });
+
+
+
             // Initialize the edit-enabled ACE Editor
             var codeSnippetEditor = ace.edit("codeSnippetEditor");
             codeSnippetEditor.setTheme("ace/theme/github");
@@ -585,7 +603,17 @@
 
                     var formData = new FormData(form);
                     var data = Object.fromEntries(formData.entries());
+                    console.log(data);
+                    console.log(data.Reason);
+                    if (data.Reason.trim() === '') {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Reason field cannot be empty.',
+                        });
+                        return false;
 
+                    }
                     try {
                         const response = await fetch('@Url.Action("AddReportIssue", "DeveloperQuestion")', {
                             method: 'POST',
@@ -710,8 +738,18 @@
         responseEditor.session.setMode("ace/mode/csharp");
 
         function validateAndSubmitAnswer() {
+            var body = $('#froala-editor-answer-body').val();
             var codeSnippet = responseEditor.getValue();
             var isValid = false;
+
+            if(codeSnippet.trim()==='' || body.trim()===''){
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Incomplete Fields',
+                    text: 'Please fill out all required fields before proceeding.',
+                });
+                return isValid;
+            }
 
             $.ajax({
                 url: '/api/CodeValidation/ValidateCSharp',

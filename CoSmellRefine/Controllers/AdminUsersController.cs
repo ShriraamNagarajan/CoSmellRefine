@@ -142,11 +142,15 @@ namespace CoSmellRefine.Controllers
                         }
 
                     }
+                    TempData["error"] = $"{identityResult.Errors.First().Description}";
+                    return View();
+
                 }
+          ;
 
             }
 
-            TempData["error"] = "Failed to add user";
+            TempData["error"] = $"Failed to add user";
             return View();
         }
 
@@ -225,7 +229,7 @@ namespace CoSmellRefine.Controllers
                 {
                     ModelState.AddModelError("Password", "Password must contain at least one non-alphanumeric character.");
                 }
-                if (registerViewModel.Password.Distinct().Count() < 2)
+                if (addUserRequest.Password.Distinct().Count() < 2)
                 {
                     ModelState.AddModelError("Password", "Password must contain at least two different characters.");
                 }

@@ -47,10 +47,10 @@ namespace CoSmellRefine.Controllers
         [HttpPost]
         public async Task<IActionResult> Details(UserViewProfile userProfile)
         {
+            // Get the current signed in user
+            var user = await userManager.GetUserAsync(User);
             if (ModelState.IsValid)
             {
-                // Get the current signed in user
-                var user = await userManager.GetUserAsync(User);
 
                 if (user != null)
                 {
@@ -104,8 +104,18 @@ namespace CoSmellRefine.Controllers
                     }
                 }
             }
+          
+            var prevProfileImage = await userProfileImageRepository.GetByUserAsync(user.Id);
 
-            return View(userProfile);
+            var prevProfile = new UserViewProfile
+            {
+                Username = user.UserName,
+                Email = user.Email,
+                ProfileImageUrl = prevProfileImage?.ProfileImageUrl 
+            };
+            TempData["error"] = $"Failed to update profile details";
+            return View(prevProfile);
+ 
         }
 
     }

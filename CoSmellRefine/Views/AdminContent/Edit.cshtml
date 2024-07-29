@@ -226,6 +226,30 @@
 
         function nextStep(step) {
             const currentStep = document.querySelector('.form-step.active');
+
+            //check for empty fields
+            const requiredFields = currentStep.querySelectorAll('input[required], textarea[required], select[required]');
+            let emptyFields = false;
+
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    emptyFields = true;
+                    field.classList.add('is-invalid'); 
+                } else {
+                    field.classList.remove('is-invalid'); 
+                }
+            });
+
+            if (emptyFields) {
+                Swal.fire({
+                    title: "Required Fields Missing",
+                    text: "Please fill all required fields before moving on to the next step.",
+                    icon: "error",
+                    button: "OK",
+                });
+                return;
+            }
+
             const nextStep = document.getElementById(`step-${step}`);
             if (nextStep) {
                 currentStep.classList.remove('active');

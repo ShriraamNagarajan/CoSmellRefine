@@ -76,7 +76,7 @@
                     <div id="videos" class="dropzone" style="border: 2px dashed #007bff; padding: 20px; background-color: #f8f9fa;">
                         <div class="dz-message" data-dz-message><span>Drop your video here or click to upload</span></div>
                     </div>
-                    <input type="hidden" id="videoUrl" name="VideoUrls[0]" />
+                    <input type="hidden" id="videoUrl" name="VideoUrls[0]" required/>
                     <video controls id="videoElement" class="mt-2 w-50" style="display:none;">
                         <source src="" type="video/mp4" id="videoDisplay">
                         Your browser does not support the video tag.
@@ -187,6 +187,30 @@
 
         function nextStep(step) {
             const currentStep = document.querySelector('.form-step.active');
+            //check for empty fields
+            const requiredFields = currentStep.querySelectorAll('input[required], textarea[required], select[required]');
+            let emptyFields = false;
+
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    emptyFields = true;
+                    field.classList.add('is-invalid'); // Optional: adds a class to highlight empty fields
+                } else {
+                    field.classList.remove('is-invalid'); // Optional: removes the class if field is filled
+                }
+            });
+
+            if (emptyFields) {
+                Swal.fire({
+                    title: "Required Fields Missing",
+                    text: "Please fill all required fields before moving on to the next step.",
+                    icon: "error",
+                    button: "OK",
+                });
+                return; 
+            }
+
+
             const nextStep = document.getElementById(`step-${step}`);
             if (nextStep) {
                 currentStep.classList.remove('active');
@@ -246,5 +270,31 @@
         }
 
         document.getElementById('step-1').classList.add('active');
+
+        document.querySelector('form').addEventListener('submit', function (event) {
+            const currentStep = document.querySelector('.form-step.active');
+            const requiredFields = currentStep.querySelectorAll('input[required], textarea[required], select[required]');
+            let emptyFields = false;
+
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    emptyFields = true;
+                    field.classList.add('is-invalid'); // Highlight the empty fields
+                } else {
+                    field.classList.remove('is-invalid'); // Remove highlight from filled fields
+                }
+            });
+
+            if (emptyFields) {
+                event.preventDefault(); // Prevent form submission
+                Swal.fire({
+                    title: "Required Fields Missing",
+                    text: "Please fill all required fields before moving on to the next step.",
+                    icon: "error",
+                    button: "OK",
+                });
+            }
+        });
+
     </script>
 }

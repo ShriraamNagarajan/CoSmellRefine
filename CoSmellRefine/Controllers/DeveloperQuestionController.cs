@@ -76,27 +76,15 @@ namespace CoSmellRefine.Controllers
                 userId = user.Id;
             }
 
-
-            var cacheKey = $"questions_{sortBy}_{questionType}_{filterType}_{pageSize}_{pageNumber}_{userId}";
-            if (!memoryCache.TryGetValue(cacheKey, out IEnumerable<Question> questions))
+            IEnumerable<Question> questions = await questionRepository.GetAllAsync(sortBy, questionType, userId, pageNumber, pageSize);
+            foreach (var question in questions)
             {
-                // If not cached, get the data from the repository
-                questions = await questionRepository.GetAllAsync(sortBy, questionType, userId, pageNumber, pageSize);
-                foreach (var question in questions)
-                {
-                    question.Responses = (await questionResponseRepository.GetByQuestionId(question.Id)).ToList();
-                }
-
-                // Set cache options
-                var cacheEntryOptions = new MemoryCacheEntryOptions()
-                    .SetSlidingExpiration(TimeSpan.FromMinutes(1)) // Sliding expiration
-                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(5)) // Absolute expiration
-                    .SetPriority(CacheItemPriority.High); // Priority
-
-                // Cache the data
-                memoryCache.Set(cacheKey, questions, cacheEntryOptions);
+                question.Responses = (await questionResponseRepository.GetByQuestionId(question.Id)).ToList();
             }
-
+            if (!string.IsNullOrEmpty(sortBy) && sortBy == "Responses")
+            {
+                questions = questions.OrderByDescending(q => q.Responses.Count()).ToList();
+            }
 
             var viewModel = new QuestionListModel
             {
@@ -132,6 +120,10 @@ namespace CoSmellRefine.Controllers
         public async Task<IActionResult> PostQuestion(QuestionViewModel model)
         {
             var codeSmells = await codeSmellRepository.GetAllAsync();
+            DateTime utcNow = DateTime.UtcNow;
+            TimeZoneInfo malaysiaZone = TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time");
+            DateTime malaysiaTime = TimeZoneInfo.ConvertTimeFromUtc(utcNow, malaysiaZone);
+
             if (ModelState.IsValid)
             {
                 var selectedCodeSmells = codeSmells.Where(cs => model.SelectedCodeSmellIds.Contains(cs.Id)).ToList();
@@ -146,14 +138,14 @@ namespace CoSmellRefine.Controllers
                     Title = model.Title,
                     Body = model.Body,
                     CodeSnippet = model.CodeSnippet,
-                    PostedDate = DateTime.UtcNow,
-                    ModifiedDate = DateTime.UtcNow,
+                    PostedDate = malaysiaTime,
+                    ModifiedDate = malaysiaTime,
                     Status = QuestionStatus.Open,
                     Type = model.Type,
                     IsDeleted = false,
                     CodeSmellList = selectedCodeSmells,
-                    Images = model.ImageUrls.Select(url => new QuestionImage { ImageUrl = url }).ToList() // Using image URLs
-                };
+                    Images = model.ImageUrls.Where(url => !string.IsNullOrEmpty(url)).Select(url => new QuestionImage { ImageUrl = url }).ToList()
+            };
 
                 questionRepository.Add(question);
                 TempData["success"] = "Question has been posted successfully";
@@ -297,6 +289,11 @@ namespace CoSmellRefine.Controllers
 
 
             var user = await userManager.GetUserAsync(User);
+            DateTime utcNow = DateTime.UtcNow;
+            TimeZoneInfo malaysiaZone = TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time");
+            DateTime malaysiaTime = TimeZoneInfo.ConvertTimeFromUtc(utcNow, malaysiaZone);
+
+
             if (user == null)
             {
                 return Unauthorized();
@@ -309,7 +306,7 @@ namespace CoSmellRefine.Controllers
                 DiscussionItemId = model.DiscussionItemId,
                 Reason = model.Reason,
                 DiscussionType = model.DiscussionType,
-                ReportDate = DateTime.UtcNow,
+                ReportDate = malaysiaTime,
                 Status = ReportIssueStatus.InReview,
                 StatusReason = "Currently in review"
             };
@@ -330,7 +327,7 @@ namespace CoSmellRefine.Controllers
                 Id = Guid.NewGuid(),
                 UserId = moderator.Id,
                 Message = "A new discussion item has been reported.",
-                SentTime = DateTime.UtcNow,
+                SentTime = malaysiaTime,
                 IsRead = false
             };
 
@@ -344,6 +341,9 @@ namespace CoSmellRefine.Controllers
         {
            
             var user = await userManager.GetUserAsync(User);
+            DateTime utcNow = DateTime.UtcNow;
+            TimeZoneInfo malaysiaZone = TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time");
+            DateTime malaysiaTime = TimeZoneInfo.ConvertTimeFromUtc(utcNow, malaysiaZone);
             if (user == null)
             {
                 return Unauthorized();
@@ -359,7 +359,7 @@ namespace CoSmellRefine.Controllers
                 QuestionId = model.QuestionId,
                 Body = model.Body,
                 CodeSnippet = model.CodeSnippet,
-                PostedDate = DateTime.UtcNow,
+                PostedDate = malaysiaTime,
                 IsDeleted = false,
                 CodeSmellList = codeSmells.ToList(),
                 RefactoringTechniques = refactoringTechniques.ToList()
@@ -388,7 +388,7 @@ namespace CoSmellRefine.Controllers
                 Id = Guid.NewGuid(),
                 UserId = orignal_question.User.Id,
                 Message = $"Your question {orignal_question.Id} has received an answer.",
-                SentTime = DateTime.UtcNow,
+                SentTime = malaysiaTime,
                 IsRead = false
             };
 

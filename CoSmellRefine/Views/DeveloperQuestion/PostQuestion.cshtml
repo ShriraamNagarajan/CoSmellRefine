@@ -30,12 +30,12 @@
                 <p>Provide a title and description to give context to your question</p>
                 <div class="mb-3">
                     <label asp-for="Title" class="form-label"></label>
-                    <input asp-for="Title" class="form-control" />
+                    <input asp-for="Title" class="form-control" data-required="true" />
                     <span asp-validation-for="Title" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Description</label>
-                    <textarea asp-for="Body" class="form-control"></textarea>
+                    <textarea asp-for="Body" class="form-control" data-required="true" ></textarea>
                     <span asp-validation-for="Body" class="text-danger"></span>
                 </div>
             </div>
@@ -75,7 +75,7 @@
 
                 <div class="row d-flex justify-content-center">
                     <div class="col-12 col-md-3 d-flex flex-column justify-content-center align-items-center me-2 p-3 question-type-selection mt-3">
-                        <input type="radio" asp-for="Type" id="CodeSmellIdentification" value="@CoSmellRefine.Utility.QuestionType.CodeSmellIdentification" />
+                        <input type="radio" asp-for="Type" id="CodeSmellIdentification" value="@CoSmellRefine.Utility.QuestionType.CodeSmellIdentification" data-required-radio="true" />
                         <label for="CodeSmellIdentification" class="d-flex justiy-content-center align-items-center flex-column mt-1">
                             <img src="/images/code_smell_identification.svg" alt="Code Smell Identification">
                             <p class="text-center m-2"> Code Smell Identification </p>
@@ -100,7 +100,7 @@
                 </div>
                 <p class="h2">Provide Additional Details</p>
                 <p>Select the suspected code smells or the identified code smells.</p>
-                <select asp-for="SelectedCodeSmellIds" class="form-control" id="additionalDetailsSelect" multiple="multiple" style="width: 100%;">
+                <select asp-for="SelectedCodeSmellIds" class="form-control" id="additionalDetailsSelect" multiple="multiple" data-required-select="true" style="width: 100%;">
                     @foreach (var item in Model.CodeSmells)
                     {
                         <option value="@item.Value">@item.Text</option>
@@ -130,9 +130,53 @@
         });
 
         function showNextSection(nextSectionId, progress) {
-            $('.question-form-section').hide();
-            $('#' + nextSectionId).show();
-            $('#question-progress').css('width', progress + '%').text(progress + '%');
+                // Check if the current section's required fields are filled
+                var currentSection = $('.question-form-section:visible');
+                var isValid = true;
+
+                currentSection.find('[data-required="true"]').each(function () {
+                    if ($(this).val().trim() === '') {
+                        isValid = false;
+                        $(this).addClass('is-invalid'); 
+                    } else {
+                        $(this).removeClass('is-invalid'); 
+                    }
+                });
+
+
+                // Check for required radio buttons (Selection section)
+                currentSection.find('[data-required-radio="true"]').each(function () {
+                    if ($('input[name="' + $(this).attr('name') + '"]:checked').length === 0) {
+                        isValid = false;
+                        $(this).closest('.question-type-selection').addClass('is-invalid'); 
+                    } else {
+                        $(this).closest('.question-type-selection').removeClass('is-invalid'); 
+                    }
+                });
+
+                // Check for required multi-select (Additional Details section)
+                currentSection.find('[data-required-select="true"]').each(function () {
+                    if ($(this).val().length === 0) {
+                        isValid = false;
+                        $(this).addClass('is-invalid'); // Highlight the field if needed
+                    } else {
+                        $(this).removeClass('is-invalid'); // Remove highlight if filled
+                    }
+                });
+
+                if (!isValid) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Incomplete Fields',
+                        text: 'Please fill out all required fields before proceeding.',
+                    });
+                    return;
+                }
+
+                // Hide current section and show next section
+                $('.question-form-section').hide();
+                $('#' + nextSectionId).show();
+                $('#question-progress').css('width', progress + '%').text(progress + '%');
         }
 
         function showPreviousSection(prevSectionId, progress) {
@@ -149,6 +193,16 @@
 
         function validateCodeSnippet() {
             var codeSnippet = editor.getValue();
+
+            if (codeSnippet.trim() === '') {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Empty Code Snippet',
+                    text: 'Please enter a code snippet before proceeding.',
+                });
+                return;
+            }
+
             $.ajax({
                 url: '/api/CodeValidation/ValidateCSharp',
                 type: 'POST',

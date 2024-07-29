@@ -103,6 +103,9 @@ namespace CoSmellRefine.Controllers
         public async Task<IActionResult> WarnUser(ReportIssueDetails issueDetails)
         {
             var reportIssue = await reportIssueRepository.GetAsync(issueDetails.Id);
+            DateTime utcNow = DateTime.UtcNow;
+            TimeZoneInfo malaysiaZone = TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time");
+            DateTime malaysiaTime = TimeZoneInfo.ConvertTimeFromUtc(utcNow, malaysiaZone);
             if (reportIssue != null)
             {
                 reportIssue.Status = ReportIssueStatus.WarnedUser;
@@ -146,7 +149,7 @@ namespace CoSmellRefine.Controllers
                         Id = Guid.NewGuid(),
                         UserId = userId,
                         Message = "You have been warned due to inappropriate content.",
-                        SentTime = DateTime.UtcNow,
+                        SentTime = malaysiaTime,
                         IsRead = false
                     };
 

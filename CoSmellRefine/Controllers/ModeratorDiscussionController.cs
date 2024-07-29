@@ -53,7 +53,7 @@ namespace CoSmellRefine.Controllers
             ViewBag.PageSize = pageSize;
             ViewBag.PageNumber = pageNumber;
 
-            var discussionList = await questionRepository.GetAllAsync(searchQuery, sortBy, sortDirection, pageNumber, pageSize);
+            var discussionList = await questionRepository.GetAllAsyncModerator(searchQuery, sortBy, sortDirection, pageNumber, pageSize);
             foreach (var question in discussionList)
             {
                 question.Responses = (await questionResponseRepository.GetByQuestionId(question.Id)).ToList();

@@ -62,6 +62,8 @@ namespace CoSmellRefine.Controllers
                         return RedirectToAction("Login");
                     }
                 }
+                TempData["error"] = $"{identityResult.Errors.First().Description}";
+                return View(); 
             }
 
             // Show error notification
@@ -115,7 +117,7 @@ namespace CoSmellRefine.Controllers
             }
 
             // Show errors
-            TempData["error"] = "Unsuccessful Login";
+            TempData["error"] = "Invalid username or password";
             return View();
         }
 

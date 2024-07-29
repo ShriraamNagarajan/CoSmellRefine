@@ -22,11 +22,13 @@
             <form id="profileForm" method="post">
                 <div class="form-group">
                     <label for="username">Username</label>
-                    <input type="text" class="form-control" id="username" asp-for="Username" disabled>
+                    <input type="text" class="form-control" id="username" asp-for="Username" disabled required>
+                    <span class="text-danger" asp-validation-for="Username"></span>
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" class="form-control" id="email" asp-for="Email" disabled>
+                    <input type="email" class="form-control" id="email" asp-for="Email" disabled required>
+                    <span class="text-danger" asp-validation-for="Email"></span>
                 </div>
                 <input type="text" class="form-control" id="profileImageUrl" asp-for="ProfileImageUrl" hidden />
 
@@ -40,6 +42,7 @@
 
 
 @section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
     <script>
 
         const profileImageUploadElement = document.getElementById('fileInput');
